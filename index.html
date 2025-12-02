@@ -180,24 +180,42 @@
             border-left: 4px solid #ffc107;
         }
         
-        /* Инструкция для пользователей */
-        .instructions {
-            text-align: center;
-            padding: 30px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 15px;
-            margin: 40px 0;
-            border: 2px dashed #adb5bd;
+        /* Стили для описания сайта */
+        .site-description {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #667eea;
         }
         
-        .instructions h3 {
-            color: #495057;
-            margin-bottom: 15px;
+        .site-description h3 {
+            color: #333;
+            margin-top: 0;
+            font-size: 1.5em;
         }
         
-        .instructions p {
-            color: #6c757d;
-            font-size: 1.1em;
+        .site-description ul {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        
+        .site-description li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .site-description strong {
+            color: #667eea;
+        }
+        
+        .download-notice {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #2196F3;
         }
         
         /* Стили для футера */
@@ -268,11 +286,17 @@
     </nav>
     
     <section class="content">
-        <!-- ИНСТРУКЦИЯ ДЛЯ ПОСЕТИТЕЛЕЙ -->
-        <div class="instructions">
-            <h3>👋 Добро пожаловать на сайт VelikiyGus!</h3>
-            <p>Нажмите кнопки выше, чтобы увидеть информацию или мои проекты</p>
-            <p>👇 <strong>Кликните "Мои проекты" чтобы увидеть игры 👇</strong></p>
+        <!-- ОПИСАНИЕ САЙТА -->
+        <div class="site-description">
+            <h3>VelikiyGus — площадка для наших игровых проектов</h3>
+            <p>Здесь мы с напарником выкладываем наши игры. Уже доступны:</p>
+            <ul>
+                <li><strong>Гражданская война в России</strong> (2D-стратегия)</li>
+                <li><strong>Спаси Алису</strong> (приключенческий квест)</li>
+            </ul>
+            <div class="download-notice">
+                <p>🎮 <strong>Скоро появится возможность скачивать игры прямо с сайта</strong> — следите за обновлениями!</p>
+            </div>
         </div>
         
         <!-- СЕКЦИЯ "О РАЗРАБОТЧИКЕ" (скрыта изначально) -->
@@ -399,7 +423,7 @@
                     aboutVisible = false;
                     
                     // Возвращаем текст кнопки "О разработчике"
-                    document.querySelector('.nav-button').textContent = '👤 О разработчике';
+                    document.querySelectorAll('.nav-button')[0].textContent = '👤 О разработчике';
                 }
                 
                 // Плавная прокрутка к играм
@@ -519,15 +543,15 @@
         window.addEventListener('load', function() {
             document.querySelector('.header-with-avatar').style.opacity = '0';
             document.querySelector('.header-with-avatar').style.transform = 'translateY(-20px)';
-            document.querySelector('.instructions').style.opacity = '0';
+            document.querySelector('.site-description').style.opacity = '0';
             
             setTimeout(() => {
                 document.querySelector('.header-with-avatar').style.transition = 'all 0.8s ease';
                 document.querySelector('.header-with-avatar').style.opacity = '1';
                 document.querySelector('.header-with-avatar').style.transform = 'translateY(0)';
                 
-                document.querySelector('.instructions').style.transition = 'all 0.8s ease 0.3s';
-                document.querySelector('.instructions').style.opacity = '1';
+                document.querySelector('.site-description').style.transition = 'all 0.8s ease 0.3s';
+                document.querySelector('.site-description').style.opacity = '1';
             }, 300);
         });
     </script>
