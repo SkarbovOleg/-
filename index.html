@@ -183,39 +183,57 @@
         /* Стили для описания сайта */
         .site-description {
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
             margin: 30px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             border-left: 5px solid #667eea;
+            text-align: center;
         }
         
-        .site-description h3 {
+        .site-description h2 {
             color: #333;
             margin-top: 0;
-            font-size: 1.5em;
+            font-size: 1.8em;
+            margin-bottom: 20px;
         }
         
-        .site-description ul {
-            padding-left: 25px;
-            margin: 15px 0;
-        }
-        
-        .site-description li {
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-        
-        .site-description strong {
-            color: #667eea;
+        .site-description p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
         }
         
         .download-notice {
-            background: #e7f3ff;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-left: 4px solid #2196F3;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
         }
         
         /* Стили для футера */
@@ -288,15 +306,19 @@
     <section class="content">
         <!-- ОПИСАНИЕ САЙТА -->
         <div class="site-description">
-            <h3>VelikiyGus — площадка для наших игровых проектов</h3>
-            <p>Здесь мы с напарником выкладываем наши игры. Уже доступны:</p>
-            <ul>
-                <li><strong>Гражданская война в России</strong> (2D-стратегия)</li>
-                <li><strong>Спаси Алису</strong> (приключенческий квест)</li>
-            </ul>
+            <h2>VelikiyGus — игровая студия</h2>
+            <p>Добро пожаловать на наш сайт! Мы создаём увлекательные игры, в которые интересно играть.</p>
+            <p>Хотите увидеть наши проекты? Нажмите на кнопку "Мои проекты" выше!</p>
+            
             <div class="download-notice">
-                <p>🎮 <strong>Скоро появится возможность скачивать игры прямо с сайта</strong> — следите за обновлениями!</p>
+                ⚡ <strong>Скоро появится возможность скачивать игры прямо с сайта!</strong> ⚡
+                <br>
+                <small>Следите за обновлениями</small>
             </div>
+            
+            <button class="cta-button" onclick="showProjects()">
+                🎮 Посмотреть игры
+            </button>
         </div>
         
         <!-- СЕКЦИЯ "О РАЗРАБОТЧИКЕ" (скрыта изначально) -->
@@ -535,6 +557,10 @@
             
             .game-card:hover {
                 animation: pulse 1.5s infinite;
+            }
+            
+            .download-notice {
+                animation: pulse 2s infinite;
             }
         `;
         document.head.appendChild(style);
