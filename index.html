@@ -1094,29 +1094,14 @@
                 Скоро игры появятся для скачивания!
             </div>
             
-            <!-- Изменяем уведомление -->
+            <!-- Изменяем уведомление - УБРАЛИ КНОПКУ -->
             <div id="download-notice-text" class="download-notice">
                 ⚡ <strong>Скоро!</strong><br>
                 Игры появятся для скачивания в ближайшее время<br>
-                <small>Следите за обновлениями! Подпишитесь на уведомления!</small>
+                <small>Следите за обновлениями!</small>
             </div>
             
-            <!-- Добавляем кнопку подписки в описание -->
-            <button onclick="showNotifications()" style="
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                border: none;
-                padding: 12px 25px;
-                border-radius: 25px;
-                font-size: 16px;
-                font-weight: bold;
-                cursor: pointer;
-                margin-top: 15px;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            ">
-                🔔 Подписаться на уведомления о выходе игр
-            </button>
+            <!-- УБРАН КОД КНОПКИ ПОДПИСКИ -->
         </div>
         
         <!-- СЕКЦИЯ "О РАЗРАБОТЧИКЕ" (скрыта изначально) -->
@@ -2027,8 +2012,6 @@
                     // Панель управления
                     themeTooltip: 'Сменить тему',
                     languageTooltip: 'Сменить язык',
-                    notificationTooltip: 'Подписаться на новости',
-                    contactTooltip: 'Связаться со мной',
                     
                     // Заголовки
                     pageTitle: 'VelikiyGus',
@@ -2047,7 +2030,7 @@
                     intro: '🎮 Хочешь увидеть крутые игры?',
                     description: 'VelikiyGus — это творческая студия двух разработчиков.<br>Мы делаем то, во что сами бы с удовольствием играли: захватывающие приключения, стратегии с интересными механиками и проекты с душой.',
                     socialMention: 'Загляни в "Мои проекты" и оцени наши работы!<br>Скоро игры появятся для скачивания!',
-                    downloadNotice: '⚡ <strong>Скоро!</strong><br>Игры появятся для скачивания в ближайшее время<br><small>Следите за обновлениями! Подпишитесь на уведомления!</small>',
+                    downloadNotice: '⚡ <strong>Скоро!</strong><br>Игры появятся для скачивания в ближайшее время<br><small>Следите за обновлениями!</small>',
                     
                     // О разработчике
                     aboutTitle: '👨‍💻 О разработчике',
@@ -2107,8 +2090,6 @@
                     // Control panel
                     themeTooltip: 'Change theme',
                     languageTooltip: 'Change language',
-                    notificationTooltip: 'Subscribe to news',
-                    contactTooltip: 'Contact me',
                     
                     // Titles
                     pageTitle: 'VelikiyGus',
@@ -2127,7 +2108,7 @@
                     intro: '🎮 Want to see cool games?',
                     description: 'VelikiyGus is a creative studio of two developers.<br>We create what we would love to play ourselves: exciting adventures, strategies with interesting mechanics, and soulful projects.',
                     socialMention: 'Check out "My Projects" and see our work!<br>Games will be available for download soon!',
-                    downloadNotice: '⚡ <strong>Coming Soon!</strong><br>Games will be available for download soon!<br><small>Stay tuned for updates! Subscribe to notifications!</small>',
+                    downloadNotice: '⚡ <strong>Coming Soon!</strong><br>Games will be available for download soon!<br><small>Stay tuned for updates!</small>',
                     
                     // About developer
                     aboutTitle: '👨‍💻 About Developer',
@@ -2634,16 +2615,6 @@
             SourceCodeProtection.init();
             CopyProtection.init();
             EmailNotifications.init();
-            
-            // Показываем предложение подписаться через 5 секунд
-            setTimeout(() => {
-                if (!localStorage.getItem('subscription_offered')) {
-                    if (confirm('🎮 Хотите получать уведомления о выходе новых игр?')) {
-                        showNotifications();
-                    }
-                    localStorage.setItem('subscription_offered', 'true');
-                }
-            }, 5000);
         });
     </script>
 </body>
