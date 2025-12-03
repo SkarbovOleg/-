@@ -11,11 +11,12 @@
     <!-- ЗАЩИТНЫЕ META-ТЕГИ -->
     <meta http-equiv="Content-Security-Policy" 
           content="default-src 'self';
-                   script-src 'self' 'unsafe-inline';
+                   script-src 'self' 'unsafe-inline' https://formspree.io;
                    style-src 'self' 'unsafe-inline';
                    img-src 'self' https: data:;
                    font-src 'self';
                    frame-ancestors 'none';
+                   connect-src 'self' https://formspree.io;
                    base-uri 'self'">
     
     <meta http-equiv="X-Frame-Options" content="DENY">
@@ -53,6 +54,9 @@
             --contact-form-border: #dee2e6;
             --submit-btn: #007bff;
             --submit-btn-hover: #0056b3;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
         }
 
         [data-theme="dark"] {
@@ -83,6 +87,9 @@
             --contact-form-border: #495057;
             --submit-btn: #0d6efd;
             --submit-btn-hover: #0a58ca;
+            --success-color: #2e7d32;
+            --error-color: #c62828;
+            --warning-color: #ffb300;
         }
 
         /* ===== ОСНОВНЫЕ СТИЛИ ===== */
@@ -611,6 +618,130 @@
             color: var(--text-primary);
         }
 
+        /* ===== НОВЫЕ СТИЛИ ДЛЯ EMAIL-УВЕДОМЛЕНИЙ ===== */
+        .notification-section {
+            display: none;
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.8s ease;
+            border: 1px solid var(--border-color);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .notification-section.show {
+            display: block;
+        }
+        
+        .notification-title {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .notification-form {
+            background: var(--contact-form-bg);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid var(--contact-form-border);
+        }
+        
+        .form-notice {
+            background: var(--highlight-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--highlight-border);
+            color: var(--status-in-progress-text);
+        }
+        
+        .form-notice ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+        
+        .form-notice li {
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group label {
+            cursor: pointer;
+            user-select: none;
+            color: var(--text-secondary);
+        }
+        
+        .form-message {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-message.success {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+            display: block;
+        }
+        
+        .form-message.error {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+            display: block;
+        }
+        
+        .form-message.warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid var(--warning-color);
+            color: var(--warning-color);
+            display: block;
+        }
+        
+        .subscription-list {
+            background: var(--bg-tertiary);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .subscription-list h4 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+        
+        .subscription-list ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+        
+        .subscription-list li {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             .control-panel {
@@ -643,11 +774,13 @@
                 grid-template-columns: 1fr;
             }
             
-            .contact-section {
+            .contact-section,
+            .notification-section {
                 padding: 20px;
             }
             
-            .contact-form {
+            .contact-form,
+            .notification-form {
                 padding: 15px;
             }
         }
@@ -757,13 +890,16 @@
     <!-- ВОДЯНОЙ ЗНАК -->
     <div class="site-watermark">© 2025 VelikiyGus | Protected</div>
     
-    <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (ТЕМА + ЯЗЫК) -->
+    <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (ТЕМА + ЯЗЫК + УВЕДОМЛЕНИЯ) -->
     <div class="control-panel">
         <button id="theme-toggle" class="control-button" data-tooltip="Сменить тему">
             🌙
         </button>
         <button id="language-toggle" class="control-button" data-tooltip="Сменить язык">
             🇷🇺
+        </button>
+        <button id="notification-toggle" class="control-button" data-tooltip="Подписаться на новости">
+            🔔
         </button>
         <button id="contact-toggle" class="control-button" data-tooltip="Связаться со мной">
             📧
@@ -799,6 +935,7 @@
         <div class="nav-buttons">
             <button id="about-btn" class="nav-button" onclick="showAbout()">👤 О разработчике</button>
             <button id="projects-btn" class="nav-button" onclick="showProjects()">🚀 Мои проекты</button>
+            <button id="notifications-btn" class="nav-button" onclick="showNotifications()">🔔 Подписаться на новости</button>
             <button id="contact-btn" class="nav-button" onclick="showContact()">📧 Связаться</button>
         </div>
     </nav>
@@ -824,8 +961,25 @@
             <div id="download-notice-text" class="download-notice">
                 ⚡ <strong>Скоро!</strong><br>
                 Игры появятся для скачивания в ближайшее время<br>
-                <small>Следите за обновлениями!</small>
+                <small>Следите за обновлениями! Подпишитесь на уведомления!</small>
             </div>
+            
+            <!-- Добавляем кнопку подписки в описание -->
+            <button onclick="showNotifications()" style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                padding: 12px 25px;
+                border-radius: 25px;
+                font-size: 16px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 15px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            ">
+                🔔 Подписаться на уведомления о выходе игр
+            </button>
         </div>
         
         <!-- СЕКЦИЯ "О РАЗРАБОТЧИКЕ" (скрыта изначально) -->
@@ -855,7 +1009,7 @@
                 
                 <div class="about-item">
                     <h3>📧 <span id="contacts-title">Контакты</span></h3>
-                    <p id="contacts-text">Напишите мне на почту</p>
+                    <p id="contacts-text">Напишите мне на почту или подпишитесь на новости</p>
                 </div>
             </div>
             
@@ -869,6 +1023,7 @@
                 <span class="skill">Git & GitHub</span>
                 <span class="skill">Roblox Studio</span>
                 <span class="skill" id="web-dev-skill">Web Development</span>
+                <span class="skill">Email Notifications</span>
             </div>
         </div>
         
@@ -887,6 +1042,19 @@
                 <button class="download-btn" onclick="showComingSoon('civil-war')">
                     ⏳ <span id="game1-button">Скоро будет доступно</span>
                 </button>
+                <button onclick="subscribeToGame('civil-war')" style="
+                    background: var(--accent-color);
+                    color: white;
+                    border: none;
+                    padding: 8px 15px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                    width: 100%;
+                ">
+                    🔔 Уведомить о выходе
+                </button>
             </div>
             
             <!-- ИГРА 2: Спаси Алису - ТЕПЕРЬ ТОЖЕ В РАЗРАБОТКЕ -->
@@ -901,6 +1069,19 @@
                 <!-- КНОПКА СКАЧИВАНИЯ - ТЕПЕРЬ "Скоро будет доступно" -->
                 <button class="download-btn" onclick="showComingSoon('save-alice')">
                     ⏳ <span id="game2-button">Скоро будет доступно</span>
+                </button>
+                <button onclick="subscribeToGame('save-alice')" style="
+                    background: var(--accent-color);
+                    color: white;
+                    border: none;
+                    padding: 8px 15px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                    width: 100%;
+                ">
+                    🔔 Уведомить о выходе
                 </button>
             </div>
             
@@ -917,6 +1098,93 @@
                 <button class="download-btn" onclick="showComingSoon('Секретный проект')">
                     🔒 <span id="game3-button">Скоро будет доступно</span>
                 </button>
+                <button onclick="subscribeToGame('secret-project')" style="
+                    background: var(--accent-color);
+                    color: white;
+                    border: none;
+                    padding: 8px 15px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                    width: 100%;
+                ">
+                    🔔 Уведомить о выходе
+                </button>
+            </div>
+        </div>
+        
+        <!-- СЕКЦИЯ ПОДПИСКИ НА УВЕДОМЛЕНИЯ (новая секция) -->
+        <div id="notification-section" class="notification-section">
+            <h2 id="notification-title" class="notification-title">🔔 Подписаться на уведомления</h2>
+            
+            <div class="form-notice">
+                <p><strong>Что вы получите, подписавшись:</strong></p>
+                <ul>
+                    <li>Уведомление о выходе новых игр</li>
+                    <li>Анонсы обновлений и доработок</li>
+                    <li>Эксклюзивные новости от разработчика</li>
+                    <li>Специальные предложения для подписчиков</li>
+                </ul>
+            </div>
+            
+            <div id="notification-message" class="form-message"></div>
+            
+            <!-- Форма подписки через Formspree -->
+            <form id="notification-form" class="notification-form" action="https://formspree.io/f/mqavwwbz" method="POST">
+                <div class="form-group">
+                    <label for="notification-email">📧 Ваш email:</label>
+                    <input type="email" id="notification-email" name="email" class="form-control" 
+                           placeholder="ваш-email@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notification-name">👤 Ваше имя (необязательно):</label>
+                    <input type="text" id="notification-name" name="name" class="form-control" 
+                           placeholder="Как к вам обращаться?">
+                </div>
+                
+                <div class="form-group">
+                    <label>🎮 На какие игры хотите получать уведомления?</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="game-civil-war" name="games" value="civil-war" checked>
+                        <label for="game-civil-war">Гражданская война в России 2D</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="game-save-alice" name="games" value="save-alice" checked>
+                        <label for="game-save-alice">Спаси Алису</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="game-secret-project" name="games" value="secret-project" checked>
+                        <label for="game-secret-project">Секретный проект</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="game-all-future" name="games" value="all-future">
+                        <label for="game-all-future">Все будущие игры</label>
+                    </div>
+                </div>
+                
+                <input type="hidden" name="_subject" value="Новая подписка с сайта VelikiyGus">
+                <input type="hidden" name="_replyto" id="reply-email">
+                <input type="hidden" name="_language" value="ru">
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="privacy-policy" name="privacy" required>
+                    <label for="privacy-policy">✅ Я согласен с политикой конфиденциальности и даю согласие на обработку персональных данных</label>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    📨 Подписаться на уведомления
+                </button>
+            </form>
+            
+            <div class="subscription-list">
+                <h4>📊 Статистика подписчиков:</h4>
+                <ul>
+                    <li><span id="subscribers-count">0</span> человек уже подписались</li>
+                    <li>Первыми узнают о выходе игр</li>
+                    <li>Получают уведомления за 1 день до релиза</li>
+                </ul>
             </div>
         </div>
         
@@ -929,8 +1197,49 @@
                 Напишите мне напрямую на почту!</p>
             </div>
             
+            <!-- Форма обратной связи через Formspree -->
+            <form id="contact-form" class="contact-form" action="https://formspree.io/f/mqavwwbz" method="POST">
+                <div id="contact-message" class="form-message"></div>
+                
+                <div class="form-group">
+                    <label for="contact-name">👤 Ваше имя:</label>
+                    <input type="text" id="contact-name" name="name" class="form-control" 
+                           placeholder="Как к вам обращаться?" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-email">📧 Ваш email:</label>
+                    <input type="email" id="contact-email" name="email" class="form-control" 
+                           placeholder="ваш-email@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-subject">📝 Тема сообщения:</label>
+                    <select id="contact-subject" name="subject" class="form-control" required>
+                        <option value="">Выберите тему</option>
+                        <option value="Вопрос по игре">Вопрос по игре</option>
+                        <option value="Предложение о сотрудничестве">Предложение о сотрудничестве</option>
+                        <option value="Сообщение об ошибке">Сообщение об ошибке</option>
+                        <option value="Идея для игры">Идея для игры</option>
+                        <option value="Другое">Другое</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-message">✏️ Ваше сообщение:</label>
+                    <textarea id="contact-message" name="message" class="form-control" 
+                              placeholder="Напишите ваше сообщение здесь..." required></textarea>
+                </div>
+                
+                <input type="hidden" name="_subject" value="Сообщение с сайта VelikiyGus">
+                
+                <button type="submit" class="submit-btn">
+                    📤 Отправить сообщение
+                </button>
+            </form>
+            
             <div class="contact-option">
-                <h3>Вариант 1: Прямая ссылка</h3>
+                <h3>Вариант 2: Прямая ссылка</h3>
                 <p>Нажмите на кнопку ниже, чтобы написать мне:</p>
                 <a href="mailto:velikiygusofficial@gmail.com?subject=Сообщение с сайта VelikiyGus&body=Здравствуйте! Я пишу вам с сайта VelikiyGus."
                    class="simple-email-link">
@@ -938,30 +1247,6 @@
                 </a>
                 <p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
                     Откроется ваша почтовая программа
-                </p>
-            </div>
-            
-            <div class="contact-option">
-                <h3>Вариант 2: Скопировать email</h3>
-                <div style="background: var(--bg-tertiary); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                    <p style="margin: 0; font-size: 18px; font-weight: bold; color: var(--accent-color);">
-                        velikiygusofficial@gmail.com
-                    </p>
-                </div>
-                <button onclick="copyEmail()" style="
-                    background: var(--accent-color);
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 25px;
-                    cursor: pointer;
-                    font-size: 14px;
-                    margin-top: 10px;
-                ">
-                    📋 Скопировать email
-                </button>
-                <p id="copy-message" style="margin-top: 10px; font-size: 14px; color: #28a745; display: none;">
-                    ✓ Email скопирован!
                 </p>
             </div>
             
@@ -975,9 +1260,12 @@
     
     <footer>
         <p>© 2025 VelikiyGus проекты | <span id="rights-text">Все права защищены</span></p>
-        <p><small id="footer-note">Игры скоро появятся для скачивания!</small></p>
-        <p><small id="security-status">🛡️ Система защиты активирована | Просмотр исходного кода ограничен</small></p>
-        <p><small><a href="#" onclick="showContact()" style="color: var(--accent-color);">📧 Написать разработчику</a></small></p>
+        <p><small id="footer-note">Подпишитесь на уведомления, чтобы первыми узнать о выходе игр!</small></p>
+        <p><small id="security-status">🛡️ Система защиты активирована | Уведомления: <span id="subscribers-footer">0 подписчиков</span></small></p>
+        <p><small>
+            <a href="#" onclick="showNotifications()" style="color: var(--accent-color); margin-right: 15px;">🔔 Подписаться на новости</a>
+            <a href="#" onclick="showContact()" style="color: var(--accent-color);">📧 Написать разработчику</a>
+        </small></p>
     </footer>
     
     <script>
@@ -1101,6 +1389,214 @@
             }
         };
 
+        // ===== EMAIL УВЕДОМЛЕНИЯ =====
+        const EmailNotifications = {
+            subscribers: [],
+            totalSubscribers: 0,
+            
+            init() {
+                this.loadSubscribers();
+                this.setupForms();
+                this.updateSubscriberCount();
+            },
+            
+            loadSubscribers() {
+                const saved = localStorage.getItem('velikiygus_subscribers');
+                if (saved) {
+                    this.subscribers = JSON.parse(saved);
+                    this.totalSubscribers = this.subscribers.length;
+                }
+                
+                const count = localStorage.getItem('velikiygus_subscribers_count');
+                if (count) {
+                    this.totalSubscribers = parseInt(count);
+                }
+            },
+            
+            saveSubscribers() {
+                localStorage.setItem('velikiygus_subscribers', JSON.stringify(this.subscribers));
+                localStorage.setItem('velikiygus_subscribers_count', this.totalSubscribers.toString());
+            },
+            
+            setupForms() {
+                // Форма подписки на уведомления
+                const notificationForm = document.getElementById('notification-form');
+                if (notificationForm) {
+                    notificationForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleNotificationSubmit(e.target);
+                    });
+                }
+                
+                // Форма обратной связи
+                const contactForm = document.getElementById('contact-form');
+                if (contactForm) {
+                    contactForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleContactSubmit(e.target);
+                    });
+                }
+            },
+            
+            handleNotificationSubmit(form) {
+                const email = form.querySelector('#notification-email').value;
+                const name = form.querySelector('#notification-name').value || 'Подписчик';
+                const selectedGames = Array.from(form.querySelectorAll('input[name="games"]:checked'))
+                    .map(cb => cb.value);
+                
+                // Проверяем, нет ли уже такой подписки
+                const existingSubscriber = this.subscribers.find(sub => sub.email === email);
+                
+                if (existingSubscriber) {
+                    this.showMessage('warning', 'Вы уже подписаны на уведомления!');
+                    return;
+                }
+                
+                // Добавляем подписчика
+                const subscriber = {
+                    email,
+                    name,
+                    games: selectedGames,
+                    date: new Date().toISOString(),
+                    language: Localization.currentLanguage
+                };
+                
+                this.subscribers.push(subscriber);
+                this.totalSubscribers++;
+                this.saveSubscribers();
+                this.updateSubscriberCount();
+                
+                // Отправляем через Formspree
+                const formData = new FormData(form);
+                
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        this.showMessage('success', '🎉 Вы успешно подписались! Проверьте вашу почту для подтверждения.');
+                        form.reset();
+                    } else {
+                        throw new Error('Ошибка отправки');
+                    }
+                })
+                .catch(error => {
+                    this.showMessage('error', 'Произошла ошибка. Пожалуйста, попробуйте еще раз или напишите на почту напрямую.');
+                });
+            },
+            
+            handleContactSubmit(form) {
+                const formData = new FormData(form);
+                
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        this.showMessage('success', '📬 Сообщение отправлено! Я отвечу вам в ближайшее время.');
+                        form.reset();
+                    } else {
+                        throw new Error('Ошибка отправки');
+                    }
+                })
+                .catch(error => {
+                    this.showMessage('error', 'Произошла ошибка отправки. Пожалуйста, напишите на почту напрямую.');
+                });
+            },
+            
+            showMessage(type, text) {
+                const messageEl = document.getElementById('notification-message') || 
+                                 document.getElementById('contact-message');
+                
+                if (messageEl) {
+                    messageEl.className = `form-message ${type}`;
+                    messageEl.textContent = text;
+                    messageEl.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        messageEl.style.display = 'none';
+                    }, 5000);
+                }
+                
+                // Показываем уведомление в зависимости от типа
+                if (type === 'success') {
+                    alert('✅ ' + text);
+                } else if (type === 'error') {
+                    alert('❌ ' + text);
+                }
+            },
+            
+            updateSubscriberCount() {
+                const countEl = document.getElementById('subscribers-count');
+                const footerEl = document.getElementById('subscribers-footer');
+                
+                if (countEl) {
+                    countEl.textContent = this.totalSubscribers;
+                }
+                if (footerEl) {
+                    footerEl.textContent = `${this.totalSubscribers} подписчиков`;
+                }
+            },
+            
+            subscribeToGame(gameId) {
+                const email = prompt('Введите ваш email, чтобы получить уведомление о выходе игры:');
+                
+                if (email && this.validateEmail(email)) {
+                    const gameNames = {
+                        'civil-war': 'Гражданская война в России 2D',
+                        'save-alice': 'Спаси Алису',
+                        'secret-project': 'Секретный проект'
+                    };
+                    
+                    const gameName = gameNames[gameId] || 'игры';
+                    
+                    // Создаем временную форму для отправки
+                    const tempForm = document.createElement('form');
+                    tempForm.method = 'POST';
+                    tempForm.action = 'https://formspree.io/f/mqavwwbz';
+                    
+                    const emailInput = document.createElement('input');
+                    emailInput.type = 'hidden';
+                    emailInput.name = 'email';
+                    emailInput.value = email;
+                    
+                    const subjectInput = document.createElement('input');
+                    subjectInput.type = 'hidden';
+                    subjectInput.name = '_subject';
+                    subjectInput.value = `Уведомление о выходе ${gameName}`;
+                    
+                    const messageInput = document.createElement('input');
+                    messageInput.type = 'hidden';
+                    messageInput.name = 'message';
+                    messageInput.value = `Пользователь ${email} хочет получить уведомление о выходе игры "${gameName}"`;
+                    
+                    tempForm.appendChild(emailInput);
+                    tempForm.appendChild(subjectInput);
+                    tempForm.appendChild(messageInput);
+                    document.body.appendChild(tempForm);
+                    
+                    tempForm.submit();
+                    
+                    alert(`✅ Спасибо! Вы получите уведомление на ${email}, когда игра "${gameName}" выйдет.`);
+                } else if (email) {
+                    alert('❌ Пожалуйста, введите корректный email адрес.');
+                }
+            },
+            
+            validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+        };
+
         // ===== ПРОСТЫЕ ФУНКЦИИ =====
         function showComingSoon(gameName) {
             const message = Localization.getText('comingSoon', { game: gameName });
@@ -1111,11 +1607,18 @@
             const email = 'velikiygusofficial@gmail.com';
             navigator.clipboard.writeText(email).then(() => {
                 const message = document.getElementById('copy-message');
-                message.style.display = 'block';
-                setTimeout(() => {
-                    message.style.display = 'none';
-                }, 3000);
+                if (message) {
+                    message.style.display = 'block';
+                    setTimeout(() => {
+                        message.style.display = 'none';
+                    }, 3000);
+                }
+                alert('✅ Email скопирован в буфер обмена: ' + email);
             });
+        }
+        
+        function subscribeToGame(gameId) {
+            EmailNotifications.subscribeToGame(gameId);
         }
 
         // ===== ЛОКАЛИЗАЦИЯ =====
@@ -1127,6 +1630,7 @@
                     // Панель управления
                     themeTooltip: 'Сменить тему',
                     languageTooltip: 'Сменить язык',
+                    notificationTooltip: 'Подписаться на новости',
                     contactTooltip: 'Связаться со мной',
                     
                     // Заголовки
@@ -1137,6 +1641,8 @@
                     aboutButtonHide: '👤 Скрыть информацию',
                     projectsButton: '🚀 Мои проекты',
                     projectsButtonHide: '🚀 Скрыть проекты',
+                    notificationsButton: '🔔 Подписаться на новости',
+                    notificationsButtonHide: '🔔 Скрыть форму подписки',
                     contactButton: '📧 Связаться',
                     contactButtonHide: '📧 Скрыть форму',
                     
@@ -1144,7 +1650,7 @@
                     intro: '🎮 Хочешь увидеть крутые игры?',
                     description: 'VelikiyGus — это творческая студия двух разработчиков.<br>Мы делаем то, во что сами бы с удовольствием играли: захватывающие приключения, стратегии с интересными механиками и проекты с душой.',
                     socialMention: 'Загляни в "Мои проекты" и оцени наши работы!<br>Скоро игры появятся для скачивания!',
-                    downloadNotice: '⚡ <strong>Скоро!</strong><br>Игры появятся для скачивания в ближайшее время<br><small>Следите за обновлениями!</small>',
+                    downloadNotice: '⚡ <strong>Скоро!</strong><br>Игры появятся для скачивания в ближайшее время<br><small>Следите за обновлениями! Подпишитесь на уведомления!</small>',
                     
                     // О разработчике
                     aboutTitle: '👨‍💻 О разработчике',
@@ -1156,7 +1662,11 @@
                     platformsTitle: 'Платформы',
                     platformsText: 'Windows, Web, Roblox, Мобильные устройства',
                     contactsTitle: 'Контакты',
-                    contactsText: 'Напишите мне на почту',
+                    contactsText: 'Напишите мне на почту или подпишитесь на новости',
+                    skillsTitle: 'Технические навыки:',
+                    
+                    // Уведомления
+                    notificationTitle: '🔔 Подписаться на уведомления',
                     
                     // Контактная форма
                     contactTitle: '📧 Написать мне',
@@ -1190,9 +1700,10 @@
                     
                     // Футер
                     rightsText: 'Все права защищены',
-                    footerNote: 'Игры скоро появятся для скачивания!',
-                    securityStatus: '🛡️ Система защиты активирована | Просмотр исходного кода ограничен',
+                    footerNote: 'Подпишитесь на уведомления, чтобы первыми узнать о выходе игр!',
+                    securityStatus: '🛡️ Система защиты активирована | Уведомления: ',
                     contactDeveloper: '📧 Написать разработчику',
+                    subscribeNews: '🔔 Подписаться на новости',
                     
                     // Уведомления
                     comingSoon: '🎮 Игра "{game}" находится в разработке!\n\nОна появится для скачивания в ближайшее время.\n\nСледите за обновлениями!'
@@ -1202,6 +1713,7 @@
                     // Control panel
                     themeTooltip: 'Change theme',
                     languageTooltip: 'Change language',
+                    notificationTooltip: 'Subscribe to news',
                     contactTooltip: 'Contact me',
                     
                     // Titles
@@ -1212,6 +1724,8 @@
                     aboutButtonHide: '👤 Hide Info',
                     projectsButton: '🚀 My Projects',
                     projectsButtonHide: '🚀 Hide Projects',
+                    notificationsButton: '🔔 Subscribe to News',
+                    notificationsButtonHide: '🔔 Hide Subscription Form',
                     contactButton: '📧 Contact',
                     contactButtonHide: '📧 Hide Form',
                     
@@ -1219,7 +1733,7 @@
                     intro: '🎮 Want to see cool games?',
                     description: 'VelikiyGus is a creative studio of two developers.<br>We create what we would love to play ourselves: exciting adventures, strategies with interesting mechanics, and soulful projects.',
                     socialMention: 'Check out "My Projects" and see our work!<br>Games will be available for download soon!',
-                    downloadNotice: '⚡ <strong>Coming Soon!</strong><br>Games will be available for download soon!<br><small>Stay tuned for updates!</small>',
+                    downloadNotice: '⚡ <strong>Coming Soon!</strong><br>Games will be available for download soon!<br><small>Stay tuned for updates! Subscribe to notifications!</small>',
                     
                     // About developer
                     aboutTitle: '👨‍💻 About Developer',
@@ -1231,7 +1745,11 @@
                     platformsTitle: 'Platforms',
                     platformsText: 'Windows, Web, Roblox, Mobile devices',
                     contactsTitle: 'Contacts',
-                    contactsText: 'Write me an email',
+                    contactsText: 'Write me an email or subscribe to news',
+                    skillsTitle: 'Technical skills:',
+                    
+                    // Notifications
+                    notificationTitle: '🔔 Subscribe to Notifications',
                     
                     // Contact form
                     contactTitle: '📧 Contact Me',
@@ -1265,9 +1783,10 @@
                     
                     // Footer
                     rightsText: 'All rights reserved',
-                    footerNote: 'Games will be available for download soon!',
-                    securityStatus: '🛡️ Security system activated | Source code viewing restricted',
+                    footerNote: 'Subscribe to notifications to be the first to know about game releases!',
+                    securityStatus: '🛡️ Security system activated | Notifications: ',
                     contactDeveloper: '📧 Contact developer',
+                    subscribeNews: '🔔 Subscribe to news',
                     
                     // Notifications
                     comingSoon: '🎮 Game "{game}" is in development!\n\nIt will be available for download soon.\n\nStay tuned for updates!'
@@ -1327,10 +1846,12 @@
                 
                 document.getElementById('theme-toggle').setAttribute('data-tooltip', lang.themeTooltip);
                 document.getElementById('language-toggle').setAttribute('data-tooltip', lang.languageTooltip);
+                document.getElementById('notification-toggle').setAttribute('data-tooltip', lang.notificationTooltip);
                 document.getElementById('contact-toggle').setAttribute('data-tooltip', lang.contactTooltip);
                 
                 const aboutBtn = document.getElementById('about-btn');
                 const projectsBtn = document.getElementById('projects-btn');
+                const notificationsBtn = document.getElementById('notifications-btn');
                 const contactBtn = document.getElementById('contact-btn');
                 
                 if (aboutBtn && !aboutBtn.textContent.includes('Скрыть') && !aboutBtn.textContent.includes('Hide')) {
@@ -1338,6 +1859,9 @@
                 }
                 if (projectsBtn && !projectsBtn.textContent.includes('Скрыть') && !projectsBtn.textContent.includes('Hide')) {
                     projectsBtn.innerHTML = lang.projectsButton;
+                }
+                if (notificationsBtn && !notificationsBtn.textContent.includes('Скрыть') && !notificationsBtn.textContent.includes('Hide')) {
+                    notificationsBtn.innerHTML = lang.notificationsButton;
                 }
                 if (contactBtn && !contactBtn.textContent.includes('Скрыть') && !contactBtn.textContent.includes('Hide')) {
                     contactBtn.innerHTML = lang.contactButton;
@@ -1360,13 +1884,11 @@
                 document.getElementById('contacts-text').textContent = lang.contactsText;
                 document.getElementById('skills-title').innerHTML = lang.skillsTitle;
                 
+                // Уведомления
+                document.getElementById('notification-title').innerHTML = lang.notificationTitle;
+                
                 // Контактная форма
                 document.getElementById('contact-title').innerHTML = lang.contactTitle;
-                
-                const contactSectionText = document.querySelectorAll('.contact-section .highlight p')[0];
-                if (contactSectionText) {
-                    contactSectionText.innerHTML = `<strong>Есть вопросы или предложения?</strong><br>Напишите мне напрямую на почту!`;
-                }
                 
                 document.getElementById('game-dev-skill').textContent = lang.gameDevSkill;
                 document.getElementById('2d-graphics-skill').textContent = lang.graphics2dSkill;
@@ -1395,8 +1917,15 @@
                 
                 document.getElementById('rights-text').textContent = lang.rightsText;
                 document.getElementById('footer-note').textContent = lang.footerNote;
-                document.getElementById('security-status').textContent = lang.securityStatus;
-                document.querySelector('footer p:last-child small a').textContent = lang.contactDeveloper;
+                document.getElementById('security-status').innerHTML = lang.securityStatus;
+                
+                const footerLinks = document.querySelector('footer p:last-child small');
+                if (footerLinks) {
+                    footerLinks.innerHTML = `
+                        <a href="#" onclick="showNotifications()" style="color: var(--accent-color); margin-right: 15px;">${lang.subscribeNews}</a>
+                        <a href="#" onclick="showContact()" style="color: var(--accent-color);">${lang.contactDeveloper}</a>
+                    `;
+                }
                 
                 const languageIcon = this.currentLanguage === 'ru' ? '🇷🇺' : '🇺🇸';
                 document.getElementById('language-toggle').innerHTML = languageIcon;
@@ -1479,14 +2008,16 @@
             }
         };
 
-        // ===== СУЩЕСТВУЮЩИЙ КОД =====
+        // ===== СУЩЕСТВУЮЩИЙ КОД + НОВЫЕ ФУНКЦИИ ДЛЯ УВЕДОМЛЕНИЙ =====
         let aboutVisible = false;
         let projectsVisible = false;
+        let notificationsVisible = false;
         let contactVisible = false;
         
         function showAbout() {
             const aboutSection = document.getElementById('about-section');
             const gameList = document.getElementById('game-list');
+            const notificationSection = document.getElementById('notification-section');
             const contactSection = document.getElementById('contact-section');
             
             if (!aboutVisible) {
@@ -1496,10 +2027,17 @@
                 if (projectsVisible) {
                     gameList.classList.remove('show');
                     projectsVisible = false;
+                    document.getElementById('projects-btn').textContent = Localization.currentLanguage === 'ru' ? '🚀 Мои проекты' : '🚀 My Projects';
+                }
+                if (notificationsVisible) {
+                    notificationSection.classList.remove('show');
+                    notificationsVisible = false;
+                    document.getElementById('notifications-btn').textContent = Localization.currentLanguage === 'ru' ? '🔔 Подписаться на новости' : '🔔 Subscribe to News';
                 }
                 if (contactVisible) {
                     contactSection.classList.remove('show');
                     contactVisible = false;
+                    document.getElementById('contact-btn').textContent = Localization.currentLanguage === 'ru' ? '📧 Связаться' : '📧 Contact';
                 }
                 
                 aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1518,6 +2056,7 @@
         function showProjects() {
             const gameList = document.getElementById('game-list');
             const aboutSection = document.getElementById('about-section');
+            const notificationSection = document.getElementById('notification-section');
             const contactSection = document.getElementById('contact-section');
             
             if (!projectsVisible) {
@@ -1527,16 +2066,17 @@
                 if (aboutVisible) {
                     aboutSection.classList.remove('show');
                     aboutVisible = false;
-                    
-                    const lang = Localization.currentLanguage === 'ru' ? '👤 О разработчике' : '👤 About Developer';
-                    document.querySelectorAll('.nav-button')[0].textContent = lang;
+                    document.getElementById('about-btn').textContent = Localization.currentLanguage === 'ru' ? '👤 О разработчике' : '👤 About Developer';
+                }
+                if (notificationsVisible) {
+                    notificationSection.classList.remove('show');
+                    notificationsVisible = false;
+                    document.getElementById('notifications-btn').textContent = Localization.currentLanguage === 'ru' ? '🔔 Подписаться на новости' : '🔔 Subscribe to News';
                 }
                 if (contactVisible) {
                     contactSection.classList.remove('show');
                     contactVisible = false;
-                    
-                    const lang = Localization.currentLanguage === 'ru' ? '📧 Связаться' : '📧 Contact';
-                    document.querySelectorAll('.nav-button')[2].textContent = lang;
+                    document.getElementById('contact-btn').textContent = Localization.currentLanguage === 'ru' ? '📧 Связаться' : '📧 Contact';
                 }
                 
                 gameList.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1567,10 +2107,50 @@
             }
         }
         
+        function showNotifications() {
+            const notificationSection = document.getElementById('notification-section');
+            const aboutSection = document.getElementById('about-section');
+            const gameList = document.getElementById('game-list');
+            const contactSection = document.getElementById('contact-section');
+            
+            if (!notificationsVisible) {
+                notificationSection.classList.add('show');
+                notificationsVisible = true;
+                
+                if (aboutVisible) {
+                    aboutSection.classList.remove('show');
+                    aboutVisible = false;
+                    document.getElementById('about-btn').textContent = Localization.currentLanguage === 'ru' ? '👤 О разработчике' : '👤 About Developer';
+                }
+                if (projectsVisible) {
+                    gameList.classList.remove('show');
+                    projectsVisible = false;
+                    document.getElementById('projects-btn').textContent = Localization.currentLanguage === 'ru' ? '🚀 Мои проекты' : '🚀 My Projects';
+                }
+                if (contactVisible) {
+                    contactSection.classList.remove('show');
+                    contactVisible = false;
+                    document.getElementById('contact-btn').textContent = Localization.currentLanguage === 'ru' ? '📧 Связаться' : '📧 Contact';
+                }
+                
+                notificationSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                const lang = Localization.currentLanguage === 'ru' ? '🔔 Скрыть форму подписки' : '🔔 Hide Subscription Form';
+                event.target.textContent = lang;
+            } else {
+                notificationSection.classList.remove('show');
+                notificationsVisible = false;
+                
+                const lang = Localization.currentLanguage === 'ru' ? '🔔 Подписаться на новости' : '🔔 Subscribe to News';
+                event.target.textContent = lang;
+            }
+        }
+        
         function showContact() {
             const contactSection = document.getElementById('contact-section');
             const aboutSection = document.getElementById('about-section');
             const gameList = document.getElementById('game-list');
+            const notificationSection = document.getElementById('notification-section');
             
             if (!contactVisible) {
                 contactSection.classList.add('show');
@@ -1579,16 +2159,17 @@
                 if (aboutVisible) {
                     aboutSection.classList.remove('show');
                     aboutVisible = false;
-                    
-                    const lang = Localization.currentLanguage === 'ru' ? '👤 О разработчике' : '👤 About Developer';
-                    document.querySelectorAll('.nav-button')[0].textContent = lang;
+                    document.getElementById('about-btn').textContent = Localization.currentLanguage === 'ru' ? '👤 О разработчике' : '👤 About Developer';
                 }
                 if (projectsVisible) {
                     gameList.classList.remove('show');
                     projectsVisible = false;
-                    
-                    const lang = Localization.currentLanguage === 'ru' ? '🚀 Мои проекты' : '🚀 My Projects';
-                    document.querySelectorAll('.nav-button')[1].textContent = lang;
+                    document.getElementById('projects-btn').textContent = Localization.currentLanguage === 'ru' ? '🚀 Мои проекты' : '🚀 My Projects';
+                }
+                if (notificationsVisible) {
+                    notificationSection.classList.remove('show');
+                    notificationsVisible = false;
+                    document.getElementById('notifications-btn').textContent = Localization.currentLanguage === 'ru' ? '🔔 Подписаться на новости' : '🔔 Subscribe to News';
                 }
                 
                 contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1671,6 +2252,17 @@
             Localization.init();
             ThemeManager.init();
             SourceCodeProtection.init();
+            EmailNotifications.init();
+            
+            // Показываем предложение подписаться через 5 секунд
+            setTimeout(() => {
+                if (!localStorage.getItem('subscription_offered')) {
+                    if (confirm('🎮 Хотите получать уведомления о выходе новых игр?')) {
+                        showNotifications();
+                    }
+                    localStorage.setItem('subscription_offered', 'true');
+                }
+            }, 5000);
         });
     </script>
 </body>
