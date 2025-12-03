@@ -25,16 +25,15 @@
             --card-shadow-hover: 0 5px 15px rgba(0,0,0,0.15);
             --status-in-progress: #fff3cd;
             --status-in-progress-text: #856404;
-            --status-released: #d4edda;
-            --status-released-text: #155724;
             --highlight-bg: #fff3cd;
             --highlight-border: #ffc107;
-            --download-notice-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            --download-notice-gradient: linear-gradient(135deg, #ff9a00 0%, #ffc107 100%);
             --social-bg: #f8f9fa;
             --skill-bg: #e9ecef;
             --skill-text: #495057;
             --download-btn: #28a745;
             --download-btn-hover: #218838;
+            --coming-soon-btn: #6c757d;
         }
 
         [data-theme="dark"] {
@@ -52,16 +51,15 @@
             --card-shadow-hover: 0 5px 15px rgba(0,0,0,0.5);
             --status-in-progress: #332701;
             --status-in-progress-text: #ffd54f;
-            --status-released: #0d2a1c;
-            --status-released-text: #4caf50;
             --highlight-bg: #332701;
             --highlight-border: #ffb300;
-            --download-notice-gradient: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+            --download-notice-gradient: linear-gradient(135deg, #ff9a00 0%, #ffc107 100%);
             --social-bg: #2d2d2d;
             --skill-bg: #495057;
             --skill-text: #e9ecef;
             --download-btn: #2e7d32;
             --download-btn-hover: #1b5e20;
+            --coming-soon-btn: #495057;
         }
 
         /* ===== ОСНОВНЫЕ СТИЛИ ===== */
@@ -210,7 +208,6 @@
             border-radius: 10px;
             box-shadow: var(--card-shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
             border: 1px solid var(--border-color);
             position: relative;
         }
@@ -240,17 +237,16 @@
             line-height: 1.5;
         }
         
-        /* Кнопка скачивания на карточке игры */
+        /* Кнопка скачивания на карточке игры - ВСЕ "Скоро будет доступно" */
         .download-btn {
-            background-color: var(--download-btn);
+            background-color: var(--coming-soon-btn);
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 25px;
             font-size: 14px;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            cursor: not-allowed;
             margin-top: 15px;
             width: 100%;
             display: flex;
@@ -260,20 +256,19 @@
         }
         
         .download-btn:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .download-btn.active {
+            background-color: var(--download-btn);
+            cursor: pointer;
+        }
+        
+        .download-btn.active:hover {
             background-color: var(--download-btn-hover);
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
-        }
-        
-        .download-btn:disabled {
-            background-color: #6c757d;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .download-btn:disabled:hover {
-            transform: none;
-            box-shadow: none;
         }
         
         /* Стили для секции "О разработчике" - ИЗНАЧАЛЬНО СКРЫТА */
@@ -373,13 +368,14 @@
             margin-bottom: 25px;
         }
         
+        /* Изменяем уведомление о скачивании */
         .download-notice {
             background: var(--download-notice-gradient);
-            color: white;
+            color: #333;
             padding: 18px;
             border-radius: 10px;
             margin: 25px 0;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 154, 0, 0.4);
             font-weight: bold;
             font-size: 1.1em;
             line-height: 1.5;
@@ -408,7 +404,7 @@
             margin: 30px 0;
         }
         
-        /* Стили для статусов игр */
+        /* Стили для статусов игр - ВСЕ "В разработке" */
         .game-status {
             display: inline-block;
             padding: 5px 12px;
@@ -422,13 +418,8 @@
             background: var(--status-in-progress);
             color: var(--status-in-progress-text);
         }
-        
-        .status-released {
-            background: var(--status-released);
-            color: var(--status-released-text);
-        }
 
-        /* Модальное окно для скачивания */
+        /* Модальное окно для скачивания (оставляем на будущее) */
         .download-modal {
             display: none;
             position: fixed;
@@ -547,7 +538,7 @@
         </button>
     </div>
     
-    <!-- МОДАЛЬНОЕ ОКНО СКАЧИВАНИЯ -->
+    <!-- МОДАЛЬНОЕ ОКНО СКАЧИВАНИЯ (оставляем на будущее) -->
     <div id="download-modal" class="download-modal">
         <div class="download-modal-content">
             <h2 id="modal-title">Скачать игру</h2>
@@ -597,13 +588,14 @@
             
             <div class="social-mention">
                 Загляни в "Мои проекты" и оцени наши работы!<br>
-                Теперь игры можно скачать прямо с сайта!
+                Скоро игры появятся для скачивания!
             </div>
             
+            <!-- Изменяем уведомление -->
             <div class="download-notice">
-                ⚡ <strong>Обновление!</strong><br>
-                Теперь можно скачивать игры прямо с сайта!<br>
-                <small>Нажми кнопку "Скачать" на карточке игры</small>
+                ⚡ <strong>Скоро!</strong><br>
+                Игры появятся для скачивания в ближайшее время<br>
+                <small>Следите за обновлениями!</small>
             </div>
         </div>
         
@@ -651,7 +643,7 @@
             </div>
         </div>
         
-        <!-- СПИСОК ИГР (скрыт изначально) -->
+        <!-- СПИСОК ИГР (скрыт изначально) - ВСЕ ИГРЫ "Скоро будет доступно" -->
         <div id="game-list" class="game-list">
             <!-- ИГРА 1: Гражданская война в России 2D -->
             <div class="game-card">
@@ -663,27 +655,27 @@
                 <p><strong>Особенности:</strong> Выбор класса, большая карта, PvP сражения</p>
                 
                 <!-- КНОПКА СКАЧИВАНИЯ -->
-                <button class="download-btn" onclick="openDownloadModal('civil-war')" disabled>
+                <button class="download-btn" onclick="showComingSoon('Гражданская война в России 2D')">
                     ⏳ Скоро будет доступно
                 </button>
             </div>
             
-            <!-- ИГРА 2: Спаси Алису -->
+            <!-- ИГРА 2: Спаси Алису - ТЕПЕРЬ ТОЖЕ В РАЗРАБОТКЕ -->
             <div class="game-card">
                 <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=180&fit=crop" 
                      alt="Спаси Алису">
                 <h2>👧 Спаси Алису</h2>
-                <div class="game-status status-released">Доступна</div>
+                <div class="game-status status-in-progress">В разработке</div>
                 <p>Захватывающая приключенческая игра-платформер. Помогите герою спасти Алису от злодеев, пройдя через опасные уровни, головоломки и боссов.</p>
                 <p><strong>Особенности:</strong> Платформер, головоломки, боссы, сбор предметов</p>
                 
-                <!-- КНОПКА СКАЧИВАНИЯ -->
-                <button class="download-btn" onclick="openDownloadModal('save-alice')">
-                    ⬇️ Скачать игру
+                <!-- КНОПКА СКАЧИВАНИЯ - ТЕПЕРЬ "Скоро будет доступно" -->
+                <button class="download-btn" onclick="showComingSoon('Спаси Алису')">
+                    ⏳ Скоро будет доступно
                 </button>
             </div>
             
-            <!-- ИГРА 3: Шаблон для будущих игр (можно удалить) -->
+            <!-- ИГРА 3: Секретный проект -->
             <div class="game-card">
                 <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=180&fit=crop" 
                      alt="Новая игра">
@@ -693,8 +685,8 @@
                 <p><strong>Особенности:</strong> Секретно, инновации, экшен</p>
                 
                 <!-- КНОПКА СКАЧИВАНИЯ -->
-                <button class="download-btn" onclick="openDownloadModal('secret')" disabled>
-                    🔒 Секретный проект
+                <button class="download-btn" onclick="showComingSoon('Секретный проект')">
+                    🔒 Скоро будет доступно
                 </button>
             </div>
         </div>
@@ -702,7 +694,7 @@
     
     <footer>
         <p>© 2025 VelikiyGus проекты | Все права защищены</p>
-        <p><small>Игры доступны для скачивания бесплатно</small></p>
+        <p><small>Игры скоро появятся для скачивания!</small></p>
     </footer>
     
     <script>
@@ -761,7 +753,7 @@
             }
         };
 
-        // ===== СИСТЕМА СКАЧИВАНИЯ ФАЙЛОВ =====
+        // ===== СИСТЕМА СКАЧИВАНИЯ ФАЙЛОВ (полная версия) =====
         const GameDownloads = {
             games: {
                 'civil-war': {
@@ -793,21 +785,21 @@
                             file: 'save-alice-web.zip',
                             size: '85 MB',
                             type: 'Архив ZIP',
-                            available: true
+                            available: false  // Было true, теперь false
                         },
                         {
                             name: 'Windows версия',
                             file: 'save-alice-windows.zip',
                             size: '120 MB',
                             type: 'Архив ZIP',
-                            available: true
+                            available: false  // Было true, теперь false
                         },
                         {
                             name: 'Android версия',
                             file: 'save-alice-android.apk',
                             size: '95 MB',
                             type: 'APK файл',
-                            available: true
+                            available: false  // Было true, теперь false
                         }
                     ]
                 },
@@ -826,105 +818,40 @@
                 }
             },
             
-            // Метод для скачивания файла
+            // Метод для скачивания файла (будет работать когда игры готовы)
             downloadFile(filename, gameName) {
-                // В реальном проекте здесь будет ссылка на реальный файл
-                // Сейчас используем заглушку с примером
+                // Когда игры будут готовы, замени на реальные ссылки:
+                // Пример реальной ссылки:
+                // const fileUrls = {
+                //     'save-alice-web.zip': 'https://github.com/username/repo/raw/main/games/save-alice.zip',
+                // };
+                // const link = document.createElement('a');
+                // link.href = fileUrls[filename];
+                // link.download = filename;
+                // link.click();
                 
-                // Создаем виртуальную ссылку для скачивания
-                const link = document.createElement('a');
-                
-                // Для демонстрации создаем простой текстовый файл
-                // В реальном проекте замени на реальные файлы:
-                // link.href = 'путь/к/файлу/' + filename;
-                
-                // Временное решение для демонстрации
-                const content = `Это демонстрационный файл для игры: ${gameName}\n\n`;
-                const blob = new Blob([content], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                
-                link.href = url;
-                link.download = filename;
-                
-                // Добавляем ссылку на страницу, кликаем и удаляем
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Освобождаем память
-                setTimeout(() => URL.revokeObjectURL(url), 100);
-                
-                // Показываем уведомление о скачивании
+                // Временное решение - показываем сообщение
                 this.showDownloadNotification(gameName, filename);
             },
             
             // Уведомление о скачивании
             showDownloadNotification(gameName, filename) {
-                alert(`🚀 Началось скачивание игры "${gameName}"\n\nФайл: ${filename}\n\nПосле скачивания распакуйте архив и запустите игру!`);
-                
-                // Можно добавить более красивое уведомление вместо alert
-                /*
-                const notification = document.createElement('div');
-                notification.className = 'download-notification';
-                notification.innerHTML = `
-                    ✅ Скачивание началось!<br>
-                    Файл: <strong>${filename}</strong>
-                `;
-                document.body.appendChild(notification);
-                setTimeout(() => notification.remove(), 5000);
-                */
+                alert(`🚀 Игра "${gameName}" скоро будет доступна!\n\nСледите за обновлениями на сайте.`);
             }
         };
 
-        // ===== МОДАЛЬНОЕ ОКНО СКАЧИВАНИЯ =====
+        // ===== ФУНКЦИЯ ДЛЯ КНОПОК "СКОРО" =====
+        function showComingSoon(gameName) {
+            alert(`🎮 Игра "${gameName}" находится в разработке!\n\nОна появится для скачивания в ближайшее время.\n\nСледите за обновлениями!`);
+        }
+
+        // ===== МОДАЛЬНОЕ ОКНО СКАЧИВАНИЯ (на будущее) =====
         function openDownloadModal(gameId) {
+            // Показываем простое сообщение вместо модального окна
             const game = GameDownloads.games[gameId];
-            if (!game) return;
-            
-            // Обновляем заголовок и описание
-            document.getElementById('modal-title').textContent = `Скачать: ${game.title}`;
-            document.getElementById('modal-description').innerHTML = `
-                <p>${game.description}</p>
-                <p><strong>Выберите версию для скачивания:</strong></p>
-            `;
-            
-            // Создаем опции загрузки
-            const optionsContainer = document.getElementById('download-options');
-            optionsContainer.innerHTML = '';
-            
-            game.downloads.forEach((download, index) => {
-                const option = document.createElement('div');
-                option.className = 'download-option';
-                
-                if (download.available) {
-                    option.innerHTML = `
-                        <div class="download-option-info">
-                            <h3>${download.name}</h3>
-                            <p>Размер: ${download.size} | Тип: ${download.type}</p>
-                        </div>
-                        <button class="download-btn" onclick="startDownload('${gameId}', ${index})" 
-                                style="width: auto; padding: 8px 15px;">
-                            ⬇️ Скачать
-                        </button>
-                    `;
-                } else {
-                    option.innerHTML = `
-                        <div class="download-option-info">
-                            <h3>${download.name}</h3>
-                            <p>Размер: ${download.size} | Тип: ${download.type}</p>
-                        </div>
-                        <button class="download-btn" disabled 
-                                style="width: auto; padding: 8px 15px; background-color: #6c757d;">
-                            ⏳ Скоро
-                        </button>
-                    `;
-                }
-                
-                optionsContainer.appendChild(option);
-            });
-            
-            // Показываем модальное окно
-            document.getElementById('download-modal').style.display = 'flex';
+            if (game) {
+                showComingSoon(game.title);
+            }
         }
         
         function closeDownloadModal() {
@@ -938,15 +865,10 @@
             if (download && download.available) {
                 GameDownloads.downloadFile(download.file, game.title);
                 closeDownloadModal();
+            } else {
+                showComingSoon(game.title);
             }
         }
-        
-        // Закрытие модального окна при клике вне его
-        document.getElementById('download-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeDownloadModal();
-            }
-        });
 
         // ===== СУЩЕСТВУЮЩИЙ КОД =====
         // Переменные для отслеживания состояния
@@ -1064,6 +986,17 @@
             /* Плавные переходы для всех элементов */
             * {
                 transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            }
+            
+            /* Анимация для кнопки "Скоро" */
+            @keyframes comingSoonPulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.8; }
+                100% { opacity: 1; }
+            }
+            
+            .download-btn {
+                animation: comingSoonPulse 2s infinite;
             }
         `;
         document.head.appendChild(style);
