@@ -23,6 +23,8 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <meta name="copyright" content="VelikiyGus © 2025. Все права защищены.">
     
     <style>
         /* ===== CSS ПЕРЕМЕННЫХ ДЛЯ ТЕМ ===== */
@@ -57,6 +59,8 @@
             --success-color: #28a745;
             --error-color: #dc3545;
             --warning-color: #ffc107;
+            --protection-overlay: rgba(255, 255, 255, 0.95);
+            --protection-text: #333333;
         }
 
         [data-theme="dark"] {
@@ -90,6 +94,8 @@
             --success-color: #2e7d32;
             --error-color: #c62828;
             --warning-color: #ffb300;
+            --protection-overlay: rgba(0, 0, 0, 0.95);
+            --protection-text: #ffffff;
         }
 
         /* ===== ОСНОВНЫЕ СТИЛИ ===== */
@@ -101,6 +107,122 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: default;
+        }
+
+        /* ===== ЗАЩИТА ОТ КОПИРОВАНИЯ ===== */
+        .protection-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--protection-overlay);
+            z-index: 999999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--protection-text);
+            text-align: center;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            animation: protectionFadeIn 0.3s ease;
+        }
+
+        .protection-content {
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 15px;
+            background: var(--bg-secondary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--accent-color);
+        }
+
+        .protection-content h1 {
+            margin-top: 0;
+            color: var(--accent-color);
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .protection-content p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .protection-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .protection-btn {
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 16px;
+        }
+
+        .protection-btn.primary {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .protection-btn.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .protection-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .copy-protection-watermark {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999998;
+            color: rgba(255, 0, 0, 0.05);
+            font-size: 14px;
+            font-weight: bold;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .encrypted-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .encrypted-text::after {
+            content: attr(data-real);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            color: transparent;
+            z-index: 1;
+        }
+
+        .encrypted-text::before {
+            content: attr(data-fake);
+            position: relative;
+            z-index: 2;
         }
 
         /* ===== ПАНЕЛЬ УПРАВЛЕНИЯ ===== */
@@ -209,6 +331,12 @@
             border: 3px solid var(--border-color);
             object-fit: cover;
             transition: border-color 0.3s ease;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
         }
         
         .site-title {
@@ -293,6 +421,12 @@
             border-radius: 8px;
             margin-bottom: 15px;
             border: 1px solid var(--border-color);
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
         }
         
         .game-card h2 {
@@ -783,6 +917,15 @@
             .notification-form {
                 padding: 15px;
             }
+            
+            .protection-content {
+                padding: 20px;
+                margin: 20px;
+            }
+            
+            .protection-buttons {
+                flex-direction: column;
+            }
         }
         
         /* Стили для защиты контента */
@@ -815,7 +958,7 @@
             user-select: none;
         }
         
-        /* Стили для сообщения о защите */
+        /* Стили для сообщения о защите исходного кода */
         .source-protection-message {
             position: fixed;
             top: 0;
@@ -832,7 +975,7 @@
             padding: 20px;
         }
         
-        .protection-content {
+        .source-protection-content {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 40px;
             border-radius: 15px;
@@ -846,12 +989,12 @@
             to { opacity: 1; transform: scale(1); }
         }
         
-        .protection-content h1 {
+        .source-protection-content h1 {
             margin-top: 0;
             font-size: 2.5em;
         }
         
-        .protection-content p {
+        .source-protection-content p {
             font-size: 1.2em;
             line-height: 1.6;
             margin: 20px 0;
@@ -878,7 +1021,7 @@
 <body class="protected-content">
     <!-- СООБЩЕНИЕ О ЗАЩИТЕ ИСХОДНОГО КОДА -->
     <div id="source-protection-message" class="source-protection-message">
-        <div class="protection-content">
+        <div class="source-protection-content">
             <h1>🛡️ Защищённый контент</h1>
             <p>Просмотр исходного кода этого сайта ограничен.</p>
             <p>Это сделано для защиты интеллектуальной собственности и предотвращения копирования контента.</p>
@@ -890,19 +1033,13 @@
     <!-- ВОДЯНОЙ ЗНАК -->
     <div class="site-watermark">© 2025 VelikiyGus | Protected</div>
     
-    <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (ТЕМА + ЯЗЫК + УВЕДОМЛЕНИЯ) -->
+    <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (ТЕМА + ЯЗЫК) -->
     <div class="control-panel">
         <button id="theme-toggle" class="control-button" data-tooltip="Сменить тему">
             🌙
         </button>
         <button id="language-toggle" class="control-button" data-tooltip="Сменить язык">
             🇷🇺
-        </button>
-        <button id="notification-toggle" class="control-button" data-tooltip="Подписаться на новости">
-            🔔
-        </button>
-        <button id="contact-toggle" class="control-button" data-tooltip="Связаться со мной">
-            📧
         </button>
     </div>
     
@@ -1023,7 +1160,7 @@
                 <span class="skill">Git & GitHub</span>
                 <span class="skill">Roblox Studio</span>
                 <span class="skill" id="web-dev-skill">Web Development</span>
-                <span class="skill">Email Notifications</span>
+                <span class="skill">Защита контента</span>
             </div>
         </div>
         
@@ -1261,14 +1398,256 @@
     <footer>
         <p>© 2025 VelikiyGus проекты | <span id="rights-text">Все права защищены</span></p>
         <p><small id="footer-note">Подпишитесь на уведомления, чтобы первыми узнать о выходе игр!</small></p>
-        <p><small id="security-status">🛡️ Система защиты активирована | Уведомления: <span id="subscribers-footer">0 подписчиков</span></small></p>
-        <p><small>
-            <a href="#" onclick="showNotifications()" style="color: var(--accent-color); margin-right: 15px;">🔔 Подписаться на новости</a>
-            <a href="#" onclick="showContact()" style="color: var(--accent-color);">📧 Написать разработчику</a>
-        </small></p>
     </footer>
     
     <script>
+        // ===== ЗАЩИТА ОТ КОПИРОВАНИЯ КОНТЕНТА =====
+        const CopyProtection = {
+            init() {
+                this.disableCopy();
+                this.disableRightClick();
+                this.disableTextSelection();
+                this.addWatermarks();
+                this.disableDrag();
+                this.obfuscateText();
+                this.preventPrinting();
+                this.detectScreenshot();
+                this.detectExtensions();
+            },
+            
+            disableCopy() {
+                // Блокировка клавиш копирования
+                document.addEventListener('keydown', (e) => {
+                    // Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+A
+                    if ((e.ctrlKey || e.metaKey) && 
+                        (e.key === 'c' || e.key === 'x' || e.key === 'v' || e.key === 'a' || e.key === 'C' || e.key === 'X' || e.key === 'V' || e.key === 'A')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.showCopyWarning('Копирование контента запрещено');
+                        return false;
+                    }
+                    
+                    // Print Screen
+                    if (e.key === 'PrintScreen' || e.keyCode === 44) {
+                        e.preventDefault();
+                        this.showCopyWarning('Создание скриншотов запрещено');
+                        return false;
+                    }
+                }, true);
+                
+                // Блокировка контекстного меню
+                document.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.showCopyWarning('Контекстное меню отключено для защиты контента');
+                    return false;
+                }, true);
+                
+                // Блокировка выделения текста
+                document.addEventListener('selectstart', (e) => {
+                    e.preventDefault();
+                    return false;
+                }, true);
+                
+                // Блокировка перетаскивания
+                document.addEventListener('dragstart', (e) => {
+                    e.preventDefault();
+                    return false;
+                }, true);
+            },
+            
+            disableRightClick() {
+                let rightClickCount = 0;
+                let lastRightClick = 0;
+                
+                document.addEventListener('contextmenu', (e) => {
+                    const now = Date.now();
+                    
+                    if (now - lastRightClick < 1000) {
+                        rightClickCount++;
+                    } else {
+                        rightClickCount = 1;
+                    }
+                    
+                    lastRightClick = now;
+                    
+                    if (rightClickCount >= 2) {
+                        e.preventDefault();
+                        this.showCopyWarning('Многократный клик правой кнопкой мыши заблокирован');
+                        rightClickCount = 0;
+                    }
+                }, true);
+            },
+            
+            disableTextSelection() {
+                // Добавляем CSS для блокировки выделения
+                const style = document.createElement('style');
+                style.textContent = `
+                    * {
+                        -webkit-user-select: none !important;
+                        -moz-user-select: none !important;
+                        -ms-user-select: none !important;
+                        user-select: none !important;
+                        -webkit-touch-callout: none !important;
+                        -webkit-tap-highlight-color: transparent !important;
+                    }
+                    
+                    input, textarea, [contenteditable="true"] {
+                        -webkit-user-select: text !important;
+                        -moz-user-select: text !important;
+                        -ms-user-select: text !important;
+                        user-select: text !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            },
+            
+            addWatermarks() {
+                // Создаем водяные знаки поверх контента
+                const watermarks = [
+                    'VelikiyGus © 2025',
+                    'Защищено от копирования',
+                    'Контент защищен',
+                    'Авторские права'
+                ];
+                
+                for (let i = 0; i < 20; i++) {
+                    const watermark = document.createElement('div');
+                    watermark.className = 'copy-protection-watermark';
+                    watermark.textContent = watermarks[Math.floor(Math.random() * watermarks.length)];
+                    watermark.style.top = Math.random() * 100 + 'vh';
+                    watermark.style.left = Math.random() * 100 + 'vw';
+                    watermark.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+                    watermark.style.opacity = 0.03 + Math.random() * 0.02;
+                    document.body.appendChild(watermark);
+                }
+            },
+            
+            disableDrag() {
+                // Блокируем перетаскивание изображений
+                document.querySelectorAll('img').forEach(img => {
+                    img.setAttribute('draggable', 'false');
+                    img.style.pointerEvents = 'none';
+                });
+            },
+            
+            obfuscateText() {
+                // Добавляем защиту для важного текста
+                setTimeout(() => {
+                    const importantTexts = document.querySelectorAll('h1, h2, h3, .game-card h2, .about-title');
+                    importantTexts.forEach(element => {
+                        const realText = element.textContent;
+                        const fakeText = this.generateFakeText(realText.length);
+                        
+                        const span = document.createElement('span');
+                        span.className = 'encrypted-text';
+                        span.setAttribute('data-real', realText);
+                        span.setAttribute('data-fake', fakeText);
+                        
+                        element.innerHTML = '';
+                        element.appendChild(span);
+                    });
+                }, 1000);
+            },
+            
+            generateFakeText(length) {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                for (let i = 0; i < length; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            },
+            
+            preventPrinting() {
+                // Блокировка печати
+                window.addEventListener('beforeprint', (e) => {
+                    e.preventDefault();
+                    this.showCopyWarning('Печать этой страницы запрещена');
+                    return false;
+                });
+                
+                // Блокировка CTRL+P
+                document.addEventListener('keydown', (e) => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                        e.preventDefault();
+                        this.showCopyWarning('Печать контента запрещена');
+                        return false;
+                    }
+                }, true);
+            },
+            
+            detectScreenshot() {
+                // Обнаружение изменения размеров окна (может указывать на скриншот)
+                let lastWidth = window.innerWidth;
+                let lastHeight = window.innerHeight;
+                
+                window.addEventListener('resize', () => {
+                    const widthChange = Math.abs(window.innerWidth - lastWidth);
+                    const heightChange = Math.abs(window.innerHeight - lastHeight);
+                    
+                    if (widthChange > 100 || heightChange > 100) {
+                        this.showCopyWarning('Обнаружена подозрительная активность');
+                    }
+                    
+                    lastWidth = window.innerWidth;
+                    lastHeight = window.innerHeight;
+                });
+            },
+            
+            detectExtensions() {
+                // Обнаружение расширений для скриншотов
+                setTimeout(() => {
+                    const extensions = [
+                        'lightshot',
+                        'nimbus',
+                        'awesomescreenshot',
+                        'fireshot'
+                    ];
+                    
+                    // Проверяем наличие известных классов расширений
+                    extensions.forEach(ext => {
+                        if (document.querySelector(`.${ext}`) || 
+                            document.querySelector(`[class*="${ext}"]`) ||
+                            document.querySelector(`[id*="${ext}"]`)) {
+                            this.showCopyWarning('Расширение для скриншотов обнаружено');
+                        }
+                    });
+                }, 3000);
+            },
+            
+            showCopyWarning(message) {
+                // Создаем overlay для предупреждения
+                const overlay = document.createElement('div');
+                overlay.className = 'protection-overlay';
+                overlay.innerHTML = `
+                    <div class="protection-content">
+                        <h1>⚠️ Защита контента</h1>
+                        <p>${message}</p>
+                        <p>Контент этого сайта защищен авторскими правами.</p>
+                        <p>Копирование, скриншоты и распространение запрещены.</p>
+                        <div class="protection-buttons">
+                            <button class="protection-btn primary" onclick="this.parentElement.parentElement.parentElement.remove()">
+                                Понятно
+                            </button>
+                            <button class="protection-btn secondary" onclick="showContact()">
+                                Связаться с автором
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                // Автоматически удаляем через 10 секунд
+                setTimeout(() => {
+                    if (overlay.parentNode) {
+                        overlay.remove();
+                    }
+                }, 10000);
+            }
+        };
+
         // ===== ЗАЩИТА ОТ ПРОСМОТРА ИСХОДНОГО КОДА (CTRL+U) =====
         const SourceCodeProtection = {
             init() {
@@ -1284,6 +1663,8 @@
                     { key: 'i', ctrl: true, shift: true },
                     { key: 'j', ctrl: true, shift: true },
                     { key: 'F12', keyCode: 123 },
+                    { key: 'F2', keyCode: 113 },
+                    { key: 'F7', keyCode: 118 },
                 ];
                 
                 document.addEventListener('keydown', (e) => {
@@ -1303,7 +1684,7 @@
                         }
                     }
                     
-                    if (e.keyCode === 123) {
+                    if (e.keyCode === 123) { // F12
                         e.preventDefault();
                         e.stopPropagation();
                         this.showProtectionMessage();
@@ -1335,7 +1716,7 @@
                     
                     lastRightClick = now;
                     
-                    if (rightClickCount > 3) {
+                    if (rightClickCount > 2) {
                         e.preventDefault();
                         this.showProtectionMessage();
                         rightClickCount = 0;
@@ -1350,11 +1731,32 @@
                     
                     if (widthThreshold || heightThreshold) {
                         this.showProtectionMessage();
+                        // Пытаемся закрыть DevTools
+                        window.location.hash = 'no-open';
+                        setInterval(() => {
+                            window.location.hash = 'no-open-' + Math.random();
+                        }, 1000);
                     }
                 };
                 
                 setInterval(checkDevTools, 500);
                 window.addEventListener('resize', checkDevTools);
+                
+                // Защита от отладки
+                const debuggerProtection = () => {
+                    setInterval(() => {
+                        (function() {
+                            return false;
+                        }
+                        ['constructor']('debugger')['call']());
+                    }, 1000);
+                };
+                
+                try {
+                    debuggerProtection();
+                } catch (e) {
+                    // Игнорируем ошибки
+                }
             },
             
             detectViewSource() {
@@ -1536,13 +1938,8 @@
             
             updateSubscriberCount() {
                 const countEl = document.getElementById('subscribers-count');
-                const footerEl = document.getElementById('subscribers-footer');
-                
                 if (countEl) {
                     countEl.textContent = this.totalSubscribers;
-                }
-                if (footerEl) {
-                    footerEl.textContent = `${this.totalSubscribers} подписчиков`;
                 }
             },
             
@@ -1701,9 +2098,6 @@
                     // Футер
                     rightsText: 'Все права защищены',
                     footerNote: 'Подпишитесь на уведомления, чтобы первыми узнать о выходе игр!',
-                    securityStatus: '🛡️ Система защиты активирована | Уведомления: ',
-                    contactDeveloper: '📧 Написать разработчику',
-                    subscribeNews: '🔔 Подписаться на новости',
                     
                     // Уведомления
                     comingSoon: '🎮 Игра "{game}" находится в разработке!\n\nОна появится для скачивания в ближайшее время.\n\nСледите за обновлениями!'
@@ -1784,9 +2178,6 @@
                     // Footer
                     rightsText: 'All rights reserved',
                     footerNote: 'Subscribe to notifications to be the first to know about game releases!',
-                    securityStatus: '🛡️ Security system activated | Notifications: ',
-                    contactDeveloper: '📧 Contact developer',
-                    subscribeNews: '🔔 Subscribe to news',
                     
                     // Notifications
                     comingSoon: '🎮 Game "{game}" is in development!\n\nIt will be available for download soon.\n\nStay tuned for updates!'
@@ -1846,8 +2237,6 @@
                 
                 document.getElementById('theme-toggle').setAttribute('data-tooltip', lang.themeTooltip);
                 document.getElementById('language-toggle').setAttribute('data-tooltip', lang.languageTooltip);
-                document.getElementById('notification-toggle').setAttribute('data-tooltip', lang.notificationTooltip);
-                document.getElementById('contact-toggle').setAttribute('data-tooltip', lang.contactTooltip);
                 
                 const aboutBtn = document.getElementById('about-btn');
                 const projectsBtn = document.getElementById('projects-btn');
@@ -1917,15 +2306,6 @@
                 
                 document.getElementById('rights-text').textContent = lang.rightsText;
                 document.getElementById('footer-note').textContent = lang.footerNote;
-                document.getElementById('security-status').innerHTML = lang.securityStatus;
-                
-                const footerLinks = document.querySelector('footer p:last-child small');
-                if (footerLinks) {
-                    footerLinks.innerHTML = `
-                        <a href="#" onclick="showNotifications()" style="color: var(--accent-color); margin-right: 15px;">${lang.subscribeNews}</a>
-                        <a href="#" onclick="showContact()" style="color: var(--accent-color);">${lang.contactDeveloper}</a>
-                    `;
-                }
                 
                 const languageIcon = this.currentLanguage === 'ru' ? '🇷🇺' : '🇺🇸';
                 document.getElementById('language-toggle').innerHTML = languageIcon;
@@ -2252,6 +2632,7 @@
             Localization.init();
             ThemeManager.init();
             SourceCodeProtection.init();
+            CopyProtection.init();
             EmailNotifications.init();
             
             // Показываем предложение подписаться через 5 секунд
