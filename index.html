@@ -617,9 +617,79 @@
             font-family: monospace;
             user-select: none;
         }
+        
+        /* Стили для сообщения о защите */
+        .source-protection-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .protection-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            animation: protectionFadeIn 0.5s ease;
+            box-shadow: 0 0 50px rgba(102, 126, 234, 0.8);
+        }
+        
+        @keyframes protectionFadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .protection-content h1 {
+            margin-top: 0;
+            font-size: 2.5em;
+        }
+        
+        .protection-content p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        .close-protection {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .close-protection:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
 <body class="protected-content">
+    <!-- СООБЩЕНИЕ О ЗАЩИТЕ ИСХОДНОГО КОДА -->
+    <div id="source-protection-message" class="source-protection-message">
+        <div class="protection-content">
+            <h1>🛡️ Защищённый контент</h1>
+            <p>Просмотр исходного кода этого сайта ограничен.</p>
+            <p>Это сделано для защиты интеллектуальной собственности и предотвращения копирования контента.</p>
+            <p>Если вы разработчик и хотите узнать больше о технологиях, использованных на сайте, свяжитесь с нами.</p>
+            <button class="close-protection" onclick="closeProtectionMessage()">Понятно, вернуться на сайт</button>
+        </div>
+    </div>
+    
     <!-- ВОДЯНОЙ ЗНАК -->
     <div class="site-watermark">© 2025 VelikiyGus | Protected</div>
     
@@ -800,10 +870,232 @@
     <footer>
         <p>© 2025 VelikiyGus проекты | <span id="rights-text">Все права защищены</span></p>
         <p><small id="footer-note">Игры скоро появятся для скачивания!</small></p>
-        <p><small id="security-status">🛡️ Система защиты активирована</small></p>
+        <p><small id="security-status">🛡️ Система защиты активирована | Просмотр исходного кода ограничен</small></p>
     </footer>
     
     <script>
+        // ===== ЗАЩИТА ОТ ПРОСМОТРА ИСХОДНОГО КОДА (CTRL+U) =====
+        const SourceCodeProtection = {
+            init() {
+                this.blockKeyboardShortcuts();
+                this.blockRightClick();
+                this.blockDeveloperTools();
+                this.detectViewSource();
+                this.log('source_protection_init', 'Защита исходного кода активирована');
+            },
+            
+            blockKeyboardShortcuts() {
+                // Блокируем CTRL+U, CTRL+SHIFT+I, F12 и др.
+                const blockedCombinations = [
+                    { key: 'u', ctrl: true },  // CTRL+U
+                    { key: 'i', ctrl: true, shift: true }, // CTRL+SHIFT+I
+                    { key: 'j', ctrl: true, shift: true }, // CTRL+SHIFT+J
+                    { key: 'F12', keyCode: 123 }, // F12
+                    { key: 'F11', keyCode: 122 }, // F11 (fullscreen может мешать)
+                    { key: 'F10', keyCode: 121 }, // F10
+                    { key: 's', ctrl: true }, // CTRL+S (сохранение страницы)
+                    { key: 'p', ctrl: true }, // CTRL+P (печать)
+                    { key: 'c', ctrl: true, shift: true }, // CTRL+SHIFT+C
+                ];
+                
+                document.addEventListener('keydown', (e) => {
+                    // Проверяем все комбинации
+                    for (const combo of blockedCombinations) {
+                        const keyMatch = combo.keyCode ? 
+                            e.keyCode === combo.keyCode : 
+                            e.key.toLowerCase() === combo.key.toLowerCase();
+                        
+                        const ctrlMatch = combo.ctrl ? e.ctrlKey || e.metaKey : true;
+                        const shiftMatch = combo.shift ? e.shiftKey : true;
+                        
+                        if (keyMatch && ctrlMatch && shiftMatch) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.showProtectionMessage();
+                            this.log('keyboard_shortcut_blocked', {
+                                key: e.key,
+                                ctrl: e.ctrlKey,
+                                shift: e.shiftKey,
+                                alt: e.altKey,
+                                meta: e.metaKey
+                            });
+                            return false;
+                        }
+                    }
+                    
+                    // Дополнительная защита от F12 (даже без CTRL)
+                    if (e.keyCode === 123) { // F12
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.showProtectionMessage();
+                        return false;
+                    }
+                    
+                    // Защита от меню разработчика через CTRL+SHIFT+C/I/J
+                    if (e.ctrlKey && e.shiftKey && ['c', 'i', 'j'].includes(e.key.toLowerCase())) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.showProtectionMessage();
+                        return false;
+                    }
+                }, true);
+                
+                // Блокируем контекстное меню (правый клик)
+                document.addEventListener('contextmenu', (e) => {
+                    // Разрешаем правый клик на обычных элементах, но блокируем на странице
+                    if (e.target.tagName === 'HTML' || e.target.tagName === 'BODY') {
+                        e.preventDefault();
+                        this.log('context_menu_blocked_on_body', { target: e.target.tagName });
+                        this.showProtectionMessage();
+                        return false;
+                    }
+                }, true);
+            },
+            
+            blockRightClick() {
+                // Дополнительная защита от инспектирования через правый клик
+                let rightClickCount = 0;
+                let lastRightClick = 0;
+                
+                document.addEventListener('contextmenu', (e) => {
+                    const now = Date.now();
+                    
+                    // Если много правых кликов за короткое время
+                    if (now - lastRightClick < 1000) {
+                        rightClickCount++;
+                    } else {
+                        rightClickCount = 1;
+                    }
+                    
+                    lastRightClick = now;
+                    
+                    // Если больше 3 правых кликов за 2 секунды - показываем сообщение
+                    if (rightClickCount > 3) {
+                        e.preventDefault();
+                        this.showProtectionMessage();
+                        this.log('rapid_right_clicks', { count: rightClickCount });
+                        rightClickCount = 0;
+                    }
+                }, true);
+            },
+            
+            blockDeveloperTools() {
+                // Обнаружение открытия DevTools через изменение размеров
+                const checkDevTools = () => {
+                    const widthThreshold = window.outerWidth - window.innerWidth > 160;
+                    const heightThreshold = window.outerHeight - window.innerHeight > 160;
+                    
+                    if (widthThreshold || heightThreshold) {
+                        this.showProtectionMessage();
+                        this.log('devtools_detected_by_size', {
+                            outerWidth: window.outerWidth,
+                            innerWidth: window.innerWidth,
+                            outerHeight: window.outerHeight,
+                            innerHeight: window.innerHeight
+                        });
+                    }
+                };
+                
+                // Проверяем каждые 500мс
+                setInterval(checkDevTools, 500);
+                
+                // Также проверяем при изменении размера
+                window.addEventListener('resize', checkDevTools);
+                
+                // Детектор через debugger
+                const debuggerCheck = () => {
+                    const start = performance.now();
+                    debugger;
+                    const end = performance.now();
+                    
+                    if (end - start > 100) {
+                        this.log('devtools_detected_by_debugger', { responseTime: end - start });
+                    }
+                };
+                
+                setInterval(debuggerCheck, 10000);
+            },
+            
+            detectViewSource() {
+                // Попытка детектирования открытия исходного кода через другие методы
+                const originalOpen = window.open;
+                window.open = function(...args) {
+                    // Если пытаются открыть view-source:
+                    if (args[0] && args[0].toString().includes('view-source:')) {
+                        SourceCodeProtection.log('view_source_attempt', { url: args[0] });
+                        SourceCodeProtection.showProtectionMessage();
+                        return null;
+                    }
+                    return originalOpen.apply(this, args);
+                };
+                
+                // Защита от открытия через data: URLs
+                Object.defineProperty(document, 'location', {
+                    get() {
+                        return window.location;
+                    },
+                    set(value) {
+                        if (value && value.toString().includes('view-source:')) {
+                            SourceCodeProtection.log('location_view_source_attempt', { value });
+                            SourceCodeProtection.showProtectionMessage();
+                            return;
+                        }
+                        window.location = value;
+                    }
+                });
+            },
+            
+            showProtectionMessage() {
+                if (!window.actionLimiter.canPerform('show_protection_message', 3, 60000)) {
+                    return; // Не показываем слишком часто
+                }
+                
+                const message = document.getElementById('source-protection-message');
+                if (message) {
+                    message.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Автоматическое скрытие через 30 секунд
+                    setTimeout(() => {
+                        this.closeProtectionMessage();
+                    }, 30000);
+                    
+                    this.log('protection_message_shown', { timestamp: new Date().toISOString() });
+                }
+            },
+            
+            closeProtectionMessage() {
+                const message = document.getElementById('source-protection-message');
+                if (message) {
+                    message.style.display = 'none';
+                    document.body.style.overflow = '';
+                    this.log('protection_message_closed');
+                }
+            },
+            
+            log(event, details = {}) {
+                const logEntry = {
+                    timestamp: new Date().toISOString(),
+                    event: `source_protection_${event}`,
+                    details,
+                    userAgent: navigator.userAgent.substring(0, 50)
+                };
+                
+                // Сохраняем в sessionStorage
+                const logs = JSON.parse(sessionStorage.getItem('source_protection_logs') || '[]');
+                logs.unshift(logEntry);
+                if (logs.length > 50) logs.pop();
+                sessionStorage.setItem('source_protection_logs', JSON.stringify(logs));
+                
+                // Передаём в основную систему безопасности
+                if (window.SecuritySystem && window.SecuritySystem.log) {
+                    window.SecuritySystem.log(event, details);
+                }
+                
+                console.warn('🛡️ Source Protection:', event, details);
+            }
+        };
+
         // ===== СИСТЕМА БЕЗОПАСНОСТИ =====
         const SecuritySystem = {
             init() {
@@ -811,6 +1103,9 @@
                 this.setupRateLimiting();
                 this.setupSecurityMonitoring();
                 this.log('system_init', 'Система безопасности инициализирована');
+                
+                // Инициализация защиты исходного кода
+                SourceCodeProtection.init();
                 
                 console.log('🛡️ Система безопасности активирована');
             },
@@ -885,25 +1180,6 @@
             },
             
             setupSecurityMonitoring() {
-                // Детектор DevTools (базовый)
-                const checkDevTools = () => {
-                    const threshold = 160;
-                    const start = performance.now();
-                    debugger;
-                    const diff = performance.now() - start;
-                    
-                    if (diff > threshold) {
-                        this.log('devtools_detected', {
-                            responseTime: diff,
-                            suspicious: diff > 200
-                        });
-                    }
-                };
-                
-                // Проверяем каждые 10 секунд
-                setInterval(checkDevTools, 10000);
-                checkDevTools(); // Первая проверка
-                
                 // Мониторинг изменений DOM
                 const observer = new MutationObserver((mutations) => {
                     mutations.forEach(mutation => {
@@ -1091,7 +1367,7 @@
                     // Футер
                     rightsText: 'Все права защищены',
                     footerNote: 'Игры скоро появятся для скачивания!',
-                    securityStatus: '🛡️ Система защиты активирована',
+                    securityStatus: '🛡️ Система защиты активирована | Просмотр исходного кода ограничен',
                     
                     // Уведомления
                     comingSoon: '🎮 Игра "{game}" находится в разработке!\n\nОна появится для скачивания в ближайшее время.\n\nСледите за обновлениями!'
@@ -1160,7 +1436,7 @@
                     // Footer
                     rightsText: 'All rights reserved',
                     footerNote: 'Games will be available for download soon!',
-                    securityStatus: '🛡️ Security system activated',
+                    securityStatus: '🛡️ Security system activated | Source code viewing restricted',
                     
                     // Notifications
                     comingSoon: '🎮 Game "{game}" is in development!\n\nIt will be available for download soon.\n\nStay tuned for updates!'
@@ -1442,6 +1718,11 @@
             }
         }
 
+        // Глобальная функция для закрытия сообщения о защите
+        function closeProtectionMessage() {
+            SourceCodeProtection.closeProtectionMessage();
+        }
+
         // Анимации
         const style = document.createElement('style');
         style.textContent = `
@@ -1519,6 +1800,9 @@
             Object.freeze(Localization);
             Object.freeze(ThemeManager);
             Object.freeze(SecuritySystem);
+            Object.freeze(SourceCodeProtection);
+            
+            console.log('🚀 VelikiyGus - Все системы защиты активированы');
         });
     </script>
 </body>
