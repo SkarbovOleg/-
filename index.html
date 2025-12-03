@@ -8,6 +8,21 @@
     <!-- ШАГ 1: Добавляем favicon (иконка вкладки) -->
     <link rel="icon" href="https://img.icons8.com/color/96/000000/duck.png">
     
+    <!-- ЗАЩИТНЫЕ META-ТЕГИ -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self';
+                   script-src 'self' 'unsafe-inline';
+                   style-src 'self' 'unsafe-inline';
+                   img-src 'self' https: data:;
+                   font-src 'self';
+                   frame-ancestors 'none';
+                   base-uri 'self'">
+    
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
     <style>
         /* ===== CSS ПЕРЕМЕННЫХ ДЛЯ ТЕМ ===== */
         :root {
@@ -572,9 +587,42 @@
                 padding: 20px;
             }
         }
+        
+        /* Стили для защиты контента */
+        .protected-content {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        .protected-content img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+        }
+        
+        /* Водяной знак */
+        .site-watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            opacity: 0.1;
+            color: var(--text-secondary);
+            font-size: 10px;
+            pointer-events: none;
+            z-index: 9999;
+            font-family: monospace;
+            user-select: none;
+        }
     </style>
 </head>
-<body>
+<body class="protected-content">
+    <!-- ВОДЯНОЙ ЗНАК -->
+    <div class="site-watermark">© 2025 VelikiyGus | Protected</div>
+    
     <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (ТЕМА + ЯЗЫК) -->
     <div class="control-panel">
         <button id="theme-toggle" class="control-button" data-tooltip="Сменить тему">
@@ -712,7 +760,7 @@
                 <p><strong id="game1-features-title">Особенности:</strong> <span id="game1-features">Выбор класса, большая карта, PvP сражения</span></p>
                 
                 <!-- КНОПКА СКАЧИВАНИЯ -->
-                <button class="download-btn" onclick="showComingSoon('civil-war')">
+                <button class="download-btn" onclick="SecuritySystem.showComingSoon('civil-war')">
                     ⏳ <span id="game1-button">Скоро будет доступно</span>
                 </button>
             </div>
@@ -727,7 +775,7 @@
                 <p><strong id="game2-features-title">Особенности:</strong> <span id="game2-features">Платформер, головоломки, боссы, сбор предметов</span></p>
                 
                 <!-- КНОПКА СКАЧИВАНИЯ - ТЕПЕРЬ "Скоро будет доступно" -->
-                <button class="download-btn" onclick="showComingSoon('save-alice')">
+                <button class="download-btn" onclick="SecuritySystem.showComingSoon('save-alice')">
                     ⏳ <span id="game2-button">Скоро будет доступно</span>
                 </button>
             </div>
@@ -742,7 +790,7 @@
                 <p><strong id="game3-features-title">Особенности:</strong> <span id="game3-features">Секретно, инновации, экшен</span></p>
                 
                 <!-- КНОПКА СКАЧИВАНИЯ -->
-                <button class="download-btn" onclick="showComingSoon('Секретный проект')">
+                <button class="download-btn" onclick="SecuritySystem.showComingSoon('Секретный проект')">
                     🔒 <span id="game3-button">Скоро будет доступно</span>
                 </button>
             </div>
@@ -752,9 +800,229 @@
     <footer>
         <p>© 2025 VelikiyGus проекты | <span id="rights-text">Все права защищены</span></p>
         <p><small id="footer-note">Игры скоро появятся для скачивания!</small></p>
+        <p><small id="security-status">🛡️ Система защиты активирована</small></p>
     </footer>
     
     <script>
+        // ===== СИСТЕМА БЕЗОПАСНОСТИ =====
+        const SecuritySystem = {
+            init() {
+                this.setupEventListeners();
+                this.setupRateLimiting();
+                this.setupSecurityMonitoring();
+                this.log('system_init', 'Система безопасности инициализирована');
+                
+                console.log('🛡️ Система безопасности активирована');
+            },
+            
+            setupEventListeners() {
+                // Защита от быстрых кликов (автоматизация)
+                let lastClick = 0;
+                document.addEventListener('click', (e) => {
+                    const now = Date.now();
+                    if (now - lastClick < 100) {
+                        this.log('rapid_clicks', {
+                            target: e.target.tagName,
+                            timeBetween: now - lastClick
+                        });
+                        e.preventDefault();
+                        return;
+                    }
+                    lastClick = now;
+                });
+                
+                // Защита от контекстного меню
+                document.addEventListener('contextmenu', (e) => {
+                    if (e.target.closest('.game-card') || e.target.closest('.site-description')) {
+                        e.preventDefault();
+                        this.log('context_menu_blocked', {
+                            element: e.target.tagName
+                        });
+                        this.showWarning('Защищённый контент');
+                    }
+                });
+                
+                // Защита от копирования
+                document.addEventListener('copy', (e) => {
+                    if (e.target.closest('.game-card') || e.target.closest('.site-description')) {
+                        e.preventDefault();
+                        this.log('copy_attempt', {
+                            text: window.getSelection().toString().substring(0, 50)
+                        });
+                        this.showWarning('Копирование защищённого контента запрещено');
+                    }
+                });
+            },
+            
+            setupRateLimiting() {
+                // Ограничение на частоту действий
+                window.actionLimiter = {
+                    actions: {},
+                    canPerform(action, limit = 10, interval = 60000) {
+                        const now = Date.now();
+                        if (!this.actions[action]) this.actions[action] = [];
+                        
+                        this.actions[action] = this.actions[action].filter(
+                            time => now - time < interval
+                        );
+                        
+                        if (this.actions[action].length < limit) {
+                            this.actions[action].push(now);
+                            return true;
+                        }
+                        return false;
+                    }
+                };
+                
+                // Проверка всех кликов
+                document.addEventListener('click', (e) => {
+                    if (!window.actionLimiter.canPerform('click', 30, 10000)) {
+                        e.preventDefault();
+                        this.log('rate_limit_exceeded', { action: 'click' });
+                        this.showWarning('Слишком много действий! Подождите немного.');
+                    }
+                });
+            },
+            
+            setupSecurityMonitoring() {
+                // Детектор DevTools (базовый)
+                const checkDevTools = () => {
+                    const threshold = 160;
+                    const start = performance.now();
+                    debugger;
+                    const diff = performance.now() - start;
+                    
+                    if (diff > threshold) {
+                        this.log('devtools_detected', {
+                            responseTime: diff,
+                            suspicious: diff > 200
+                        });
+                    }
+                };
+                
+                // Проверяем каждые 10 секунд
+                setInterval(checkDevTools, 10000);
+                checkDevTools(); // Первая проверка
+                
+                // Мониторинг изменений DOM
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach(mutation => {
+                        if (mutation.type === 'childList' && mutation.addedNodes.length > 5) {
+                            this.log('dom_manipulation', {
+                                nodesAdded: mutation.addedNodes.length,
+                                target: mutation.target.tagName
+                            });
+                        }
+                    });
+                });
+                
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                    attributes: false
+                });
+            },
+            
+            showComingSoon(gameName) {
+                if (!window.actionLimiter.canPerform('show_coming_soon', 5, 60000)) {
+                    this.showWarning('Слишком много запросов! Подождите минуту.');
+                    return;
+                }
+                
+                const message = Localization.getText('comingSoon', { game: gameName });
+                alert(message);
+                this.log('coming_soon_shown', { game: gameName });
+            },
+            
+            sanitizeInput(text) {
+                if (typeof text !== 'string') return text;
+                return text
+                    .replace(/[<>]/g, '')
+                    .replace(/javascript:/gi, '')
+                    .replace(/on\w+=/gi, '')
+                    .trim()
+                    .substring(0, 1000);
+            },
+            
+            log(event, details = {}) {
+                const logEntry = {
+                    id: Date.now() + Math.random(),
+                    timestamp: new Date().toISOString(),
+                    event,
+                    details,
+                    userAgent: navigator.userAgent.substring(0, 100),
+                    path: window.location.pathname
+                };
+                
+                // Сохраняем в sessionStorage (только 20 последних записей)
+                const logs = JSON.parse(sessionStorage.getItem('security_logs') || '[]');
+                logs.unshift(logEntry);
+                if (logs.length > 20) logs.pop();
+                sessionStorage.setItem('security_logs', JSON.stringify(logs));
+                
+                // Для отладки
+                if (event.includes('suspicious') || event.includes('detected')) {
+                    console.warn('🔒 Security Event:', event, details);
+                }
+            },
+            
+            showWarning(message) {
+                const warning = document.createElement('div');
+                warning.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: var(--bg-secondary);
+                        border: 2px solid #ffc107;
+                        padding: 15px;
+                        border-radius: 10px;
+                        z-index: 10000;
+                        box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+                        text-align: center;
+                        max-width: 350px;
+                        width: 90%;
+                    ">
+                        <h4 style="color: #ffc107; margin-top: 0;">⚠️ Внимание</h4>
+                        <p style="margin: 10px 0; font-size: 14px;">${message}</p>
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            background: #ffc107;
+                            color: #333;
+                            border: none;
+                            padding: 8px 16px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            font-weight: bold;
+                            margin-top: 10px;
+                        ">
+                            OK
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(warning);
+                
+                // Автоматическое удаление через 3 секунды
+                setTimeout(() => {
+                    if (warning.parentElement) {
+                        warning.remove();
+                    }
+                }, 3000);
+            },
+            
+            // Защита от автоматизации
+            detectAutomation() {
+                let mouseMoved = false;
+                document.addEventListener('mousemove', () => mouseMoved = true);
+                
+                setTimeout(() => {
+                    if (!mouseMoved && performance.timing.loadEventEnd > 0) {
+                        this.log('no_mouse_movement', { suspicious: true });
+                    }
+                }, 5000);
+            }
+        };
+
         // ===== ЛОКАЛИЗАЦИЯ =====
         const Localization = {
             currentLanguage: 'ru',
@@ -823,6 +1091,7 @@
                     // Футер
                     rightsText: 'Все права защищены',
                     footerNote: 'Игры скоро появятся для скачивания!',
+                    securityStatus: '🛡️ Система защиты активирована',
                     
                     // Уведомления
                     comingSoon: '🎮 Игра "{game}" находится в разработке!\n\nОна появится для скачивания в ближайшее время.\n\nСледите за обновлениями!'
@@ -891,6 +1160,7 @@
                     // Footer
                     rightsText: 'All rights reserved',
                     footerNote: 'Games will be available for download soon!',
+                    securityStatus: '🛡️ Security system activated',
                     
                     // Notifications
                     comingSoon: '🎮 Game "{game}" is in development!\n\nIt will be available for download soon.\n\nStay tuned for updates!'
@@ -911,7 +1181,6 @@
             },
             
             bindEvents() {
-                // Кнопка переключения языка
                 const languageToggle = document.getElementById('language-toggle');
                 if (languageToggle) {
                     languageToggle.addEventListener('click', () => {
@@ -919,7 +1188,6 @@
                     });
                 }
                 
-                // Закрытие селектора при клике вне его
                 document.addEventListener('click', (e) => {
                     const selector = document.getElementById('language-selector');
                     const toggle = document.getElementById('language-toggle');
@@ -937,26 +1205,25 @@
                     this.updateLanguage();
                     document.getElementById('language-selector').classList.remove('show');
                     
-                    // Обновляем активный пункт в селекторе
                     document.querySelectorAll('.language-option').forEach(option => {
                         option.classList.remove('active');
                     });
                     event.target.classList.add('active');
+                    
+                    // Логируем смену языка
+                    SecuritySystem.log('language_changed', { from: this.currentLanguage, to: lang });
                 }
             },
             
             updateLanguage() {
                 const lang = this.translations[this.currentLanguage];
                 
-                // Обновляем title страницы
                 document.title = lang.pageTitle;
                 document.getElementById('page-title').textContent = lang.pageTitle;
                 
-                // Обновляем tooltips
                 document.getElementById('theme-toggle').setAttribute('data-tooltip', lang.themeTooltip);
                 document.getElementById('language-toggle').setAttribute('data-tooltip', lang.languageTooltip);
                 
-                // Обновляем текст кнопок навигации
                 const aboutBtn = document.getElementById('about-btn');
                 const projectsBtn = document.getElementById('projects-btn');
                 
@@ -967,13 +1234,11 @@
                     projectsBtn.innerHTML = lang.projectsButton;
                 }
                 
-                // Обновляем описание сайта
                 document.getElementById('intro-text').innerHTML = lang.intro;
                 document.getElementById('description-text').innerHTML = lang.description;
                 document.getElementById('social-text').innerHTML = lang.socialMention;
                 document.getElementById('download-notice-text').innerHTML = lang.downloadNotice;
                 
-                // Обновляем секцию "О разработчике"
                 document.getElementById('about-title').innerHTML = lang.aboutTitle;
                 document.getElementById('about-description').textContent = lang.aboutDescription;
                 document.getElementById('specialization-title').textContent = lang.specializationTitle;
@@ -986,12 +1251,10 @@
                 document.getElementById('contacts-text').innerHTML = lang.contactsText;
                 document.getElementById('skills-title').innerHTML = lang.skillsTitle;
                 
-                // Обновляем навыки
                 document.getElementById('game-dev-skill').textContent = lang.gameDevSkill;
                 document.getElementById('2d-graphics-skill').textContent = lang.graphics2dSkill;
                 document.getElementById('web-dev-skill').textContent = lang.webDevSkill;
                 
-                // Обновляем игры
                 document.getElementById('game1-title').textContent = lang.game1Title;
                 document.getElementById('game1-status').textContent = lang.game1Status;
                 document.getElementById('game1-description').textContent = lang.game1Description;
@@ -1013,15 +1276,13 @@
                 document.getElementById('game3-features').textContent = lang.game3Features;
                 document.getElementById('game3-button').textContent = lang.game3Button;
                 
-                // Обновляем футер
                 document.getElementById('rights-text').textContent = lang.rightsText;
                 document.getElementById('footer-note').textContent = lang.footerNote;
+                document.getElementById('security-status').textContent = lang.securityStatus;
                 
-                // Обновляем иконку языка
                 const languageIcon = this.currentLanguage === 'ru' ? '🇷🇺' : '🇺🇸';
                 document.getElementById('language-toggle').innerHTML = languageIcon;
                 
-                // Обновляем селектор языка
                 document.querySelectorAll('.language-option').forEach(option => {
                     option.classList.remove('active');
                     if (option.textContent.includes(languageIcon)) {
@@ -1034,7 +1295,6 @@
                 let text = this.translations[this.currentLanguage][key];
                 if (!text) return key;
                 
-                // Заменяем параметры в тексте
                 Object.keys(params).forEach(param => {
                     text = text.replace(`{${param}}`, params[param]);
                 });
@@ -1082,6 +1342,9 @@
                     
                     this.themeToggle.setAttribute('data-tooltip', tooltipText);
                 }
+                
+                // Логируем смену темы
+                SecuritySystem.log('theme_changed', { theme });
             },
             
             bindEvents() {
@@ -1093,7 +1356,6 @@
                     });
                 }
                 
-                // Отслеживаем изменения системной темы
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
                     if (!localStorage.getItem('theme')) {
                         this.applyTheme(e.matches ? 'dark' : 'light');
@@ -1102,88 +1364,59 @@
             }
         };
 
-        // ===== ФУНКЦИЯ ДЛЯ КНОПОК "СКОРО" =====
-        function showComingSoon(gameName) {
-            const message = Localization.getText('comingSoon', { game: gameName });
-            alert(message);
-        }
-
-        // ===== МОДАЛЬНОЕ ОКНО СКАЧИВАНИЯ (на будущее) =====
-        function openDownloadModal(gameId) {
-            // Показываем простое сообщение вместо модального окна
-            showComingSoon(gameId);
-        }
-        
-        function closeDownloadModal() {
-            document.getElementById('download-modal').style.display = 'none';
-        }
-
         // ===== СУЩЕСТВУЮЩИЙ КОД =====
-        // Переменные для отслеживания состояния
         let aboutVisible = false;
         let projectsVisible = false;
         
-        // Функция для кнопки "О разработчике"
         function showAbout() {
             const aboutSection = document.getElementById('about-section');
             const gameList = document.getElementById('game-list');
             
             if (!aboutVisible) {
-                // Показываем "О разработчике"
                 aboutSection.classList.add('show');
                 aboutVisible = true;
                 
-                // Скрываем проекты если они открыты
                 if (projectsVisible) {
                     gameList.classList.remove('show');
                     projectsVisible = false;
                 }
                 
-                // Плавная прокрутка к секции
                 aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 
-                // Изменяем текст кнопки
                 const lang = Localization.currentLanguage === 'ru' ? '👤 Скрыть информацию' : '👤 Hide Info';
                 event.target.textContent = lang;
+                
+                SecuritySystem.log('section_opened', { section: 'about' });
             } else {
-                // Скрываем "О разработчике"
                 aboutSection.classList.remove('show');
                 aboutVisible = false;
                 
-                // Возвращаем текст кнопки
                 const lang = Localization.currentLanguage === 'ru' ? '👤 О разработчике' : '👤 About Developer';
                 event.target.textContent = lang;
             }
         }
         
-        // Функция для кнопки "Мои проекты"
         function showProjects() {
             const gameList = document.getElementById('game-list');
             const aboutSection = document.getElementById('about-section');
             
             if (!projectsVisible) {
-                // Показываем проекты
                 gameList.classList.add('show');
                 projectsVisible = true;
                 
-                // Скрываем "О разработчике" если открыто
                 if (aboutVisible) {
                     aboutSection.classList.remove('show');
                     aboutVisible = false;
                     
-                    // Возвращаем текст кнопки "О разработчике"
                     const lang = Localization.currentLanguage === 'ru' ? '👤 О разработчике' : '👤 About Developer';
                     document.querySelectorAll('.nav-button')[0].textContent = lang;
                 }
                 
-                // Плавная прокрутка к играм
                 gameList.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 
-                // Изменяем текст кнопки
                 const lang = Localization.currentLanguage === 'ru' ? '🚀 Скрыть проекты' : '🚀 Hide Projects';
                 event.target.textContent = lang;
                 
-                // Анимация появления карточек
                 setTimeout(() => {
                     const cards = document.querySelectorAll('.game-card');
                     cards.forEach((card, index) => {
@@ -1198,12 +1431,12 @@
                     });
                 }, 300);
                 
+                SecuritySystem.log('section_opened', { section: 'projects' });
+                
             } else {
-                // Скрываем проекты
                 gameList.classList.remove('show');
                 projectsVisible = false;
                 
-                // Возвращаем текст кнопки
                 const lang = Localization.currentLanguage === 'ru' ? '🚀 Мои проекты' : '🚀 My Projects';
                 event.target.textContent = lang;
             }
@@ -1224,6 +1457,17 @@
                 100% { transform: scale(1); }
             }
             
+            @keyframes comingSoonPulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.8; }
+                100% { opacity: 1; }
+            }
+            
+            @keyframes languageChange {
+                0% { opacity: 0.5; transform: scale(0.95); }
+                100% { opacity: 1; transform: scale(1); }
+            }
+            
             .game-card:hover {
                 animation: pulse 1.5s infinite;
             }
@@ -1236,30 +1480,16 @@
                 animation: gentlePulse 2s infinite;
             }
             
-            /* Плавные переходы для всех элементов */
-            * {
-                transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-            }
-            
-            /* Анимация для кнопки "Скоро" */
-            @keyframes comingSoonPulse {
-                0% { opacity: 1; }
-                50% { opacity: 0.8; }
-                100% { opacity: 1; }
-            }
-            
             .download-btn {
                 animation: comingSoonPulse 2s infinite;
             }
             
-            /* Анимация смены языка */
-            @keyframes languageChange {
-                0% { opacity: 0.5; transform: scale(0.95); }
-                100% { opacity: 1; transform: scale(1); }
-            }
-            
             .language-change {
                 animation: languageChange 0.3s ease;
+            }
+            
+            * {
+                transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             }
         `;
         document.head.appendChild(style);
@@ -1279,11 +1509,16 @@
                 document.querySelector('.site-description').style.opacity = '1';
             }, 300);
             
-            // Инициализация локализации
+            // Инициализация систем
             Localization.init();
-            
-            // Инициализация темы
             ThemeManager.init();
+            SecuritySystem.init();
+            SecuritySystem.detectAutomation();
+            
+            // Защита от перехвата событий
+            Object.freeze(Localization);
+            Object.freeze(ThemeManager);
+            Object.freeze(SecuritySystem);
         });
     </script>
 </body>
