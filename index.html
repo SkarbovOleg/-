@@ -496,7 +496,7 @@
             color: var(--status-in-progress-text);
         }
 
-        /* ===== КОНТАКТНАЯ ФОРМА ===== */
+        /* ===== КОНТАКТНАЯ СЕКЦИЯ (ТОЛЬКО ПРЯМАЯ ССЫЛКА) ===== */
         .contact-section {
             display: none;
             background: var(--bg-secondary);
@@ -509,6 +509,7 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            text-align: center;
         }
         
         .contact-section.show {
@@ -523,80 +524,11 @@
             text-align: center;
         }
         
-        .contact-form {
-            background: var(--contact-form-bg);
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid var(--contact-form-border);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--text-primary);
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-            font-family: inherit;
-        }
-        
-        .submit-btn {
-            background: var(--submit-btn);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .submit-btn:hover {
-            background: var(--submit-btn-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-        }
-        
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-        
         .simple-email-link {
             display: inline-block;
             background: var(--accent-gradient);
             color: white;
-            padding: 15px 30px;
+            padding: 20px 40px;
             border-radius: 25px;
             text-decoration: none;
             font-weight: bold;
@@ -612,18 +544,38 @@
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
         }
         
-        .contact-option {
+        .contact-info {
             background: var(--bg-tertiary);
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin: 20px 0;
             border-left: 4px solid var(--accent-color);
+            text-align: left;
+        }
+        
+        .contact-info h3 {
+            margin-top: 0;
+            color: var(--text-primary);
             text-align: center;
         }
         
-        .contact-option h3 {
-            margin-top: 0;
-            color: var(--text-primary);
+        .contact-info ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .contact-info li {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .response-time {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 14px;
         }
 
         /* ===== ФОРМА УВЕДОМЛЕНИЙ ===== */
@@ -931,6 +883,10 @@
             animation: comingSoonPulse 2s infinite;
         }
         
+        .simple-email-link {
+            animation: gentlePulse 2s infinite ease-in-out;
+        }
+        
         * {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
@@ -972,7 +928,6 @@
                 padding: 20px;
             }
             
-            .contact-form,
             .notification-form {
                 padding: 15px;
             }
@@ -1264,71 +1219,34 @@
             </div>
         </div>
         
-        <!-- СЕКЦИЯ КОНТАКТНОЙ ФОРМЫ -->
+        <!-- СЕКЦИЯ КОНТАКТНОЙ ФОРМЫ (ТОЛЬКО ПРЯМАЯ ССЫЛКА НА EMAIL) -->
         <div id="contact-section" class="contact-section">
             <h2 id="contact-title" class="contact-title">📧 Написать мне</h2>
             
             <div class="highlight">
                 <p><strong>Есть вопросы или предложения?</strong><br>
-                Напишите мне напрямую на почту!</p>
+                Нажмите на кнопку ниже, чтобы написать мне напрямую на почту!</p>
             </div>
             
-            <form id="contact-form" class="contact-form" action="https://formspree.io/f/mqavwwbz" method="POST">
-                <div id="contact-message" class="form-message"></div>
-                
-                <div class="form-group">
-                    <label for="contact-name">👤 Ваше имя:</label>
-                    <input type="text" id="contact-name" name="name" class="form-control" 
-                           placeholder="Как к вам обращаться?" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="contact-email">📧 Ваш email:</label>
-                    <input type="email" id="contact-email" name="email" class="form-control" 
-                           placeholder="ваш-email@example.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="contact-subject">📝 Тема сообщения:</label>
-                    <select id="contact-subject" name="subject" class="form-control" required>
-                        <option value="">Выберите тему</option>
-                        <option value="Вопрос по игре">Вопрос по игре</option>
-                        <option value="Предложение о сотрудничестве">Предложение о сотрудничестве</option>
-                        <option value="Сообщение об ошибке">Сообщение об ошибке</option>
-                        <option value="Идея для игры">Идея для игры</option>
-                        <option value="Другое">Другое</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="contact-message">✏️ Ваше сообщение:</label>
-                    <textarea id="contact-message" name="message" class="form-control" 
-                              placeholder="Напишите ваше сообщение здесь..." required></textarea>
-                </div>
-                
-                <input type="hidden" name="_subject" value="Сообщение с сайта VelikiyGus">
-                
-                <button type="submit" class="submit-btn">
-                    📤 Отправить сообщение
-                </button>
-            </form>
+            <!-- ПРОСТАЯ КНОПКА С ССЫЛКОЙ НА EMAIL -->
+            <a href="mailto:velikiygusofficial@gmail.com?subject=Сообщение с сайта VelikiyGus&body=Здравствуйте! Я пишу вам с сайта VelikiyGus."
+               class="simple-email-link">
+                ✉️ Написать на почту
+            </a>
             
-            <div class="contact-option">
-                <h3>Вариант 2: Прямая ссылка</h3>
-                <p>Нажмите на кнопку ниже, чтобы написать мне:</p>
-                <a href="mailto:velikiygusofficial@gmail.com?subject=Сообщение с сайта VelikiyGus&body=Здравствуйте! Я пишу вам с сайта VelikiyGus."
-                   class="simple-email-link">
-                    ✉️ Написать на почту
-                </a>
-                <p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
-                    Откроется ваша почтовая программа
-                </p>
+            <div class="contact-info">
+                <h3>📋 Как это работает:</h3>
+                <ul>
+                    <li>Нажмите на кнопку выше</li>
+                    <li>Откроется ваша почтовая программа</li>
+                    <li>Напишите ваше сообщение</li>
+                    <li>Отправьте письмо</li>
+                </ul>
             </div>
             
-            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
-                <p style="color: var(--text-secondary);">
-                    ⚠️ Обычно отвечаю в течение 1-2 рабочих дней
-                </p>
+            <div class="response-time">
+                <p>⚠️ Обычно отвечаю в течение 1-2 рабочих дней</p>
+                <p><small>Если письмо не дошло, попробуйте подписаться на уведомления через соответствующую форму</small></p>
             </div>
         </div>
     </section>
@@ -1394,13 +1312,6 @@
                         this.applyTheme(newTheme);
                     });
                 }
-                
-                // УБИРАЕМ слушатель системной темы - он вызывает автоматическую смену темы
-                // window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                //     if (!localStorage.getItem('velikiygus_theme')) {
-                //         this.applyTheme(e.matches ? 'dark' : 'light');
-                //     }
-                // });
             }
         }
 
@@ -1739,13 +1650,7 @@
                     });
                 }
                 
-                const contactForm = document.getElementById('contact-form');
-                if (contactForm) {
-                    contactForm.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        this.handleContactSubmit(e.target);
-                    });
-                }
+                // Убрана обработка сложной контактной формы
             }
             
             bindGameButtons() {
@@ -1813,33 +1718,6 @@
                     this.showMessage('notification-message', 'error', 
                         currentLanguage === 'ru' ? 'Произошла ошибка. Пожалуйста, попробуйте еще раз или напишите на почту напрямую.' :
                         'An error occurred. Please try again or email directly.');
-                });
-            }
-            
-            handleContactSubmit(form) {
-                const formData = new FormData(form);
-                
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        this.showMessage('contact-message', 'success', 
-                            currentLanguage === 'ru' ? '📬 Сообщение отправлено! Я отвечу вам в ближайшее время.' :
-                            '📬 Message sent! I will reply as soon as possible.');
-                        form.reset();
-                    } else {
-                        throw new Error('Ошибка отправки');
-                    }
-                })
-                .catch(error => {
-                    this.showMessage('contact-message', 'error', 
-                        currentLanguage === 'ru' ? 'Произошла ошибка отправки. Пожалуйста, напишите на почту напрямую.' :
-                        'Sending error. Please email directly.');
                 });
             }
             
