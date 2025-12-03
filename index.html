@@ -9,6 +9,120 @@
     <link rel="icon" href="https://img.icons8.com/color/96/000000/duck.png">
     
     <style>
+        /* ===== CSS ПЕРЕМЕННЫХ ДЛЯ ТЕМ ===== */
+        :root {
+            /* Светлая тема (по умолчанию) */
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f8f9fa;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-tertiary: #495057;
+            --accent-color: #667eea;
+            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --border-color: #dee2e6;
+            --card-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            --card-shadow-hover: 0 5px 15px rgba(0,0,0,0.15);
+            --status-in-progress: #fff3cd;
+            --status-in-progress-text: #856404;
+            --status-released: #d4edda;
+            --status-released-text: #155724;
+            --highlight-bg: #fff3cd;
+            --highlight-border: #ffc107;
+            --download-notice-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            --social-bg: #f8f9fa;
+            --skill-bg: #e9ecef;
+            --skill-text: #495057;
+        }
+
+        [data-theme="dark"] {
+            /* Тёмная тема */
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #2d2d2d;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --text-tertiary: #ced4da;
+            --accent-color: #8a99ff;
+            --accent-gradient: linear-gradient(135deg, #8a99ff 0%, #a567c4 100%);
+            --border-color: #495057;
+            --card-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            --card-shadow-hover: 0 5px 15px rgba(0,0,0,0.5);
+            --status-in-progress: #332701;
+            --status-in-progress-text: #ffd54f;
+            --status-released: #0d2a1c;
+            --status-released-text: #4caf50;
+            --highlight-bg: #332701;
+            --highlight-border: #ffb300;
+            --download-notice-gradient: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+            --social-bg: #2d2d2d;
+            --skill-bg: #495057;
+            --skill-text: #e9ecef;
+        }
+
+        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* ===== КНОПКА ТЁМНОЙ ТЕМЫ ===== */
+        .theme-toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--accent-gradient);
+            color: white;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-toggle:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* Дополнительные стили для аватарки */
         .header-with-avatar {
             display: flex;
@@ -21,17 +135,19 @@
             width: 80px;
             height: 80px;
             border-radius: 10px;
-            border: 3px solid #333;
+            border: 3px solid var(--border-color);
             object-fit: cover;
+            transition: border-color 0.3s ease;
         }
         
         .site-title {
             margin: 0;
+            color: var(--text-primary);
         }
         
         .site-subtitle {
             margin: 5px 0 0 0;
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.9em;
         }
         
@@ -44,7 +160,7 @@
         }
         
         .nav-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--accent-gradient);
             color: white;
             border: none;
             padding: 12px 25px;
@@ -67,7 +183,7 @@
         
         /* Стили для карточек игр - ИЗНАЧАЛЬНО СКРЫТЫ */
         .game-list {
-            display: none; /* Изначально скрываем игры */
+            display: none;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-top: 20px;
@@ -75,7 +191,7 @@
         }
         
         .game-list.show {
-            display: grid; /* Показываем когда нужно */
+            display: grid;
         }
         
         @keyframes fadeIn {
@@ -84,17 +200,18 @@
         }
         
         .game-card {
-            background: white;
+            background: var(--bg-secondary);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            border: 1px solid var(--border-color);
         }
         
         .game-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            box-shadow: var(--card-shadow-hover);
         }
         
         .game-card img {
@@ -103,37 +220,39 @@
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 15px;
+            border: 1px solid var(--border-color);
         }
         
         .game-card h2 {
             margin: 0 0 10px 0;
-            color: #333;
+            color: var(--text-primary);
         }
         
         .game-card p {
             margin: 0;
-            color: #666;
+            color: var(--text-secondary);
             line-height: 1.5;
         }
         
         /* Стили для секции "О разработчике" - ИЗНАЧАЛЬНО СКРЫТА */
         .about-section {
-            display: none; /* Изначально скрыта */
-            background: white;
+            display: none;
+            background: var(--bg-secondary);
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--card-shadow);
             animation: fadeIn 0.8s ease;
+            border: 1px solid var(--border-color);
         }
         
         .about-section.show {
-            display: block; /* Показываем когда нужно */
+            display: block;
         }
         
         .about-title {
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
             padding-bottom: 10px;
             margin-bottom: 25px;
         }
@@ -146,15 +265,19 @@
         }
         
         .about-item {
-            background: #f8f9fa;
+            background: var(--bg-tertiary);
             padding: 20px;
             border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid var(--accent-color);
         }
         
         .about-item h3 {
             margin-top: 0;
-            color: #333;
+            color: var(--text-primary);
+        }
+        
+        .about-item p {
+            color: var(--text-secondary);
         }
         
         .skills-list {
@@ -165,48 +288,51 @@
         }
         
         .skill {
-            background: #e9ecef;
+            background: var(--skill-bg);
             padding: 8px 15px;
             border-radius: 20px;
             font-size: 14px;
-            color: #495057;
+            color: var(--skill-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         .highlight {
-            background: #fff3cd;
+            background: var(--highlight-bg);
             padding: 15px;
             border-radius: 10px;
             margin: 20px 0;
-            border-left: 4px solid #ffc107;
+            border-left: 4px solid var(--highlight-border);
+            color: var(--text-primary);
         }
         
         /* Стили для описания сайта */
         .site-description {
-            background: white;
+            background: var(--bg-secondary);
             padding: 30px;
             border-radius: 12px;
             margin: 30px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            border-left: 5px solid #667eea;
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--accent-color);
             text-align: center;
+            border: 1px solid var(--border-color);
         }
         
         .site-description p {
             font-size: 1.1em;
             line-height: 1.6;
-            color: #555;
+            color: var(--text-secondary);
             margin-bottom: 15px;
         }
         
         .site-description .intro {
             font-size: 1.2em;
             font-weight: bold;
-            color: #667eea;
+            color: var(--accent-color);
             margin-bottom: 25px;
         }
         
         .download-notice {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: var(--download-notice-gradient);
             color: white;
             padding: 18px;
             border-radius: 10px;
@@ -218,13 +344,13 @@
         }
         
         .social-mention {
-            background: #f8f9fa;
+            background: var(--social-bg);
             padding: 15px;
             border-radius: 8px;
             margin: 15px 0;
-            border-left: 4px solid #ffc107;
+            border-left: 4px solid var(--highlight-border);
             font-style: italic;
-            color: #666;
+            color: var(--text-secondary);
         }
         
         /* Стили для футера */
@@ -232,17 +358,8 @@
             text-align: center;
             margin-top: 50px;
             padding: 20px;
-            color: #888;
-            border-top: 1px solid #eee;
-        }
-        
-        /* Общие стили */
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f9fa;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
         }
         
         .content {
@@ -260,21 +377,41 @@
         }
         
         .status-in-progress {
-            background: #fff3cd;
-            color: #856404;
+            background: var(--status-in-progress);
+            color: var(--status-in-progress-text);
         }
         
         .status-released {
-            background: #d4edda;
-            color: #155724;
+            background: var(--status-released);
+            color: var(--status-released-text);
+        }
+
+        /* Адаптивность кнопки темы */
+        @media (max-width: 768px) {
+            .theme-toggle-container {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .theme-toggle {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ТЕМЫ -->
+    <div class="theme-toggle-container">
+        <button id="theme-toggle" class="theme-toggle" data-tooltip="Сменить тему">
+            🌙
+        </button>
+    </div>
+    
     <header>
         <!-- ШАПКА С АВАТАРКОЙ -->
         <div class="header-with-avatar">
-            <!-- Аватарка (можно заменить на свою) -->
             <img src="https://robohash.org/velikiygus?size=80x80&bgset=bg1" 
                  alt="Аватар VelikiyGus" 
                  class="site-avatar">
@@ -349,7 +486,7 @@
                 </div>
             </div>
             
-            <h3>🛠️ Технические навыки:</h3>
+            <h3 style="color: var(--text-primary);">🛠️ Технические навыки:</h3>
             <div class="skills-list">
                 <span class="skill">HTML5/CSS3</span>
                 <span class="skill">JavaScript</span>
@@ -391,6 +528,62 @@
     </footer>
     
     <script>
+        // ===== УПРАВЛЕНИЕ ТЁМНОЙ ТЕМОЙ =====
+        const ThemeManager = {
+            init() {
+                this.themeToggle = document.getElementById('theme-toggle');
+                this.setInitialTheme();
+                this.bindEvents();
+            },
+            
+            setInitialTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                let theme = 'light';
+                if (savedTheme) {
+                    theme = savedTheme;
+                } else if (systemPrefersDark) {
+                    theme = 'dark';
+                }
+                
+                this.applyTheme(theme);
+            },
+            
+            applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                if (this.themeToggle) {
+                    if (theme === 'dark') {
+                        this.themeToggle.innerHTML = '☀️';
+                        this.themeToggle.setAttribute('data-tooltip', 'Светлая тема');
+                    } else {
+                        this.themeToggle.innerHTML = '🌙';
+                        this.themeToggle.setAttribute('data-tooltip', 'Тёмная тема');
+                    }
+                }
+            },
+            
+            bindEvents() {
+                if (this.themeToggle) {
+                    this.themeToggle.addEventListener('click', () => {
+                        const currentTheme = document.documentElement.getAttribute('data-theme');
+                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                        this.applyTheme(newTheme);
+                    });
+                }
+                
+                // Отслеживаем изменения системной темы
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                    if (!localStorage.getItem('theme')) {
+                        this.applyTheme(e.matches ? 'dark' : 'light');
+                    }
+                });
+            }
+        };
+
+        // ===== СУЩЕСТВУЮЩИЙ КОД =====
         // Переменные для отслеживания состояния
         let aboutVisible = false;
         let projectsVisible = false;
@@ -538,18 +731,15 @@
             
             // Показываем модальное окно с информацией
             alert(gameInfo);
-            
-            // Можно добавить логику для перехода на страницу игры
-            // window.location.href = `game-${gameId}.html`;
         }
         
         // Добавляем анимацию пульсации
         const style = document.createElement('style');
         style.textContent = `
             @keyframes pulse {
-                0% { transform: scale(1); box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+                0% { transform: scale(1); }
                 50% { transform: scale(1.02); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
-                100% { transform: scale(1); box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+                100% { transform: scale(1); }
             }
             
             @keyframes gentlePulse {
@@ -569,6 +759,11 @@
             .intro {
                 animation: gentlePulse 2s infinite;
             }
+            
+            /* Плавные переходы для всех элементов */
+            * {
+                transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            }
         `;
         document.head.appendChild(style);
         
@@ -586,6 +781,9 @@
                 document.querySelector('.site-description').style.transition = 'all 0.8s ease 0.3s';
                 document.querySelector('.site-description').style.opacity = '1';
             }, 300);
+            
+            // Инициализация темы
+            ThemeManager.init();
         });
     </script>
 </body>
