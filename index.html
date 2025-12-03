@@ -481,83 +481,6 @@
             color: var(--status-in-progress-text);
         }
 
-        /* Модальное окно для скачивания (оставляем на будущее) */
-        .download-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1001;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .download-modal-content {
-            background: var(--bg-secondary);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: modalFadeIn 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-        
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        .download-modal h2 {
-            color: var(--accent-color);
-            margin-top: 0;
-        }
-        
-        .download-options {
-            display: grid;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .download-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: var(--bg-tertiary);
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .download-option-info h3 {
-            margin: 0 0 5px 0;
-            color: var(--text-primary);
-        }
-        
-        .download-option-info p {
-            margin: 0;
-            color: var(--text-secondary);
-            font-size: 0.9em;
-        }
-        
-        .close-modal {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            float: right;
-            margin-top: 20px;
-        }
-        
-        .close-modal:hover {
-            background: #c82333;
-        }
-
         /* ===== СТИЛИ ДЛЯ КОНТАКТНОЙ ФОРМЫ ===== */
         .contact-section {
             display: none;
@@ -654,77 +577,38 @@
             transform: translateY(0);
         }
         
-        .submit-btn:disabled {
-            background: #6c757d;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .form-status {
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-align: center;
+        .simple-email-link {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
             font-weight: bold;
-            display: none;
-        }
-        
-        .form-status.success {
-            background: rgba(40, 167, 69, 0.1);
-            border: 2px solid #28a745;
-            color: #28a745;
-            display: block;
-        }
-        
-        .form-status.error {
-            background: rgba(220, 53, 69, 0.1);
-            border: 2px solid #dc3545;
-            color: #dc3545;
-            display: block;
-        }
-        
-        .form-status.sending {
-            background: rgba(255, 193, 7, 0.1);
-            border: 2px solid #ffc107;
-            color: #ffc107;
-            display: block;
-        }
-        
-        .captcha-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .captcha-text {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 5px;
-            padding: 5px 15px;
-            background: var(--bg-primary);
-            border-radius: 5px;
-            user-select: none;
-            min-width: 140px;
-            text-align: center;
-        }
-        
-        .captcha-refresh {
-            background: none;
-            border: none;
-            color: var(--accent-color);
-            cursor: pointer;
             font-size: 18px;
-            transition: transform 0.3s ease;
+            text-align: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         
-        .captcha-refresh:hover {
-            transform: rotate(90deg);
+        .simple-email-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .contact-option {
+            background: var(--bg-tertiary);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+            text-align: center;
+        }
+        
+        .contact-option h3 {
+            margin-top: 0;
+            color: var(--text-primary);
         }
 
         /* Адаптивность */
@@ -759,27 +643,12 @@
                 grid-template-columns: 1fr;
             }
             
-            .download-modal-content {
-                width: 95%;
-                padding: 20px;
-            }
-            
             .contact-section {
                 padding: 20px;
             }
             
             .contact-form {
                 padding: 15px;
-            }
-            
-            .captcha-container {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-            
-            .captcha-text {
-                min-width: auto;
             }
         }
         
@@ -911,20 +780,6 @@
         </div>
     </div>
     
-    <!-- МОДАЛЬНОЕ ОКНО СКАЧИВАНИЯ (оставляем на будущее) -->
-    <div id="download-modal" class="download-modal">
-        <div class="download-modal-content">
-            <h2 id="modal-title">Скачать игру</h2>
-            <div id="modal-description"></div>
-            
-            <div class="download-options" id="download-options">
-                <!-- Опции загрузки будут добавлены через JavaScript -->
-            </div>
-            
-            <button class="close-modal" onclick="closeDownloadModal()">Закрыть</button>
-        </div>
-    </div>
-    
     <header>
         <!-- ШАПКА С АВАТАРКОЙ -->
         <div class="header-with-avatar">
@@ -1000,7 +855,7 @@
                 
                 <div class="about-item">
                     <h3>📧 <span id="contacts-title">Контакты</span></h3>
-                    <p id="contacts-text">GitHub: <strong>skarbovoleg</strong></p>
+                    <p id="contacts-text">Напишите мне на почту</p>
                 </div>
             </div>
             
@@ -1029,7 +884,7 @@
                 <p><strong id="game1-features-title">Особенности:</strong> <span id="game1-features">Выбор класса, большая карта, PvP сражения</span></p>
                 
                 <!-- КНОПКА СКАЧИВАНИЯ -->
-                <button class="download-btn" onclick="SecuritySystem.showComingSoon('civil-war')">
+                <button class="download-btn" onclick="showComingSoon('civil-war')">
                     ⏳ <span id="game1-button">Скоро будет доступно</span>
                 </button>
             </div>
@@ -1044,7 +899,7 @@
                 <p><strong id="game2-features-title">Особенности:</strong> <span id="game2-features">Платформер, головоломки, боссы, сбор предметов</span></p>
                 
                 <!-- КНОПКА СКАЧИВАНИЯ - ТЕПЕРЬ "Скоро будет доступно" -->
-                <button class="download-btn" onclick="SecuritySystem.showComingSoon('save-alice')">
+                <button class="download-btn" onclick="showComingSoon('save-alice')">
                     ⏳ <span id="game2-button">Скоро будет доступно</span>
                 </button>
             </div>
@@ -1059,64 +914,62 @@
                 <p><strong id="game3-features-title">Особенности:</strong> <span id="game3-features">Секретно, инновации, экшен</span></p>
                 
                 <!-- КНОПКА СКАЧИВАНИЯ -->
-                <button class="download-btn" onclick="SecuritySystem.showComingSoon('Секретный проект')">
+                <button class="download-btn" onclick="showComingSoon('Секретный проект')">
                     🔒 <span id="game3-button">Скоро будет доступно</span>
                 </button>
             </div>
         </div>
         
-        <!-- СЕКЦИЯ КОНТАКТНОЙ ФОРМЫ (скрыта изначально) -->
+        <!-- СЕКЦИЯ КОНТАКТНОЙ ФОРМЫ (скрыта изначально) - УПРОЩЕННАЯ ВЕРСИЯ -->
         <div id="contact-section" class="contact-section">
             <h2 id="contact-title" class="contact-title">📧 Написать мне</h2>
             
             <div class="highlight">
                 <p><strong>Есть вопросы или предложения?</strong><br>
-                Заполните форму ниже, я отвечу на ваше письмо!</p>
+                Напишите мне напрямую на почту!</p>
             </div>
             
-            <div id="form-status" class="form-status"></div>
+            <div class="contact-option">
+                <h3>Вариант 1: Прямая ссылка</h3>
+                <p>Нажмите на кнопку ниже, чтобы написать мне:</p>
+                <a href="mailto:velikiygusofficial@gmail.com?subject=Сообщение с сайта VelikiyGus&body=Здравствуйте! Я пишу вам с сайта VelikiyGus."
+                   class="simple-email-link">
+                    ✉️ Написать на почту
+                </a>
+                <p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
+                    Откроется ваша почтовая программа
+                </p>
+            </div>
             
-            <form id="contact-form" class="contact-form" method="POST" onsubmit="return ContactForm.handleSubmit(event)">
-                <!-- Скрытые поля для FormSubmit -->
-                <input type="hidden" name="_subject" value="Новое сообщение с сайта VelikiyGus">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_next" value="">
-                <input type="hidden" name="_autoresponse" value="Спасибо за ваше сообщение! Я свяжусь с вами в ближайшее время. - VelikiyGus">
-                
-                <div class="form-group">
-                    <label for="email">Ваш email:</label>
-                    <input type="email" id="email" name="email" class="form-control" 
-                           placeholder="example@mail.com" required>
+            <div class="contact-option">
+                <h3>Вариант 2: Скопировать email</h3>
+                <div style="background: var(--bg-tertiary); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <p style="margin: 0; font-size: 18px; font-weight: bold; color: var(--accent-color);">
+                        velikiygusofficial@gmail.com
+                    </p>
                 </div>
-                
-                <div class="form-group">
-                    <label for="message">Сообщение:</label>
-                    <textarea id="message" name="message" class="form-control" 
-                              placeholder="Напишите ваше сообщение здесь..." 
-                              required minlength="10" maxlength="1000"></textarea>
-                </div>
-                
-                <!-- Простая капча -->
-                <div class="captcha-container">
-                    <div class="captcha-text" id="captcha-text"></div>
-                    <button type="button" class="captcha-refresh" onclick="ContactForm.refreshCaptcha()">
-                        🔄
-                    </button>
-                    <input type="text" id="captcha" name="captcha" class="form-control" 
-                           placeholder="Введите код" required maxlength="6" autocomplete="off">
-                </div>
-                
-                <div class="form-group">
-                    <button type="submit" class="submit-btn" id="submit-btn">
-                        <span id="submit-text">Отправить сообщение</span>
-                        <span id="submit-loader" style="display: none;">⌛</span>
-                    </button>
-                </div>
-                
-                <div class="form-disclaimer" style="font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 20px;">
-                    ⚠️ Я отвечаю в течение 1-2 рабочих дней
-                </div>
-            </form>
+                <button onclick="copyEmail()" style="
+                    background: var(--accent-color);
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    margin-top: 10px;
+                ">
+                    📋 Скопировать email
+                </button>
+                <p id="copy-message" style="margin-top: 10px; font-size: 14px; color: #28a745; display: none;">
+                    ✓ Email скопирован!
+                </p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                <p style="color: var(--text-secondary);">
+                    ⚠️ Обычно отвечаю в течение 1-2 рабочих дней
+                </p>
+            </div>
         </div>
     </section>
     
@@ -1135,7 +988,6 @@
                 this.blockRightClick();
                 this.blockDeveloperTools();
                 this.detectViewSource();
-                this.log('source_protection_init', 'Защита исходного кода активирована');
             },
             
             blockKeyboardShortcuts() {
@@ -1221,7 +1073,6 @@
                 const originalOpen = window.open;
                 window.open = function(...args) {
                     if (args[0] && args[0].toString().includes('view-source:')) {
-                        SourceCodeProtection.log('view_source_attempt', { url: args[0] });
                         SourceCodeProtection.showProtectionMessage();
                         return null;
                     }
@@ -1230,10 +1081,6 @@
             },
             
             showProtectionMessage() {
-                if (!window.actionLimiter.canPerform('show_protection_message', 3, 60000)) {
-                    return;
-                }
-                
                 const message = document.getElementById('source-protection-message');
                 if (message) {
                     message.style.display = 'flex';
@@ -1251,275 +1098,25 @@
                     message.style.display = 'none';
                     document.body.style.overflow = '';
                 }
-            },
-            
-            log(event, details = {}) {
-                const logEntry = {
-                    timestamp: new Date().toISOString(),
-                    event: `source_protection_${event}`,
-                    details,
-                    userAgent: navigator.userAgent.substring(0, 50)
-                };
-                
-                const logs = JSON.parse(sessionStorage.getItem('source_protection_logs') || '[]');
-                logs.unshift(logEntry);
-                if (logs.length > 50) logs.pop();
-                sessionStorage.setItem('source_protection_logs', JSON.stringify(logs));
             }
         };
 
-        // ===== СИСТЕМА БЕЗОПАСНОСТИ =====
-        const SecuritySystem = {
-            init() {
-                this.setupEventListeners();
-                this.setupRateLimiting();
-                this.log('system_init', 'Система безопасности инициализирована');
-                
-                SourceCodeProtection.init();
-                
-                console.log('🛡️ Система безопасности активирована');
-            },
-            
-            setupEventListeners() {
-                let lastClick = 0;
-                document.addEventListener('click', (e) => {
-                    const now = Date.now();
-                    if (now - lastClick < 100) {
-                        e.preventDefault();
-                        return;
-                    }
-                    lastClick = now;
-                });
-                
-                document.addEventListener('contextmenu', (e) => {
-                    if (e.target.closest('.game-card') || e.target.closest('.site-description')) {
-                        e.preventDefault();
-                    }
-                });
-                
-                document.addEventListener('copy', (e) => {
-                    if (e.target.closest('.game-card') || e.target.closest('.site-description')) {
-                        e.preventDefault();
-                    }
-                });
-            },
-            
-            setupRateLimiting() {
-                window.actionLimiter = {
-                    actions: {},
-                    canPerform(action, limit = 10, interval = 60000) {
-                        const now = Date.now();
-                        if (!this.actions[action]) this.actions[action] = [];
-                        
-                        this.actions[action] = this.actions[action].filter(
-                            time => now - time < interval
-                        );
-                        
-                        if (this.actions[action].length < limit) {
-                            this.actions[action].push(now);
-                            return true;
-                        }
-                        return false;
-                    }
-                };
-                
-                document.addEventListener('click', (e) => {
-                    if (!window.actionLimiter.canPerform('click', 30, 10000)) {
-                        e.preventDefault();
-                    }
-                });
-            },
-            
-            showComingSoon(gameName) {
-                if (!window.actionLimiter.canPerform('show_coming_soon', 5, 60000)) {
-                    return;
-                }
-                
-                const message = Localization.getText('comingSoon', { game: gameName });
-                alert(message);
-            },
-            
-            log(event, details = {}) {
-                const logEntry = {
-                    id: Date.now() + Math.random(),
-                    timestamp: new Date().toISOString(),
-                    event,
-                    details,
-                    userAgent: navigator.userAgent.substring(0, 100),
-                    path: window.location.pathname
-                };
-                
-                const logs = JSON.parse(sessionStorage.getItem('security_logs') || '[]');
-                logs.unshift(logEntry);
-                if (logs.length > 20) logs.pop();
-                sessionStorage.setItem('security_logs', JSON.stringify(logs));
-            }
-        };
-
-        // ===== ПРОСТАЯ КОНТАКТНАЯ ФОРМА =====
-        const ContactForm = {
-            captchaText: '',
-            isSubmitting: false,
-            
-            init() {
-                this.generateCaptcha();
-                this.setupEventListeners();
-            },
-            
-            generateCaptcha() {
-                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-                let captcha = '';
-                for (let i = 0; i < 6; i++) {
-                    captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-                this.captchaText = captcha;
-                
-                const captchaElement = document.getElementById('captcha-text');
-                if (captchaElement) {
-                    captchaElement.textContent = captcha;
-                }
-            },
-            
-            refreshCaptcha() {
-                if (!window.actionLimiter.canPerform('refresh_captcha', 5, 60000)) {
-                    return;
-                }
-                
-                this.generateCaptcha();
-                const captchaInput = document.getElementById('captcha');
-                if (captchaInput) {
-                    captchaInput.value = '';
-                    captchaInput.focus();
-                }
-            },
-            
-            validateCaptcha(input) {
-                return input.toUpperCase() === this.captchaText;
-            },
-            
-            validateForm(formData) {
-                const email = formData.get('email') || '';
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    return false;
-                }
-                
-                const message = formData.get('message') || '';
-                if (message.length < 10 || message.length > 1000) {
-                    return false;
-                }
-                
-                const captcha = formData.get('captcha') || '';
-                if (!this.validateCaptcha(captcha)) {
-                    return false;
-                }
-                
-                return true;
-            },
-            
-            async handleSubmit(event) {
-                event.preventDefault();
-                
-                if (this.isSubmitting) {
-                    return false;
-                }
-                
-                if (!window.actionLimiter.canPerform('submit_form', 3, 60000)) {
-                    return false;
-                }
-                
-                const form = event.target;
-                const formData = new FormData(form);
-                
-                if (!this.validateForm(formData)) {
-                    this.showStatus('Проверьте правильность заполнения полей', 'error');
-                    this.generateCaptcha();
-                    return false;
-                }
-                
-                this.showStatus('Отправка сообщения...', 'sending');
-                this.setSubmitting(true);
-                
-                try {
-                    const response = await fetch('https://formsubmit.co/ajax/velikiygusofficial@gmail.com', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            email: formData.get('email'),
-                            message: formData.get('message'),
-                            _subject: 'Новое сообщение с сайта VelikiyGus',
-                            _template: 'table'
-                        })
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (response.ok && result.success === 'true') {
-                        this.showStatus('✅ Сообщение отправлено! Я отвечу в ближайшее время.', 'success');
-                        form.reset();
-                        this.generateCaptcha();
-                    } else {
-                        throw new Error('Ошибка отправки');
-                    }
-                    
-                } catch (error) {
-                    this.showStatus('❌ Ошибка при отправке. Попробуйте еще раз.', 'error');
-                } finally {
-                    this.setSubmitting(false);
-                }
-                
-                return false;
-            },
-            
-            showStatus(message, type) {
-                const statusElement = document.getElementById('form-status');
-                if (statusElement) {
-                    statusElement.textContent = message;
-                    statusElement.className = `form-status ${type}`;
-                    
-                    if (type === 'success') {
-                        setTimeout(() => {
-                            statusElement.style.display = 'none';
-                        }, 5000);
-                    }
-                }
-            },
-            
-            setSubmitting(isSubmitting) {
-                this.isSubmitting = isSubmitting;
-                const submitBtn = document.getElementById('submit-btn');
-                const submitText = document.getElementById('submit-text');
-                const submitLoader = document.getElementById('submit-loader');
-                
-                if (submitBtn && submitText && submitLoader) {
-                    submitBtn.disabled = isSubmitting;
-                    submitText.style.display = isSubmitting ? 'none' : 'inline';
-                    submitLoader.style.display = isSubmitting ? 'inline' : 'none';
-                }
-            },
-            
-            setupEventListeners() {
-                const captchaInput = document.getElementById('captcha');
-                if (captchaInput) {
-                    captchaInput.addEventListener('input', (e) => {
-                        const value = e.target.value.toUpperCase();
-                        const validChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-                        let filtered = '';
-                        
-                        for (let char of value) {
-                            if (validChars.includes(char)) {
-                                filtered += char;
-                            }
-                        }
-                        
-                        e.target.value = filtered.substring(0, 6);
-                    });
-                }
-            }
-        };
+        // ===== ПРОСТЫЕ ФУНКЦИИ =====
+        function showComingSoon(gameName) {
+            const message = Localization.getText('comingSoon', { game: gameName });
+            alert(message);
+        }
+        
+        function copyEmail() {
+            const email = 'velikiygusofficial@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                const message = document.getElementById('copy-message');
+                message.style.display = 'block';
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+            });
+        }
 
         // ===== ЛОКАЛИЗАЦИЯ =====
         const Localization = {
@@ -1559,16 +1156,10 @@
                     platformsTitle: 'Платформы',
                     platformsText: 'Windows, Web, Roblox, Мобильные устройства',
                     contactsTitle: 'Контакты',
-                    contactsText: 'GitHub: <strong>skarbovoleg</strong>',
-                    skillsTitle: '🛠️ Технические навыки:',
+                    contactsText: 'Напишите мне на почту',
                     
                     // Контактная форма
                     contactTitle: '📧 Написать мне',
-                    emailLabel: 'Ваш email:',
-                    emailPlaceholder: 'example@mail.com',
-                    messageLabel: 'Сообщение:',
-                    messagePlaceholder: 'Напишите ваше сообщение здесь...',
-                    submitText: 'Отправить сообщение',
                     
                     // Игры
                     game1Title: 'Гражданская война в России 2D',
@@ -1640,16 +1231,10 @@
                     platformsTitle: 'Platforms',
                     platformsText: 'Windows, Web, Roblox, Mobile devices',
                     contactsTitle: 'Contacts',
-                    contactsText: 'GitHub: <strong>skarbovoleg</strong>',
-                    skillsTitle: '🛠️ Technical Skills:',
+                    contactsText: 'Write me an email',
                     
                     // Contact form
                     contactTitle: '📧 Contact Me',
-                    emailLabel: 'Your email:',
-                    emailPlaceholder: 'example@mail.com',
-                    messageLabel: 'Message:',
-                    messagePlaceholder: 'Write your message here...',
-                    submitText: 'Send message',
                     
                     // Games
                     game1Title: 'Civil War in Russia 2D',
@@ -1772,23 +1357,15 @@
                 document.getElementById('platforms-title').textContent = lang.platformsTitle;
                 document.getElementById('platforms-text').textContent = lang.platformsText;
                 document.getElementById('contacts-title').textContent = lang.contactsTitle;
-                document.getElementById('contacts-text').innerHTML = lang.contactsText;
+                document.getElementById('contacts-text').textContent = lang.contactsText;
                 document.getElementById('skills-title').innerHTML = lang.skillsTitle;
                 
                 // Контактная форма
                 document.getElementById('contact-title').innerHTML = lang.contactTitle;
                 
-                const formLabels = document.querySelectorAll('#contact-form label');
-                if (formLabels[0]) formLabels[0].textContent = lang.emailLabel;
-                if (formLabels[1]) formLabels[1].textContent = lang.messageLabel;
-                
-                document.getElementById('email').placeholder = lang.emailPlaceholder;
-                document.getElementById('message').placeholder = lang.messagePlaceholder;
-                document.getElementById('submit-text').textContent = lang.submitText;
-                
                 const contactSectionText = document.querySelectorAll('.contact-section .highlight p')[0];
                 if (contactSectionText) {
-                    contactSectionText.innerHTML = `<strong>Есть вопросы или предложения?</strong><br>Заполните форму ниже, я отвечу на ваше письмо!`;
+                    contactSectionText.innerHTML = `<strong>Есть вопросы или предложения?</strong><br>Напишите мне напрямую на почту!`;
                 }
                 
                 document.getElementById('game-dev-skill').textContent = lang.gameDevSkill;
@@ -2018,9 +1595,6 @@
                 
                 const lang = Localization.currentLanguage === 'ru' ? '📧 Скрыть форму' : '📧 Hide Form';
                 event.target.textContent = lang;
-                
-                // Инициализация формы при первом открытии
-                ContactForm.init();
             } else {
                 contactSection.classList.remove('show');
                 contactVisible = false;
@@ -2096,7 +1670,7 @@
             // Инициализация систем
             Localization.init();
             ThemeManager.init();
-            SecuritySystem.init();
+            SourceCodeProtection.init();
         });
     </script>
 </body>
