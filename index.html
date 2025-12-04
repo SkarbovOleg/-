@@ -1152,34 +1152,34 @@
             
             <form id="notification-form" class="notification-form" action="https://formspree.io/f/mqavwwbz" method="POST">
                 <div class="form-group">
-                    <label for="notification-email">📧 Ваш email:</label>
+                    <label for="notification-email" id="email-label">📧 Ваш email:</label>
                     <input type="email" id="notification-email" name="email" class="form-control" 
                            placeholder="ваш-email@example.com" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="notification-name">👤 Ваше имя (необязательно):</label>
+                    <label for="notification-name" id="name-label">👤 Ваше имя (необязательно):</label>
                     <input type="text" id="notification-name" name="name" class="form-control" 
                            placeholder="Как к вам обращаться?">
                 </div>
                 
                 <div class="form-group">
-                    <label>🎮 На какие игры хотите получать уведомления?</label>
+                    <label id="games-label">🎮 На какие игры хотите получать уведомления?</label>
                     <div class="checkbox-group">
                         <input type="checkbox" id="game-civil-war" name="games" value="civil-war" checked>
-                        <label for="game-civil-war">Гражданская война в России 2D</label>
+                        <label for="game-civil-war" id="game1-checkbox-label">Гражданская война в России 2D</label>
                     </div>
                     <div class="checkbox-group">
                         <input type="checkbox" id="game-save-alice" name="games" value="save-alice" checked>
-                        <label for="game-save-alice">Спаси Алису</label>
+                        <label for="game-save-alice" id="game2-checkbox-label">Спаси Алису</label>
                     </div>
                     <div class="checkbox-group">
                         <input type="checkbox" id="game-secret-project" name="games" value="secret-project" checked>
-                        <label for="game-secret-project">Секретный проект</label>
+                        <label for="game-secret-project" id="game3-checkbox-label">Секретный проект</label>
                     </div>
                     <div class="checkbox-group">
                         <input type="checkbox" id="game-all-future" name="games" value="all-future">
-                        <label for="game-all-future">Все будущие игры</label>
+                        <label for="game-all-future" id="all-games-checkbox-label">Все будущие игры</label>
                     </div>
                 </div>
                 
@@ -1189,20 +1189,20 @@
                 
                 <div class="checkbox-group">
                     <input type="checkbox" id="privacy-policy" name="privacy" required>
-                    <label for="privacy-policy">✅ Я согласен с политикой конфиденциальности и даю согласие на обработку персональных данных</label>
+                    <label for="privacy-policy" id="privacy-label">✅ Я согласен с политикой конфиденциальности и даю согласие на обработку персональных данных</label>
                 </div>
                 
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="subscribe-button">
                     📨 Подписаться на уведомления
                 </button>
             </form>
             
             <div class="subscription-list">
-                <h4>📊 Статистика подписчиков:</h4>
+                <h4 id="subscribers-title">📊 Статистика подписчиков:</h4>
                 <ul>
-                    <li><span id="subscribers-count">0</span> человек уже подписались</li>
-                    <li>Первыми узнают о выходе игр</li>
-                    <li>Получают уведомления за 1 день до релиза</li>
+                    <li><span id="subscribers-count">0</span> <span id="subscribers-text">человек уже подписались</span></li>
+                    <li id="subscribers-info1">Первыми узнают о выходе игр</li>
+                    <li id="subscribers-info2">Получают уведомления за 1 день до релиза</li>
                 </ul>
             </div>
         </div>
@@ -1238,8 +1238,8 @@
             </div>
             
             <div class="response-time">
-                <p>⚠️ Обычно отвечаю в течение 1-2 рабочих дней</p>
-                <p><small>Если письмо не дошло, попробуйте подписаться на уведомления через соответствующую форму</small></p>
+                <p id="response-time-text">⚠️ Обычно отвечаю в течение 1-2 рабочих дней</p>
+                <p><small id="response-note">Если письмо не дошло, попробуйте подписаться на уведомления через соответствующую форму</small></p>
             </div>
         </div>
     </section>
@@ -1257,6 +1257,11 @@
         let contactVisible = false;
         let currentTheme = 'light';
         let currentLanguage = 'ru';
+        
+        // Глобальные экземпляры менеджеров
+        let themeManager;
+        let localization;
+        let emailNotifications;
 
         // ===== УПРАВЛЕНИЕ ТЁМНОЙ ТЕМОЙ =====
         class ThemeManager {
@@ -1342,7 +1347,7 @@
                         platformsText: 'Windows, Web, Roblox, Мобильные устройства',
                         contactsTitle: 'Контакты',
                         contactsText: 'Напишите мне на почту или подпишитесь на новости',
-                        skillsTitle: 'Технические навыки:',
+                        skillsTitle: '🛠️ Технические навыки:',
                         
                         notificationTitle: '🔔 Подписаться на уведомления',
                         
@@ -1380,7 +1385,28 @@
                         
                         copyButtonText: '📋 Скопировать почту',
                         copySuccessMessage: '✅ Почта скопирована в буфер обмена!',
-                        copyErrorMessage: '❌ Не удалось скопировать почту. Скопируйте вручную: '
+                        copyErrorMessage: '❌ Не удалось скопировать почту. Скопируйте вручную: ',
+                        
+                        notifyButton: '🔔 Уведомить о выходе',
+                        
+                        emailLabel: '📧 Ваш email:',
+                        emailPlaceholder: 'ваш-email@example.com',
+                        nameLabel: '👤 Ваше имя (необязательно):',
+                        namePlaceholder: 'Как к вам обращаться?',
+                        gamesLabel: '🎮 На какие игры хотите получать уведомления?',
+                        game1Checkbox: 'Гражданская война в России 2D',
+                        game2Checkbox: 'Спаси Алису',
+                        game3Checkbox: 'Секретный проект',
+                        allGamesCheckbox: 'Все будущие игры',
+                        privacyText: '✅ Я согласен с политикой конфиденциальности и даю согласие на обработку персональных данных',
+                        subscribeButton: '📨 Подписаться на уведомления',
+                        subscribersTitle: '📊 Статистика подписчиков:',
+                        subscribersText: 'человек уже подписались',
+                        subscribersInfo1: 'Первыми узнают о выходе игр',
+                        subscribersInfo2: 'Получают уведомления за 1 день до релиза',
+                        
+                        responseTimeText: '⚠️ Обычно отвечаю в течение 1-2 рабочих дней',
+                        responseNote: 'Если письмо не дошло, попробуйте подписаться на уведомления через соответствующую форму'
                     },
                     
                     en: {
@@ -1413,7 +1439,7 @@
                         platformsText: 'Windows, Web, Roblox, Mobile devices',
                         contactsTitle: 'Contacts',
                         contactsText: 'Write me an email or subscribe to news',
-                        skillsTitle: 'Technical skills:',
+                        skillsTitle: '🛠️ Technical skills:',
                         
                         notificationTitle: '🔔 Subscribe to Notifications',
                         
@@ -1451,7 +1477,28 @@
                         
                         copyButtonText: '📋 Copy Email',
                         copySuccessMessage: '✅ Email copied to clipboard!',
-                        copyErrorMessage: '❌ Failed to copy email. Copy manually: '
+                        copyErrorMessage: '❌ Failed to copy email. Copy manually: ',
+                        
+                        notifyButton: '🔔 Notify on release',
+                        
+                        emailLabel: '📧 Your email:',
+                        emailPlaceholder: 'your-email@example.com',
+                        nameLabel: '👤 Your name (optional):',
+                        namePlaceholder: 'What should we call you?',
+                        gamesLabel: '🎮 Which games do you want notifications for?',
+                        game1Checkbox: 'Civil War in Russia 2D',
+                        game2Checkbox: 'Save Alice',
+                        game3Checkbox: 'Secret Project',
+                        allGamesCheckbox: 'All future games',
+                        privacyText: '✅ I agree with the privacy policy and give consent to the processing of personal data',
+                        subscribeButton: '📨 Subscribe to notifications',
+                        subscribersTitle: '📊 Subscribers statistics:',
+                        subscribersText: 'people already subscribed',
+                        subscribersInfo1: 'First to know about game releases',
+                        subscribersInfo2: 'Get notifications 1 day before release',
+                        
+                        responseTimeText: '⚠️ Usually respond within 1-2 business days',
+                        responseNote: 'If the email didn\'t arrive, try subscribing to notifications through the appropriate form'
                     }
                 };
                 
@@ -1461,7 +1508,7 @@
             init() {
                 this.loadSavedLanguage();
                 this.bindEvents();
-                this.updateLanguage();
+                this.updateAllTexts();
             }
             
             loadSavedLanguage() {
@@ -1476,7 +1523,10 @@
                 if (languageToggle) {
                     languageToggle.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        document.getElementById('language-selector').classList.toggle('show');
+                        const selector = document.getElementById('language-selector');
+                        if (selector) {
+                            selector.classList.toggle('show');
+                        }
                     });
                 }
                 
@@ -1494,106 +1544,243 @@
                 if (this.translations[lang]) {
                     currentLanguage = lang;
                     localStorage.setItem('velikiygus_language', lang);
-                    this.updateLanguage();
+                    this.updateAllTexts();
                     
                     const selector = document.getElementById('language-selector');
                     if (selector) selector.classList.remove('show');
                     
-                    const themeManager = new ThemeManager();
-                    themeManager.applyTheme(currentTheme);
+                    if (themeManager) {
+                        themeManager.applyTheme(currentTheme);
+                    }
+                    
+                    updateAllButtonTexts();
                 }
             }
             
-            updateLanguage() {
+            updateAllTexts() {
                 const lang = this.translations[currentLanguage];
                 if (!lang) return;
                 
                 // Обновляем язык в документе
                 document.title = lang.pageTitle;
-                document.getElementById('page-title').textContent = lang.pageTitle;
+                if (document.getElementById('page-title')) {
+                    document.getElementById('page-title').textContent = lang.pageTitle;
+                }
                 
                 // Панель управления
-                document.getElementById('theme-toggle').setAttribute('data-tooltip', lang.themeTooltip);
-                document.getElementById('language-toggle').setAttribute('data-tooltip', lang.languageTooltip);
-                document.getElementById('language-toggle').innerHTML = currentLanguage === 'ru' ? '🇷🇺' : '🇺🇸';
+                const themeToggle = document.getElementById('theme-toggle');
+                if (themeToggle) {
+                    themeToggle.setAttribute('data-tooltip', lang.themeTooltip);
+                }
                 
-                // Навигационные кнопки
-                const aboutBtn = document.getElementById('about-btn');
-                const projectsBtn = document.getElementById('projects-btn');
-                const notificationsBtn = document.getElementById('notifications-btn');
-                const contactBtn = document.getElementById('contact-btn');
-                
-                if (aboutBtn) {
-                    aboutBtn.textContent = aboutVisible ? lang.aboutButtonHide : lang.aboutButton;
-                }
-                if (projectsBtn) {
-                    projectsBtn.textContent = projectsVisible ? lang.projectsButtonHide : lang.projectsButton;
-                }
-                if (notificationsBtn) {
-                    notificationsBtn.textContent = notificationsVisible ? lang.notificationsButtonHide : lang.notificationsButton;
-                }
-                if (contactBtn) {
-                    contactBtn.textContent = contactVisible ? lang.contactButtonHide : lang.contactButton;
+                const languageToggle = document.getElementById('language-toggle');
+                if (languageToggle) {
+                    languageToggle.setAttribute('data-tooltip', lang.languageTooltip);
+                    languageToggle.innerHTML = currentLanguage === 'ru' ? '🇷🇺' : '🇺🇸';
                 }
                 
                 // Основной контент
-                document.getElementById('intro-text').innerHTML = lang.intro;
-                document.getElementById('description-text').innerHTML = lang.description;
-                document.getElementById('social-text').innerHTML = lang.socialMention;
-                document.getElementById('download-notice-text').innerHTML = lang.downloadNotice;
+                if (document.getElementById('intro-text')) {
+                    document.getElementById('intro-text').innerHTML = lang.intro;
+                }
+                if (document.getElementById('description-text')) {
+                    document.getElementById('description-text').innerHTML = lang.description;
+                }
+                if (document.getElementById('social-text')) {
+                    document.getElementById('social-text').innerHTML = lang.socialMention;
+                }
+                if (document.getElementById('download-notice-text')) {
+                    document.getElementById('download-notice-text').innerHTML = lang.downloadNotice;
+                }
                 
                 // О разработчике
-                document.getElementById('about-title').innerHTML = lang.aboutTitle;
-                document.getElementById('about-description').textContent = lang.aboutDescription;
-                document.getElementById('specialization-title').textContent = lang.specializationTitle;
-                document.getElementById('specialization-text').textContent = lang.specializationText;
-                document.getElementById('goals-title').textContent = lang.goalsTitle;
-                document.getElementById('goals-text').textContent = lang.goalsText;
-                document.getElementById('platforms-title').textContent = lang.platformsTitle;
-                document.getElementById('platforms-text').textContent = lang.platformsText;
-                document.getElementById('contacts-title').textContent = lang.contactsTitle;
-                document.getElementById('contacts-text').textContent = lang.contactsText;
-                document.getElementById('skills-title').innerHTML = lang.skillsTitle;
+                if (document.getElementById('about-title')) {
+                    document.getElementById('about-title').innerHTML = lang.aboutTitle;
+                }
+                if (document.getElementById('about-description')) {
+                    document.getElementById('about-description').textContent = lang.aboutDescription;
+                }
+                if (document.getElementById('specialization-title')) {
+                    document.getElementById('specialization-title').textContent = lang.specializationTitle;
+                }
+                if (document.getElementById('specialization-text')) {
+                    document.getElementById('specialization-text').textContent = lang.specializationText;
+                }
+                if (document.getElementById('goals-title')) {
+                    document.getElementById('goals-title').textContent = lang.goalsTitle;
+                }
+                if (document.getElementById('goals-text')) {
+                    document.getElementById('goals-text').textContent = lang.goalsText;
+                }
+                if (document.getElementById('platforms-title')) {
+                    document.getElementById('platforms-title').textContent = lang.platformsTitle;
+                }
+                if (document.getElementById('platforms-text')) {
+                    document.getElementById('platforms-text').textContent = lang.platformsText;
+                }
+                if (document.getElementById('contacts-title')) {
+                    document.getElementById('contacts-title').textContent = lang.contactsTitle;
+                }
+                if (document.getElementById('contacts-text')) {
+                    document.getElementById('contacts-text').textContent = lang.contactsText;
+                }
+                if (document.getElementById('skills-title')) {
+                    document.getElementById('skills-title').innerHTML = lang.skillsTitle;
+                }
                 
                 // Уведомления
-                document.getElementById('notification-title').innerHTML = lang.notificationTitle;
+                if (document.getElementById('notification-title')) {
+                    document.getElementById('notification-title').innerHTML = lang.notificationTitle;
+                }
+                
+                // Форма уведомлений
+                if (document.getElementById('email-label')) {
+                    document.getElementById('email-label').textContent = lang.emailLabel;
+                }
+                if (document.getElementById('notification-email')) {
+                    document.getElementById('notification-email').placeholder = lang.emailPlaceholder;
+                }
+                if (document.getElementById('name-label')) {
+                    document.getElementById('name-label').textContent = lang.nameLabel;
+                }
+                if (document.getElementById('notification-name')) {
+                    document.getElementById('notification-name').placeholder = lang.namePlaceholder;
+                }
+                if (document.getElementById('games-label')) {
+                    document.getElementById('games-label').textContent = lang.gamesLabel;
+                }
+                if (document.getElementById('game1-checkbox-label')) {
+                    document.getElementById('game1-checkbox-label').textContent = lang.game1Checkbox;
+                }
+                if (document.getElementById('game2-checkbox-label')) {
+                    document.getElementById('game2-checkbox-label').textContent = lang.game2Checkbox;
+                }
+                if (document.getElementById('game3-checkbox-label')) {
+                    document.getElementById('game3-checkbox-label').textContent = lang.game3Checkbox;
+                }
+                if (document.getElementById('all-games-checkbox-label')) {
+                    document.getElementById('all-games-checkbox-label').textContent = lang.allGamesCheckbox;
+                }
+                if (document.getElementById('privacy-label')) {
+                    document.getElementById('privacy-label').textContent = lang.privacyText;
+                }
+                if (document.getElementById('subscribe-button')) {
+                    document.getElementById('subscribe-button').textContent = lang.subscribeButton;
+                }
+                
+                // Статистика подписчиков
+                if (document.getElementById('subscribers-title')) {
+                    document.getElementById('subscribers-title').textContent = lang.subscribersTitle;
+                }
+                if (document.getElementById('subscribers-text')) {
+                    document.getElementById('subscribers-text').textContent = lang.subscribersText;
+                }
+                if (document.getElementById('subscribers-info1')) {
+                    document.getElementById('subscribers-info1').textContent = lang.subscribersInfo1;
+                }
+                if (document.getElementById('subscribers-info2')) {
+                    document.getElementById('subscribers-info2').textContent = lang.subscribersInfo2;
+                }
                 
                 // Контактная форма
-                document.getElementById('contact-title').innerHTML = lang.contactTitle;
+                if (document.getElementById('contact-title')) {
+                    document.getElementById('contact-title').innerHTML = lang.contactTitle;
+                }
                 
                 // Кнопка копирования
-                document.getElementById('copy-email-btn').innerHTML = lang.copyButtonText;
+                if (document.getElementById('copy-email-btn')) {
+                    document.getElementById('copy-email-btn').innerHTML = lang.copyButtonText;
+                }
+                
+                // Ответное время
+                if (document.getElementById('response-time-text')) {
+                    document.getElementById('response-time-text').textContent = lang.responseTimeText;
+                }
+                if (document.getElementById('response-note')) {
+                    document.getElementById('response-note').textContent = lang.responseNote;
+                }
                 
                 // Навыки
-                document.getElementById('game-dev-skill').textContent = lang.gameDevSkill;
-                document.getElementById('2d-graphics-skill').textContent = lang.graphics2dSkill;
-                document.getElementById('web-dev-skill').textContent = lang.webDevSkill;
+                if (document.getElementById('game-dev-skill')) {
+                    document.getElementById('game-dev-skill').textContent = lang.gameDevSkill;
+                }
+                if (document.getElementById('2d-graphics-skill')) {
+                    document.getElementById('2d-graphics-skill').textContent = lang.graphics2dSkill;
+                }
+                if (document.getElementById('web-dev-skill')) {
+                    document.getElementById('web-dev-skill').textContent = lang.webDevSkill;
+                }
                 
                 // Игры
-                document.getElementById('game1-title').textContent = lang.game1Title;
-                document.getElementById('game1-status').textContent = lang.game1Status;
-                document.getElementById('game1-description').textContent = lang.game1Description;
-                document.getElementById('game1-features-title').textContent = lang.game1FeaturesTitle;
-                document.getElementById('game1-features').textContent = lang.game1Features;
-                document.getElementById('game1-button').textContent = lang.game1Button;
+                if (document.getElementById('game1-title')) {
+                    document.getElementById('game1-title').textContent = lang.game1Title;
+                }
+                if (document.getElementById('game1-status')) {
+                    document.getElementById('game1-status').textContent = lang.game1Status;
+                }
+                if (document.getElementById('game1-description')) {
+                    document.getElementById('game1-description').textContent = lang.game1Description;
+                }
+                if (document.getElementById('game1-features-title')) {
+                    document.getElementById('game1-features-title').textContent = lang.game1FeaturesTitle;
+                }
+                if (document.getElementById('game1-features')) {
+                    document.getElementById('game1-features').textContent = lang.game1Features;
+                }
+                if (document.getElementById('game1-button')) {
+                    document.getElementById('game1-button').textContent = lang.game1Button;
+                }
                 
-                document.getElementById('game2-title').textContent = lang.game2Title;
-                document.getElementById('game2-status').textContent = lang.game2Status;
-                document.getElementById('game2-description').textContent = lang.game2Description;
-                document.getElementById('game2-features-title').textContent = lang.game2FeaturesTitle;
-                document.getElementById('game2-features').textContent = lang.game2Features;
-                document.getElementById('game2-button').textContent = lang.game2Button;
+                if (document.getElementById('game2-title')) {
+                    document.getElementById('game2-title').textContent = lang.game2Title;
+                }
+                if (document.getElementById('game2-status')) {
+                    document.getElementById('game2-status').textContent = lang.game2Status;
+                }
+                if (document.getElementById('game2-description')) {
+                    document.getElementById('game2-description').textContent = lang.game2Description;
+                }
+                if (document.getElementById('game2-features-title')) {
+                    document.getElementById('game2-features-title').textContent = lang.game2FeaturesTitle;
+                }
+                if (document.getElementById('game2-features')) {
+                    document.getElementById('game2-features').textContent = lang.game2Features;
+                }
+                if (document.getElementById('game2-button')) {
+                    document.getElementById('game2-button').textContent = lang.game2Button;
+                }
                 
-                document.getElementById('game3-title').textContent = lang.game3Title;
-                document.getElementById('game3-status').textContent = lang.game3Status;
-                document.getElementById('game3-description').textContent = lang.game3Description;
-                document.getElementById('game3-features-title').textContent = lang.game3FeaturesTitle;
-                document.getElementById('game3-features').textContent = lang.game3Features;
-                document.getElementById('game3-button').textContent = lang.game3Button;
+                if (document.getElementById('game3-title')) {
+                    document.getElementById('game3-title').textContent = lang.game3Title;
+                }
+                if (document.getElementById('game3-status')) {
+                    document.getElementById('game3-status').textContent = lang.game3Status;
+                }
+                if (document.getElementById('game3-description')) {
+                    document.getElementById('game3-description').textContent = lang.game3Description;
+                }
+                if (document.getElementById('game3-features-title')) {
+                    document.getElementById('game3-features-title').textContent = lang.game3FeaturesTitle;
+                }
+                if (document.getElementById('game3-features')) {
+                    document.getElementById('game3-features').textContent = lang.game3Features;
+                }
+                if (document.getElementById('game3-button')) {
+                    document.getElementById('game3-button').textContent = lang.game3Button;
+                }
+                
+                // Кнопки уведомлений для игр
+                document.querySelectorAll('[id^="notify-game"]').forEach(btn => {
+                    btn.textContent = lang.notifyButton;
+                });
                 
                 // Футер
-                document.getElementById('rights-text').textContent = lang.rightsText;
-                document.getElementById('footer-note').textContent = lang.footerNote;
+                if (document.getElementById('rights-text')) {
+                    document.getElementById('rights-text').textContent = lang.rightsText;
+                }
+                if (document.getElementById('footer-note')) {
+                    document.getElementById('footer-note').textContent = lang.footerNote;
+                }
                 
                 // Языковые опции
                 document.querySelectorAll('.language-option').forEach(option => {
@@ -1656,20 +1843,31 @@
             }
             
             bindGameButtons() {
-                document.getElementById('notify-game1').addEventListener('click', () => {
-                    this.subscribeToGame('civil-war');
-                });
-                document.getElementById('notify-game2').addEventListener('click', () => {
-                    this.subscribeToGame('save-alice');
-                });
-                document.getElementById('notify-game3').addEventListener('click', () => {
-                    this.subscribeToGame('secret-project');
-                });
+                const notifyGame1 = document.getElementById('notify-game1');
+                const notifyGame2 = document.getElementById('notify-game2');
+                const notifyGame3 = document.getElementById('notify-game3');
+                
+                if (notifyGame1) {
+                    notifyGame1.addEventListener('click', () => {
+                        this.subscribeToGame('civil-war');
+                    });
+                }
+                if (notifyGame2) {
+                    notifyGame2.addEventListener('click', () => {
+                        this.subscribeToGame('save-alice');
+                    });
+                }
+                if (notifyGame3) {
+                    notifyGame3.addEventListener('click', () => {
+                        this.subscribeToGame('secret-project');
+                    });
+                }
             }
             
             handleNotificationSubmit(form) {
                 const email = form.querySelector('#notification-email').value;
-                const name = form.querySelector('#notification-name').value || 'Подписчик';
+                const name = form.querySelector('#notification-name').value || 
+                    (currentLanguage === 'ru' ? 'Подписчик' : 'Subscriber');
                 
                 if (!this.validateEmail(email)) {
                     this.showMessage('notification-message', 'error', 
@@ -1751,13 +1949,16 @@
                 };
                 
                 const gameName = gameNames[gameId];
-                const email = prompt(currentLanguage === 'ru' ? 
+                const email = prompt((currentLanguage === 'ru' ? 
                     `Введите ваш email, чтобы получить уведомление о выходе игры "${gameName}":` :
-                    `Enter your email to get notified about "${gameName}" release:`);
+                    `Enter your email to get notified about "${gameName}" release:`));
                 
                 if (email && this.validateEmail(email)) {
                     showNotifications();
-                    document.getElementById('notification-email').value = email;
+                    const emailInput = document.getElementById('notification-email');
+                    if (emailInput) {
+                        emailInput.value = email;
+                    }
                     
                     this.showMessage('notification-message', 'success', 
                         currentLanguage === 'ru' ? 
@@ -1781,21 +1982,22 @@
             const email = 'velikiygusofficial@gmail.com';
             const emailElement = document.getElementById('email-address');
             const copyButton = document.getElementById('copy-email-btn');
-            const localization = new Localization();
+            
+            if (!emailElement || !copyButton || !localization) return;
             
             // Пробуем использовать современный API
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(email).then(() => {
-                    showCopySuccess(emailElement, copyButton, localization);
+                    showCopySuccess(emailElement, copyButton);
                 }).catch(() => {
-                    fallbackCopy(email, emailElement, copyButton, localization);
+                    fallbackCopy(email, emailElement, copyButton);
                 });
             } else {
-                fallbackCopy(email, emailElement, copyButton, localization);
+                fallbackCopy(email, emailElement, copyButton);
             }
         }
         
-        function showCopySuccess(emailElement, copyButton, localization) {
+        function showCopySuccess(emailElement, copyButton) {
             // Сохраняем оригинальный текст кнопки
             const originalButtonText = copyButton.innerHTML;
             const originalEmailClass = emailElement.className;
@@ -1816,7 +2018,7 @@
             }, 2000);
         }
         
-        function fallbackCopy(email, emailElement, copyButton, localization) {
+        function fallbackCopy(email, emailElement, copyButton) {
             // Старый способ через textarea
             const textArea = document.createElement('textarea');
             textArea.value = email;
@@ -1829,7 +2031,7 @@
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    showCopySuccess(emailElement, copyButton, localization);
+                    showCopySuccess(emailElement, copyButton);
                 } else {
                     alert(localization.getText('copyErrorMessage') + email);
                 }
@@ -1843,20 +2045,23 @@
         // ===== ОСНОВНЫЕ ФУНКЦИИ =====
         function showAbout() {
             const aboutSection = document.getElementById('about-section');
-            const gameList = document.getElementById('game-list');
-            const notificationSection = document.getElementById('notification-section');
-            const contactSection = document.getElementById('contact-section');
             
             if (!aboutVisible) {
-                aboutSection.classList.add('show');
+                if (aboutSection) {
+                    aboutSection.classList.add('show');
+                }
                 aboutVisible = true;
                 
                 hideOtherSections('about');
-                aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (aboutSection) {
+                    aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
                 
                 updateButtonText('about-btn', aboutVisible);
             } else {
-                aboutSection.classList.remove('show');
+                if (aboutSection) {
+                    aboutSection.classList.remove('show');
+                }
                 aboutVisible = false;
                 updateButtonText('about-btn', aboutVisible);
             }
@@ -1866,11 +2071,15 @@
             const gameList = document.getElementById('game-list');
             
             if (!projectsVisible) {
-                gameList.classList.add('show');
+                if (gameList) {
+                    gameList.classList.add('show');
+                }
                 projectsVisible = true;
                 
                 hideOtherSections('projects');
-                gameList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (gameList) {
+                    gameList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
                 
                 updateButtonText('projects-btn', projectsVisible);
                 
@@ -1888,7 +2097,9 @@
                     });
                 }, 300);
             } else {
-                gameList.classList.remove('show');
+                if (gameList) {
+                    gameList.classList.remove('show');
+                }
                 projectsVisible = false;
                 updateButtonText('projects-btn', projectsVisible);
             }
@@ -1898,15 +2109,21 @@
             const notificationSection = document.getElementById('notification-section');
             
             if (!notificationsVisible) {
-                notificationSection.classList.add('show');
+                if (notificationSection) {
+                    notificationSection.classList.add('show');
+                }
                 notificationsVisible = true;
                 
                 hideOtherSections('notifications');
-                notificationSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (notificationSection) {
+                    notificationSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
                 
                 updateButtonText('notifications-btn', notificationsVisible);
             } else {
-                notificationSection.classList.remove('show');
+                if (notificationSection) {
+                    notificationSection.classList.remove('show');
+                }
                 notificationsVisible = false;
                 updateButtonText('notifications-btn', notificationsVisible);
             }
@@ -1916,15 +2133,21 @@
             const contactSection = document.getElementById('contact-section');
             
             if (!contactVisible) {
-                contactSection.classList.add('show');
+                if (contactSection) {
+                    contactSection.classList.add('show');
+                }
                 contactVisible = true;
                 
                 hideOtherSections('contact');
-                contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
                 
                 updateButtonText('contact-btn', contactVisible);
             } else {
-                contactSection.classList.remove('show');
+                if (contactSection) {
+                    contactSection.classList.remove('show');
+                }
                 contactVisible = false;
                 updateButtonText('contact-btn', contactVisible);
             }
@@ -1940,31 +2163,51 @@
             
             sections[currentSection].forEach(section => {
                 if (section === 'about' && aboutVisible) {
-                    document.getElementById('about-section').classList.remove('show');
+                    const aboutSection = document.getElementById('about-section');
+                    if (aboutSection) {
+                        aboutSection.classList.remove('show');
+                    }
                     aboutVisible = false;
                     updateButtonText('about-btn', false);
                 }
                 if (section === 'projects' && projectsVisible) {
-                    document.getElementById('game-list').classList.remove('show');
+                    const gameList = document.getElementById('game-list');
+                    if (gameList) {
+                        gameList.classList.remove('show');
+                    }
                     projectsVisible = false;
                     updateButtonText('projects-btn', false);
                 }
                 if (section === 'notifications' && notificationsVisible) {
-                    document.getElementById('notification-section').classList.remove('show');
+                    const notificationSection = document.getElementById('notification-section');
+                    if (notificationSection) {
+                        notificationSection.classList.remove('show');
+                    }
                     notificationsVisible = false;
                     updateButtonText('notifications-btn', false);
                 }
                 if (section === 'contact' && contactVisible) {
-                    document.getElementById('contact-section').classList.remove('show');
+                    const contactSection = document.getElementById('contact-section');
+                    if (contactSection) {
+                        contactSection.classList.remove('show');
+                    }
                     contactVisible = false;
                     updateButtonText('contact-btn', false);
                 }
             });
         }
         
+        function updateAllButtonTexts() {
+            updateButtonText('about-btn', aboutVisible);
+            updateButtonText('projects-btn', projectsVisible);
+            updateButtonText('notifications-btn', notificationsVisible);
+            updateButtonText('contact-btn', contactVisible);
+        }
+        
         function updateButtonText(buttonId, isActive) {
             const button = document.getElementById(buttonId);
-            const localization = new Localization();
+            
+            if (!button || !localization) return;
             
             if (buttonId === 'about-btn') {
                 button.textContent = isActive ? 
@@ -1989,7 +2232,7 @@
         }
         
         function showComingSoon(gameName) {
-            const localization = new Localization();
+            if (!localization) return;
             alert(localization.getText('comingSoon', { game: gameName }));
         }
         
@@ -2002,44 +2245,60 @@
         }
         
         function setLanguage(lang) {
-            const localization = new Localization();
-            localization.setLanguage(lang);
+            if (localization) {
+                localization.setLanguage(lang);
+            }
         }
 
         // ===== ИНИЦИАЛИЗАЦИЯ =====
         document.addEventListener('DOMContentLoaded', function() {
             // Инициализация систем
-            new ThemeManager();
-            new Localization();
-            new EmailNotifications();
+            themeManager = new ThemeManager();
+            localization = new Localization();
+            emailNotifications = new EmailNotifications();
             
             // Привязка событий к кнопкам навигации
-            document.getElementById('about-btn').addEventListener('click', showAbout);
-            document.getElementById('projects-btn').addEventListener('click', showProjects);
-            document.getElementById('notifications-btn').addEventListener('click', showNotifications);
-            document.getElementById('contact-btn').addEventListener('click', showContact);
+            const aboutBtn = document.getElementById('about-btn');
+            const projectsBtn = document.getElementById('projects-btn');
+            const notificationsBtn = document.getElementById('notifications-btn');
+            const contactBtn = document.getElementById('contact-btn');
+            
+            if (aboutBtn) aboutBtn.addEventListener('click', showAbout);
+            if (projectsBtn) projectsBtn.addEventListener('click', showProjects);
+            if (notificationsBtn) notificationsBtn.addEventListener('click', showNotifications);
+            if (contactBtn) contactBtn.addEventListener('click', showContact);
             
             // Привязка событий к кнопкам скачивания
             document.querySelectorAll('.download-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const localization = new Localization();
-                    alert(localization.getText('comingSoon', { game: 'Игра' }));
+                    showComingSoon('Игра');
                 });
             });
             
             // Анимация при загрузке
             setTimeout(() => {
-                document.querySelector('.header-with-avatar').style.opacity = '0';
-                document.querySelector('.header-with-avatar').style.transform = 'translateY(-20px)';
-                document.querySelector('.site-description').style.opacity = '0';
+                const header = document.querySelector('.header-with-avatar');
+                const description = document.querySelector('.site-description');
+                
+                if (header) {
+                    header.style.opacity = '0';
+                    header.style.transform = 'translateY(-20px)';
+                }
+                if (description) {
+                    description.style.opacity = '0';
+                }
                 
                 setTimeout(() => {
-                    document.querySelector('.header-with-avatar').style.transition = 'all 0.8s ease';
-                    document.querySelector('.header-with-avatar').style.opacity = '1';
-                    document.querySelector('.header-with-avatar').style.transform = 'translateY(0)';
+                    if (header) {
+                        header.style.transition = 'all 0.8s ease';
+                        header.style.opacity = '1';
+                        header.style.transform = 'translateY(0)';
+                    }
                     
-                    document.querySelector('.site-description').style.transition = 'all 0.8s ease 0.3s';
-                    document.querySelector('.site-description').style.opacity = '1';
+                    if (description) {
+                        description.style.transition = 'all 0.8s ease 0.3s';
+                        description.style.opacity = '1';
+                    }
                 }, 100);
             }, 300);
         });
