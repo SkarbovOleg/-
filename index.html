@@ -1,2307 +1,715 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">VelikiyGus</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" href="https://img.icons8.com/color/96/000000/duck.png">
-    
-    <!-- Защитные meta-теги -->
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self';
-                   script-src 'self' 'unsafe-inline' https://formspree.io;
-                   style-src 'self' 'unsafe-inline';
-                   img-src 'self' https: data:;
-                   font-src 'self';
-                   frame-ancestors 'none';
-                   connect-src 'self' https://formspree.io;
-                   base-uri 'self'">
-    
-    <meta http-equiv="X-Frame-Options" content="DENY">
+
+    <title>Великий гусь — команда разработчиков игр</title>
+    <meta name="description" content="Великий гусь — творческая студия двух разработчиков. Делаем игры, в которые сами бы играли: исторические стратегии, приключенческие платформеры и эксперименты.">
+    <meta name="author" content="VelikiyGus">
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f6f2e9" media="(prefers-color-scheme: light)">
+    <meta name="color-scheme" content="dark light">
+
+    <!-- Пока сайт не готов к индексации — уберите строку ниже, когда захотите попасть в поиск -->
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippets">
+
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Великий гусь">
+    <meta property="og:title" content="Великий гусь — команда разработчиков игр">
+    <meta property="og:description" content="Творческая студия двух разработчиков: историческая стратегия, приключенческий платформер и секретный проект.">
+    <meta property="og:image" content="assets/img/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Великий гусь — команда разработчиков игр">
+    <meta name="twitter:description" content="Творческая студия двух разработчиков: историческая стратегия, приключенческий платформер и секретный проект.">
+    <meta name="twitter:image" content="assets/img/og-cover.png">
+
+    <!-- Иконки и манифест -->
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <!-- Политика безопасности: только свои ресурсы, внешне — лишь отправка формы -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; worker-src 'self'; manifest-src 'self'; base-uri 'none'; object-src 'none'">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-    <meta name="copyright" content="VelikiyGus © 2025. Все права защищены.">
-    
-    <style>
-        /* ===== CSS ПЕРЕМЕННЫХ ДЛЯ ТЕМ ===== */
-        :root {
-            /* Светлая тема (по умолчанию) */
-            --bg-primary: #f8f9fa;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #f8f9fa;
-            --text-primary: #212529;
-            --text-secondary: #6c757d;
-            --text-tertiary: #495057;
-            --accent-color: #667eea;
-            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --border-color: #dee2e6;
-            --card-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            --card-shadow-hover: 0 5px 15px rgba(0,0,0,0.15);
-            --status-in-progress: #fff3cd;
-            --status-in-progress-text: #856404;
-            --highlight-bg: #fff3cd;
-            --highlight-border: #ffc107;
-            --download-notice-gradient: linear-gradient(135deg, #ff9a00 0%, #ffc107 100%);
-            --social-bg: #f8f9fa;
-            --skill-bg: #e9ecef;
-            --skill-text: #495057;
-            --download-btn: #28a745;
-            --download-btn-hover: #218838;
-            --coming-soon-btn: #6c757d;
-            --contact-form-bg: #ffffff;
-            --contact-form-border: #dee2e6;
-            --submit-btn: #007bff;
-            --submit-btn-hover: #0056b3;
-            --success-color: #28a745;
-            --error-color: #dc3545;
-            --warning-color: #ffc107;
-            --protection-overlay: rgba(255, 255, 255, 0.95);
-            --protection-text: #333333;
-            --copy-btn: #17a2b8;
-            --copy-btn-hover: #138496;
-        }
+    <meta name="referrer" content="strict-origin-when-cross-origin">
 
-        [data-theme="dark"] {
-            /* Тёмная тема */
-            --bg-primary: #121212;
-            --bg-secondary: #1e1e1e;
-            --bg-tertiary: #2d2d2d;
-            --text-primary: #f8f9fa;
-            --text-secondary: #adb5bd;
-            --text-tertiary: #ced4da;
-            --accent-color: #8a99ff;
-            --accent-gradient: linear-gradient(135deg, #8a99ff 0%, #a567c4 100%);
-            --border-color: #495057;
-            --card-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            --card-shadow-hover: 0 5px 15px rgba(0,0,0,0.5);
-            --status-in-progress: #332701;
-            --status-in-progress-text: #ffd54f;
-            --highlight-bg: #332701;
-            --highlight-border: #ffb300;
-            --download-notice-gradient: linear-gradient(135deg, #ff9a00 0%, #ffc107 100%);
-            --social-bg: #2d2d2d;
-            --skill-bg: #495057;
-            --skill-text: #e9ecef;
-            --download-btn: #2e7d32;
-            --download-btn-hover: #1b5e20;
-            --coming-soon-btn: #495057;
-            --contact-form-bg: #2d2d2d;
-            --contact-form-border: #495057;
-            --submit-btn: #0d6efd;
-            --submit-btn-hover: #0a58ca;
-            --success-color: #2e7d32;
-            --error-color: #c62828;
-            --warning-color: #ffb300;
-            --protection-overlay: rgba(0, 0, 0, 0.95);
-            --protection-text: #ffffff;
-            --copy-btn: #17a2b8;
-            --copy-btn-hover: #138496;
-        }
-
-        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background-color 0.3s ease, color 0.3s ease;
-            position: relative;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            cursor: default;
-        }
-
-        /* ===== КОНТРОЛЬ ПАНЕЛЬ И ВЫБОР ЯЗЫКА ===== */
-        .control-panel {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            gap: 10px;
-        }
-
-        .control-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            background: var(--accent-gradient);
-            color: white;
-            cursor: pointer;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-
-        .control-button:hover {
-            transform: scale(1.1);
-        }
-
-        .control-button::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-
-        .control-button:hover::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .language-selector {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 1000;
-            background: var(--bg-secondary);
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-color);
-            display: none;
-        }
-
-        .language-selector.show {
-            display: block;
-        }
-
-        .language-option {
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-primary);
-        }
-
-        .language-option:hover {
-            background-color: var(--bg-tertiary);
-        }
-
-        .language-option.active {
-            background: var(--accent-gradient);
-            color: white;
-        }
-
-        /* ===== ШАПКА С АВАТАРКОЙ ===== */
-        .header-with-avatar {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .site-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 10px;
-            border: 3px solid var(--border-color);
-            object-fit: cover;
-            transition: border-color 0.3s ease;
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            user-drag: none;
-            pointer-events: none;
-        }
-        
-        .site-title {
-            margin: 0;
-            color: var(--text-primary);
-        }
-        
-        .site-subtitle {
-            margin: 5px 0 0 0;
-            color: var(--text-secondary);
-            font-size: 0.9em;
-        }
-        
-        /* ===== НАВИГАЦИОННЫЕ КНОПКИ ===== */
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 20px 0 40px 0;
-            flex-wrap: wrap;
-        }
-        
-        .nav-button {
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .nav-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-        
-        .nav-button:active {
-            transform: translateY(1px);
-        }
-        
-        /* ===== КАРТОЧКИ ИГР ===== */
-        .game-list {
-            display: none;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-            animation: fadeIn 0.8s ease;
-        }
-        
-        .game-list.show {
-            display: grid;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .game-card {
-            background: var(--bg-secondary);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--border-color);
-            position: relative;
-        }
-        
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--card-shadow-hover);
-        }
-        
-        .game-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border-color);
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            user-drag: none;
-            pointer-events: none;
-        }
-        
-        .game-card h2 {
-            margin: 0 0 10px 0;
-            color: var(--text-primary);
-        }
-        
-        .game-card p {
-            margin: 0;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-        
-        /* ===== КНОПКА СКАЧИВАНИЯ ===== */
-        .download-btn {
-            background-color: var(--coming-soon-btn);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: not-allowed;
-            margin-top: 15px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        /* ===== СЕКЦИЯ "О РАЗРАБОТЧИКЕ" ===== */
-        .about-section {
-            display: none;
-            background: var(--bg-secondary);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            box-shadow: var(--card-shadow);
-            animation: fadeIn 0.8s ease;
-            border: 1px solid var(--border-color);
-        }
-        
-        .about-section.show {
-            display: block;
-        }
-        
-        .about-title {
-            color: var(--accent-color);
-            border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-        }
-        
-        .about-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
-        .about-item {
-            background: var(--bg-tertiary);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid var(--accent-color);
-        }
-        
-        .about-item h3 {
-            margin-top: 0;
-            color: var(--text-primary);
-        }
-        
-        .about-item p {
-            color: var(--text-secondary);
-        }
-        
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .skill {
-            background: var(--skill-bg);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: var(--skill-text);
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        .highlight {
-            background: var(--highlight-bg);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid var(--highlight-border);
-            color: var(--text-primary);
-        }
-        
-        /* ===== ОПИСАНИЕ САЙТА ===== */
-        .site-description {
-            background: var(--bg-secondary);
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-            box-shadow: var(--card-shadow);
-            border-left: 5px solid var(--accent-color);
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
-        
-        .site-description p {
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-        }
-        
-        .site-description .intro {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 25px;
-        }
-        
-        /* ===== УВЕДОМЛЕНИЕ О СКАЧИВАНИИ ===== */
-        .download-notice {
-            background: var(--download-notice-gradient);
-            color: #333;
-            padding: 18px;
-            border-radius: 10px;
-            margin: 25px 0;
-            box-shadow: 0 4px 15px rgba(255, 154, 0, 0.4);
-            font-weight: bold;
-            font-size: 1.1em;
-            line-height: 1.5;
-        }
-        
-        .social-mention {
-            background: var(--social-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid var(--highlight-border);
-            font-style: italic;
-            color: var(--text-secondary);
-        }
-        
-        /* ===== ФУТЕР ===== */
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .content {
-            margin: 30px 0;
-        }
-        
-        /* ===== СТАТУСЫ ИГР ===== */
-        .game-status {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .status-in-progress {
-            background: var(--status-in-progress);
-            color: var(--status-in-progress-text);
-        }
-
-        /* ===== КОНТАКТНАЯ СЕКЦИЯ С ПОЧТОЙ ===== */
-        .contact-section {
-            display: none;
-            background: var(--bg-secondary);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            box-shadow: var(--card-shadow);
-            animation: fadeIn 0.8s ease;
-            border: 1px solid var(--border-color);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-        
-        .contact-section.show {
-            display: block;
-        }
-        
-        .contact-title {
-            color: var(--accent-color);
-            border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        
-        .email-display {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .email-address {
-            background: var(--accent-gradient);
-            color: white;
-            padding: 20px 40px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            cursor: pointer;
-            border: 2px solid transparent;
-            user-select: text;
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-        }
-        
-        .email-address:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-            border-color: white;
-        }
-        
-        .email-address.copied {
-            background: var(--success-color);
-            animation: successPulse 0.5s ease;
-        }
-        
-        .copy-button {
-            background-color: var(--copy-btn);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .copy-button:hover {
-            background-color: var(--copy-btn-hover);
-            transform: translateY(-2px);
-        }
-        
-        .copy-button:active {
-            transform: translateY(0);
-        }
-        
-        .email-alternative {
-            background: var(--bg-tertiary);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid var(--accent-color);
-            text-align: left;
-        }
-        
-        .email-alternative h3 {
-            margin-top: 0;
-            color: var(--text-primary);
-            text-align: center;
-        }
-        
-        .email-alternative ul {
-            margin: 15px 0;
-            padding-left: 20px;
-        }
-        
-        .email-alternative li {
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-        
-        .response-time {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* ===== ФОРМА УВЕДОМЛЕНИЙ ===== */
-        .notification-section {
-            display: none;
-            background: var(--bg-secondary);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            box-shadow: var(--card-shadow);
-            animation: fadeIn 0.8s ease;
-            border: 1px solid var(--border-color);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .notification-section.show {
-            display: block;
-        }
-        
-        .notification-title {
-            color: var(--accent-color);
-            border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        
-        .notification-form {
-            background: var(--contact-form-bg);
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid var(--contact-form-border);
-        }
-        
-        .form-notice {
-            background: var(--highlight-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--highlight-border);
-            color: var(--status-in-progress-text);
-        }
-        
-        .form-notice ul {
-            margin: 10px 0 0 20px;
-            padding: 0;
-        }
-        
-        .form-notice li {
-            margin-bottom: 8px;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-        
-        .checkbox-group label {
-            cursor: pointer;
-            user-select: none;
-            color: var(--text-secondary);
-        }
-        
-        .form-message {
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .form-message.success {
-            background: rgba(40, 167, 69, 0.1);
-            border: 1px solid var(--success-color);
-            color: var(--success-color);
-            display: block;
-        }
-        
-        .form-message.error {
-            background: rgba(220, 53, 69, 0.1);
-            border: 1px solid var(--error-color);
-            color: var(--error-color);
-            display: block;
-        }
-        
-        .form-message.warning {
-            background: rgba(255, 193, 7, 0.1);
-            border: 1px solid var(--warning-color);
-            color: var(--warning-color);
-            display: block;
-        }
-        
-        .subscription-list {
-            background: var(--bg-tertiary);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid var(--accent-color);
-        }
-        
-        .subscription-list h4 {
-            margin-top: 0;
-            color: var(--text-primary);
-        }
-        
-        .subscription-list ul {
-            margin: 10px 0 0 20px;
-            padding: 0;
-        }
-        
-        .subscription-list li {
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            padding-left: 5px;
-        }
-
-        /* ===== ВОДЯНОЙ ЗНАК ===== */
-        .site-watermark {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            opacity: 0.1;
-            color: var(--text-secondary);
-            font-size: 10px;
-            pointer-events: none;
-            z-index: 9999;
-            font-family: monospace;
-            user-select: none;
-        }
-
-        /* ===== ЗАЩИТА КОНТЕНТА ===== */
-        .source-protection-message {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 99999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .source-protection-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px;
-            border-radius: 15px;
-            max-width: 600px;
-            animation: protectionFadeIn 0.5s ease;
-            box-shadow: 0 0 50px rgba(102, 126, 234, 0.8);
-        }
-        
-        @keyframes protectionFadeIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        .source-protection-content h1 {
-            margin-top: 0;
-            font-size: 2.5em;
-        }
-        
-        .source-protection-content p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            margin: 20px 0;
-        }
-        
-        .close-protection {
-            background: white;
-            color: #667eea;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .close-protection:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
-        }
-
-        /* ===== АНИМАЦИИ ===== */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes gentlePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes comingSoonPulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
-        
-        @keyframes successPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .game-card:hover {
-            animation: pulse 1.5s infinite;
-        }
-        
-        .download-notice {
-            animation: gentlePulse 3s infinite ease-in-out;
-        }
-        
-        .intro {
-            animation: gentlePulse 2s infinite;
-        }
-        
-        .download-btn {
-            animation: comingSoonPulse 2s infinite;
-        }
-        
-        .email-address {
-            animation: gentlePulse 2s infinite ease-in-out;
-        }
-        
-        * {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-
-        /* ===== АДАПТИВНОСТЬ ===== */
-        @media (max-width: 768px) {
-            .control-panel {
-                top: 10px;
-                right: 10px;
-            }
-            
-            .control-button {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            .language-selector {
-                top: 60px;
-                right: 10px;
-            }
-            
-            .nav-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .nav-button {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .game-list {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-section,
-            .notification-section {
-                padding: 20px;
-            }
-            
-            .notification-form {
-                padding: 15px;
-            }
-            
-            .email-address {
-                padding: 15px 25px;
-                font-size: 18px;
-            }
-            
-            .copy-button {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="protected-content">
-    <!-- СООБЩЕНИЕ О ЗАЩИТЕ ИСХОДНОГО КОДА -->
-    <div id="source-protection-message" class="source-protection-message">
-        <div class="source-protection-content">
-            <h1>🛡️ Защищённый контент</h1>
-            <p>Просмотр исходного кода этого сайта ограничен.</p>
-            <p>Это сделано для защиты интеллектуальной собственности и предотвращения копирования контента.</p>
-            <p>Если вы разработчик и хотите узнать больше о технологиях, использованных на сайте, свяжитесь с нами.</p>
-            <button class="close-protection" onclick="closeProtectionMessage()">Понятно, вернуться на сайт</button>
-        </div>
-    </div>
-    
-    <!-- ВОДЯНОЙ ЗНАК -->
-    <div class="site-watermark">© 2025 VelikiyGus | Protected</div>
-    
-    <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (ТЕМА + ЯЗЫК) -->
-    <div class="control-panel">
-        <button id="theme-toggle" class="control-button" data-tooltip="Сменить тему">
-            🌙
-        </button>
-        <button id="language-toggle" class="control-button" data-tooltip="Сменить язык">
-            🇷🇺
-        </button>
-    </div>
-    
-    <!-- ВЫБОР ЯЗЫКА -->
-    <div id="language-selector" class="language-selector">
-        <div class="language-option active" onclick="setLanguage('ru')">
-            🇷🇺 Русский
-        </div>
-        <div class="language-option" onclick="setLanguage('en')">
-            🇺🇸 English
-        </div>
-    </div>
-    
-    <header>
-        <!-- ШАПКА С АВАТАРКОЙ -->
-        <div class="header-with-avatar">
-            <img src="https://robohash.org/velikiygus?size=80x80&bgset=bg1" 
-                 alt="Аватар VelikiyGus" 
-                 class="site-avatar">
-            
-            <div>
-                <h1 class="site-title">VelikiyGus</h1>
-                <p class="site-subtitle">© VelikiyGus проекты</p>
+<body>
+    <a class="skip-link" href="#main" data-i18n="skipLink">Перейти к содержимому</a>
+
+    <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
+
+    <!-- ================= ШАПКА ================= -->
+    <header class="site-header" id="site-header">
+        <div class="container header__inner">
+            <a class="brand" href="#home" aria-label="Великий гусь — на главную">
+                <span class="brand__mark" aria-hidden="true">
+                    <img src="assets/img/favicon.svg" alt="" width="40" height="40">
+                </span>
+                <span class="brand__text">
+                    <strong data-i18n="brand.name">Великий гусь</strong>
+                    <small data-i18n="brandTagline">команда разработчиков</small>
+                </span>
+            </a>
+
+            <nav class="nav" id="primary-nav" aria-label="Основная навигация">
+                <ul class="nav__list">
+                    <li><a class="nav__link" href="#home" data-i18n="nav.home">Главная</a></li>
+                    <li><a class="nav__link" href="#projects" data-i18n="nav.projects">Проекты</a></li>
+                    <li><a class="nav__link" href="#team" data-i18n="nav.team">Команда</a></li>
+                    <li><a class="nav__link" href="#roadmap" data-i18n="nav.roadmap">Планы</a></li>
+                    <li><a class="nav__link" href="#devlog" data-i18n="nav.devlog">Девлог</a></li>
+                    <li><a class="nav__link" href="#faq" data-i18n="nav.faq">Вопросы</a></li>
+                    <li><a class="nav__link" href="#contact" data-i18n="nav.contact">Контакты</a></li>
+                </ul>
+            </nav>
+
+            <div class="header__actions">
+                <button class="icon-btn" id="theme-toggle" type="button" aria-label="Сменить тему" data-i18n-aria-label="theme.label" title="Тема: авто">
+                    <span class="icon-btn__glyph" id="theme-glyph" aria-hidden="true">◐</span>
+                </button>
+                <button class="lang-switch" id="lang-toggle" type="button" aria-label="Switch to English" title="Switch to English">
+                    <span class="lang-switch__current">RU</span>
+                </button>
+                <a class="btn btn--primary btn--sm header__cta" href="#subscribe" data-i18n="cta.subscribe">Подписаться</a>
+                <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Открыть меню">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </header>
-    
-    <nav>
-        <!-- НАВИГАЦИОННЫЕ КНОПКИ -->
-        <div class="nav-buttons">
-            <button id="about-btn" class="nav-button">👤 О разработчике</button>
-            <button id="projects-btn" class="nav-button">🚀 Мои проекты</button>
-            <button id="notifications-btn" class="nav-button">🔔 Подписаться на новости</button>
-            <button id="contact-btn" class="nav-button">📧 Связаться</button>
-        </div>
-    </nav>
-    
-    <section class="content">
-        <!-- ОПИСАНИЕ САЙТА -->
-        <div class="site-description">
-            <div id="intro-text" class="intro">🎮 Хочешь увидеть крутые игры?</div>
-            
-            <p id="description-text">
-                VelikiyGus — это творческая студия двух разработчиков.<br>
-                Мы делаем то, во что сами бы с удовольствием играли: 
-                захватывающие приключения, стратегии с интересными механиками 
-                и проекты с душой.
-            </p>
-            
-            <div id="social-text" class="social-mention">
-                Загляни в "Мои проекты" и оцени наши работы!<br>
-                Скоро игры появятся для скачивания!
-            </div>
-            
-            <div id="download-notice-text" class="download-notice">
-                ⚡ <strong>Скоро!</strong><br>
-                Игры появятся для скачивания в ближайшее время<br>
-                <small>Следите за обновлениями!</small>
-            </div>
-        </div>
-        
-        <!-- СЕКЦИЯ "О РАЗРАБОТЧИКЕ" -->
-        <div id="about-section" class="about-section">
-            <h2 id="about-title" class="about-title">👨‍💻 О разработчике</h2>
-            
-            <div class="highlight">
-                <strong>VelikiyGus</strong> - разработчик игр и веб-приложений. 
-                <span id="about-description">Создаю увлекательные игры и интересные проекты.</span>
-            </div>
-            
-            <div class="about-grid">
-                <div class="about-item">
-                    <h3>🎮 <span id="specialization-title">Специализация</span></h3>
-                    <p id="specialization-text">Разработка 2D игр, веб-приложений и игровых механик.</p>
+
+    <main id="main">
+        <!-- ================= ГЛАВНЫЙ ЭКРАН ================= -->
+        <section class="hero" id="home" aria-labelledby="hero-title">
+            <div class="hero__glow" aria-hidden="true"></div>
+            <div class="container hero__inner">
+                <div class="hero__copy">
+                    <p class="eyebrow reveal" data-i18n="hero.eyebrow">🎮 Творческая студия двух разработчиков</p>
+                    <h1 class="hero__title reveal" id="hero-title">
+                        <span data-i18n="hero.titleLead">Игры, в которые</span><br>
+                        <span class="text-gradient" data-i18n="hero.titleAccent">играли бы сами</span>
+                    </h1>
+                    <p class="hero__lead reveal" data-i18n="hero.lead">
+                        Великий гусь — это творческая студия двух разработчиков. Мы делаем то, во что сами бы
+                        с удовольствием играли: захватывающие приключения, стратегии с интересными механиками
+                        и проекты с душой.
+                    </p>
+                    <div class="hero__actions reveal">
+                        <a class="btn btn--primary" href="#projects" data-i18n="hero.ctaProjects">Смотреть проекты</a>
+                        <a class="btn btn--ghost" href="#subscribe" data-i18n="hero.ctaSubscribe">Подписаться на новости</a>
+                    </div>
+
+                    <dl class="stats reveal" aria-label="Коротко о команде">
+                        <div class="stat">
+                            <dt class="stat__value"><span class="counter" data-count="3">3</span></dt>
+                            <dd class="stat__label" data-i18n="stats.projects">проекта в работе</dd>
+                        </div>
+                        <div class="stat">
+                            <dt class="stat__value"><span class="counter" data-count="2">2</span></dt>
+                            <dd class="stat__label" data-i18n="stats.developers">разработчика</dd>
+                        </div>
+                        <div class="stat">
+                            <dt class="stat__value"><span class="counter" data-count="4">4</span></dt>
+                            <dd class="stat__label" data-i18n="stats.platforms">платформы</dd>
+                        </div>
+                    </dl>
                 </div>
-                
-                <div class="about-item">
-                    <h3>🎯 <span id="goals-title">Цели</span></h3>
-                    <p id="goals-text">Создавать качественные игры, которые будут нравиться игрокам.</p>
+
+                <div class="hero__art reveal">
+                    <div class="goose-card" id="goose-card" role="button" tabindex="0"
+                         aria-label="Погладить гуся" title="Погладить гуся">
+                        <div class="goose-card__halo" aria-hidden="true"></div>
+                        <svg class="goose" viewBox="0 0 420 420" role="img" aria-labelledby="goose-title" focusable="false">
+                            <title id="goose-title">Маскот команды — важный гусь</title>
+                            <defs>
+                                <linearGradient id="gooseBody" x1="0.2" y1="0" x2="0.8" y2="1">
+                                    <stop offset="0" stop-color="#ffffff"/>
+                                    <stop offset="1" stop-color="#dfe9f6"/>
+                                </linearGradient>
+                                <linearGradient id="gooseBeak" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0" stop-color="#ffc25c"/>
+                                    <stop offset="1" stop-color="#ff8a3d"/>
+                                </linearGradient>
+                                <radialGradient id="gooseCheek" cx="0.5" cy="0.5" r="0.5">
+                                    <stop offset="0" stop-color="#ff9aa2" stop-opacity="0.55"/>
+                                    <stop offset="1" stop-color="#ff9aa2" stop-opacity="0"/>
+                                </radialGradient>
+                            </defs>
+
+                            <ellipse cx="220" cy="374" rx="122" ry="16" fill="#0b1220" opacity="0.22"/>
+                            <path d="M322 286c30-10 48 2 44 22-16 8-36-2-44-22z" fill="url(#gooseBody)"/>
+                            <ellipse cx="228" cy="300" rx="107" ry="64" transform="rotate(-7 228 300)" fill="url(#gooseBody)"/>
+                            <path d="M196 258c-16-46-34-70-44-110" stroke="url(#gooseBody)" stroke-width="54" stroke-linecap="round" fill="none"/>
+                            <circle cx="148" cy="112" r="43" fill="url(#gooseBody)"/>
+                            <path d="M110 98c-26-4-46 8-44 22 2 14 26 18 46 8z" fill="url(#gooseBeak)"/>
+                            <path d="M70 120c12 6 26 6 38 2" stroke="#d96b1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                            <circle cx="150" cy="104" r="3" fill="#d96b1f" opacity="0.5"/>
+                            <ellipse cx="160" cy="132" rx="18" ry="12" fill="url(#gooseCheek)"/>
+                            <circle cx="137" cy="99" r="7" fill="#16202e"/>
+                            <circle cx="134.6" cy="96.6" r="2.2" fill="#ffffff"/>
+                            <path d="M205 268c36-20 86-8 97 26 2 22-32 36-64 30-30-6-41-30-33-56z" fill="#eef4fc" stroke="#d3dfef" stroke-width="2"/>
+                            <path d="M222 288c14 10 34 14 54 10M228 306c12 8 28 10 42 8" stroke="#cfdcec" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                            <path d="M186 358l-8 18h30l-2-18z" fill="url(#gooseBeak)"/>
+                            <path d="M246 358l-6 18h30l-4-18z" fill="url(#gooseBeak)"/>
+                        </svg>
+
+                        <div class="goose-card__bubble" id="goose-bubble" aria-live="polite"></div>
+                        <span class="chip chip--float chip--1">2D</span>
+                        <span class="chip chip--float chip--2">Web</span>
+                        <span class="chip chip--float chip--3">Roblox</span>
+                        <span class="chip chip--float chip--4">Mobile</span>
+                    </div>
+                    <p class="hero__hint" data-i18n="hero.hint">Гуся можно погладить — он отвечает «га!»</p>
                 </div>
-                
-                <div class="about-item">
-                    <h3>📍 <span id="platforms-title">Платформы</span></h3>
-                    <p id="platforms-text">Windows, Web, Roblox, Мобильные устройства</p>
+            </div>
+        </section>
+
+        <!-- ================= ПРОЕКТЫ ================= -->
+        <section class="section" id="projects" aria-labelledby="projects-title">
+            <div class="container">
+                <header class="section__head reveal">
+                    <p class="eyebrow" data-i18n="projects.eyebrow">🚀 Портфолио</p>
+                    <h2 class="section__title" id="projects-title" data-i18n="projects.title">Наши проекты</h2>
+                    <p class="section__lead" data-i18n="projects.lead">
+                        Три проекта в работе: историческая стратегия, приключенческий платформер и секретная новинка.
+                        Скачивание откроется сразу после релиза.
+                    </p>
+                </header>
+
+                <div class="toolbar reveal">
+                    <div class="filters" role="group" aria-label="Фильтр проектов">
+                        <button class="filter is-active" type="button" data-filter="all" data-i18n="projects.filterAll">Все</button>
+                        <button class="filter" type="button" data-filter="dev" data-i18n="projects.filterDev">В разработке</button>
+                        <button class="filter" type="button" data-filter="planned" data-i18n="projects.filterPlanned">В планах</button>
+                    </div>
+                    <div class="search">
+                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <label class="visually-hidden" for="project-search" data-i18n="projects.searchLabel">Поиск по проектам</label>
+                        <input id="project-search" type="search" placeholder="Поиск по проектам…" data-i18n-placeholder="projects.searchPlaceholder" autocomplete="off">
+                    </div>
                 </div>
-                
-                <div class="about-item">
-                    <h3>📧 <span id="contacts-title">Контакты</span></h3>
-                    <p id="contacts-text">Напишите мне на почту или подпишитесь на новости</p>
+
+                <div class="projects-grid" id="projects-grid">
+                    <!-- Проект 1 -->
+                    <article class="card project" data-project="civil-war" data-status="dev" data-search="гражданская война civil war стратегия strategy история">
+                        <div class="project__cover cover--civil" aria-hidden="true">
+                            <svg viewBox="0 0 120 120" focusable="false"><path d="M60 16l36 12v28c0 24-16 40-36 48-20-8-36-24-36-48V28z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><path d="M60 44v38M44 60h32" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></svg>
+                            <span class="project__emoji">⚔️</span>
+                        </div>
+                        <div class="project__body">
+                            <div class="project__meta">
+                                <span class="pill pill--dev" data-i18n="projects.statusDev">В разработке</span>
+                                <span class="project__genre" data-i18n="projects.p1genre">Историческая стратегия</span>
+                            </div>
+                            <h3 class="project__title" data-i18n="projects.p1title">Гражданская война в России 2D</h3>
+                            <p class="project__desc" data-i18n="projects.p1desc">
+                                Историческая игра о Гражданской войне в России: выбирай класс, исследуй большую карту
+                                и сражайся с противниками.
+                            </p>
+                            <ul class="tags" aria-label="Особенности">
+                                <li data-i18n="projects.p1f1">Выбор класса</li>
+                                <li data-i18n="projects.p1f2">Большая карта</li>
+                                <li data-i18n="projects.p1f3">PvP-сражения</li>
+                            </ul>
+                            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45" aria-label="Готовность">
+                                <span class="progress__fill p45"></span>
+                            </div>
+                            <div class="project__foot">
+                                <button class="btn btn--soft" type="button" data-open-project="civil-war" data-i18n="projects.details">Подробнее</button>
+                                <button class="btn btn--primary btn--sm" type="button" data-notify="civil-war" data-i18n="projects.notify">Уведомить</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Проект 2 -->
+                    <article class="card project" data-project="save-alice" data-status="dev" data-search="спаси алису save alice платформер platformer приключение">
+                        <div class="project__cover cover--alice" aria-hidden="true">
+                            <svg viewBox="0 0 120 120" focusable="false"><path d="M60 100S22 74 22 48a22 22 0 0 1 38-15 22 22 0 0 1 38 15c0 26-38 52-38 52z" fill="currentColor"/></svg>
+                            <span class="project__emoji">👧</span>
+                        </div>
+                        <div class="project__body">
+                            <div class="project__meta">
+                                <span class="pill pill--dev" data-i18n="projects.statusDev">В разработке</span>
+                                <span class="project__genre" data-i18n="projects.p2genre">Приключенческий платформер</span>
+                            </div>
+                            <h3 class="project__title" data-i18n="projects.p2title">Спаси Алису</h3>
+                            <p class="project__desc" data-i18n="projects.p2desc">
+                                Приключенческий платформер: помоги герою спасти Алису от злодеев, пройдя через
+                                опасные уровни, головоломки и боссов.
+                            </p>
+                            <ul class="tags" aria-label="Особенности">
+                                <li data-i18n="projects.p2f1">Платформер</li>
+                                <li data-i18n="projects.p2f2">Головоломки</li>
+                                <li data-i18n="projects.p2f3">Боссы</li>
+                            </ul>
+                            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-label="Готовность">
+                                <span class="progress__fill p30"></span>
+                            </div>
+                            <div class="project__foot">
+                                <button class="btn btn--soft" type="button" data-open-project="save-alice" data-i18n="projects.details">Подробнее</button>
+                                <button class="btn btn--primary btn--sm" type="button" data-notify="save-alice" data-i18n="projects.notify">Уведомить</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Проект 3 -->
+                    <article class="card project" data-project="secret" data-status="planned" data-search="секретный проект secret project эксперимент">
+                        <div class="project__cover cover--secret" aria-hidden="true">
+                            <svg viewBox="0 0 120 120" focusable="false"><rect x="30" y="54" width="60" height="46" rx="10" fill="currentColor"/><path d="M42 54V42a18 18 0 0 1 36 0v12" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/></svg>
+                            <span class="project__emoji">🎮</span>
+                        </div>
+                        <div class="project__body">
+                            <div class="project__meta">
+                                <span class="pill pill--planned" data-i18n="projects.statusPlanned">В планах</span>
+                                <span class="project__genre" data-i18n="projects.p3genre">Пока секрет</span>
+                            </div>
+                            <h3 class="project__title" data-i18n="projects.p3title">Секретный проект</h3>
+                            <p class="project__desc" data-i18n="projects.p3desc">
+                                Новый увлекательный проект в разработке. Скоро будет больше информации!
+                            </p>
+                            <ul class="tags" aria-label="Особенности">
+                                <li data-i18n="projects.p3f1">Эксперимент</li>
+                                <li data-i18n="projects.p3f2">Новые механики</li>
+                                <li data-i18n="projects.p3f3">Экшен</li>
+                            </ul>
+                            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="10" aria-label="Готовность">
+                                <span class="progress__fill p10"></span>
+                            </div>
+                            <div class="project__foot">
+                                <button class="btn btn--soft" type="button" data-open-project="secret" data-i18n="projects.details">Подробнее</button>
+                                <button class="btn btn--primary btn--sm" type="button" data-notify="secret" data-i18n="projects.notify">Уведомить</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="empty-state" id="projects-empty" hidden data-i18n="projects.empty">Ничего не нашлось. Попробуйте другой запрос.</p>
+
+                <p class="section__note reveal" data-i18n="projects.note">
+                    ⏳ Игры пока недоступны для скачивания — мы сообщим, как только появится первая сборка.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= КОМАНДА ================= -->
+        <section class="section section--alt" id="team" aria-labelledby="team-title">
+            <div class="container">
+                <div class="team__grid">
+                    <div class="team__intro reveal">
+                        <p class="eyebrow" data-i18n="team.eyebrow">👨‍💻 О нас</p>
+                        <h2 class="section__title" id="team-title" data-i18n="team.title">Команда</h2>
+                        <p class="section__lead" data-i18n="team.lead">
+                            VelikiyGus — творческая студия двух разработчиков. Мы делаем то, во что сами бы
+                            с удовольствием играли: захватывающие приключения, стратегии с интересными механиками
+                            и проекты с душой.
+                        </p>
+                        <blockquote class="quote" data-i18n="team.quote">
+                            «VelikiyGus» — разработчик игр и веб-приложений. Создаю увлекательные игры
+                            и интересные проекты.
+                        </blockquote>
+                        <h3 class="h3" data-i18n="team.skillsTitle">🛠️ Технические навыки</h3>
+                        <ul class="skills" aria-label="Технические навыки">
+                            <li>HTML5 / CSS3</li>
+                            <li>JavaScript</li>
+                            <li>Python</li>
+                            <li data-i18n="team.skillGameDev">Разработка игр</li>
+                            <li data-i18n="team.skill2d">2D-графика</li>
+                            <li>Git &amp; GitHub</li>
+                            <li>Roblox Studio</li>
+                            <li data-i18n="team.skillWeb">Веб-разработка</li>
+                        </ul>
+                    </div>
+
+                    <div class="team__cards">
+                        <article class="card fact reveal">
+                            <span class="fact__icon" aria-hidden="true">🎮</span>
+                            <h3 data-i18n="team.specTitle">Специализация</h3>
+                            <p data-i18n="team.specText">Разработка 2D-игр, веб-приложений и игровых механик.</p>
+                        </article>
+                        <article class="card fact reveal">
+                            <span class="fact__icon" aria-hidden="true">🎯</span>
+                            <h3 data-i18n="team.goalsTitle">Цели</h3>
+                            <p data-i18n="team.goalsText">Создавать качественные игры, которые будут нравиться игрокам.</p>
+                        </article>
+                        <article class="card fact reveal">
+                            <span class="fact__icon" aria-hidden="true">📍</span>
+                            <h3 data-i18n="team.platformsTitle">Платформы</h3>
+                            <p data-i18n="team.platformsText">Windows, Web, Roblox, мобильные устройства.</p>
+                        </article>
+                        <article class="card fact reveal">
+                            <span class="fact__icon" aria-hidden="true">📧</span>
+                            <h3 data-i18n="team.contactsTitle">Контакты</h3>
+                            <p data-i18n="team.contactsText">Напишите нам на почту или подпишитесь на новости.</p>
+                        </article>
+                    </div>
                 </div>
             </div>
-            
-            <h3 id="skills-title" style="color: var(--text-primary);">🛠️ Технические навыки:</h3>
-            <div class="skills-list">
-                <span class="skill">HTML5/CSS3</span>
-                <span class="skill">JavaScript</span>
-                <span class="skill">Python</span>
-                <span class="skill" id="game-dev-skill">Game Development</span>
-                <span class="skill" id="2d-graphics-skill">2D Графика</span>
-                <span class="skill">Git & GitHub</span>
-                <span class="skill">Roblox Studio</span>
-                <span class="skill" id="web-dev-skill">Web Development</span>
-                <span class="skill">Защита контента</span>
+        </section>
+
+        <!-- ================= ДОРОЖНАЯ КАРТА ================= -->
+        <section class="section" id="roadmap" aria-labelledby="roadmap-title">
+            <div class="container">
+                <header class="section__head reveal">
+                    <p class="eyebrow" data-i18n="roadmap.eyebrow">🧭 Куда движемся</p>
+                    <h2 class="section__title" id="roadmap-title" data-i18n="roadmap.title">Дорожная карта</h2>
+                    <p class="section__lead" data-i18n="roadmap.lead">
+                        Порядок этапов и сроки могут меняться — все новости публикуем в девлоге.
+                    </p>
+                </header>
+
+                <ol class="timeline">
+                    <li class="timeline__item is-done reveal">
+                        <span class="timeline__dot" aria-hidden="true"></span>
+                        <div class="card timeline__card">
+                            <div class="timeline__top">
+                                <span class="pill pill--done" data-i18n="roadmap.stateDone">Готово</span>
+                                <h3 data-i18n="roadmap.r1title">Сайт команды</h3>
+                            </div>
+                            <p data-i18n="roadmap.r1text">Новая версия сайта: дизайн, разделы о команде и проектах, тёмная тема и английская версия.</p>
+                        </div>
+                    </li>
+                    <li class="timeline__item is-active reveal">
+                        <span class="timeline__dot" aria-hidden="true"></span>
+                        <div class="card timeline__card">
+                            <div class="timeline__top">
+                                <span class="pill pill--dev" data-i18n="roadmap.stateActive">В работе</span>
+                                <h3 data-i18n="roadmap.r2title">Гражданская война в России 2D</h3>
+                            </div>
+                            <p data-i18n="roadmap.r2text">Классы, большая карта и PvP-сражения. Дальше — баланс и первый публичный тест.</p>
+                        </div>
+                    </li>
+                    <li class="timeline__item is-active reveal">
+                        <span class="timeline__dot" aria-hidden="true"></span>
+                        <div class="card timeline__card">
+                            <div class="timeline__top">
+                                <span class="pill pill--dev" data-i18n="roadmap.stateActive">В работе</span>
+                                <h3 data-i18n="roadmap.r3title">Спаси Алису</h3>
+                            </div>
+                            <p data-i18n="roadmap.r3text">Уровни, головоломки и боссы. Собираем прототип первого мира.</p>
+                        </div>
+                    </li>
+                    <li class="timeline__item reveal">
+                        <span class="timeline__dot" aria-hidden="true"></span>
+                        <div class="card timeline__card">
+                            <div class="timeline__top">
+                                <span class="pill pill--planned" data-i18n="roadmap.statePlanned">В планах</span>
+                                <h3 data-i18n="roadmap.r4title">Секретный проект</h3>
+                            </div>
+                            <p data-i18n="roadmap.r4text">Экспериментируем с механиками. Расскажем, когда будет что показать.</p>
+                        </div>
+                    </li>
+                </ol>
             </div>
-        </div>
-        
-        <!-- СПИСОК ИГР -->
-        <div id="game-list" class="game-list">
-            <!-- ИГРА 1 -->
-            <div class="game-card">
-                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=180&fit=crop" 
-                     alt="Гражданская война в России 2D">
-                <h2>⚔️ <span id="game1-title">Гражданская война в России 2D</span></h2>
-                <div class="game-status status-in-progress" id="game1-status">В разработке</div>
-                <p id="game1-description">Историческая игра о Гражданской войне в России, выбирай класс и сражайся с противниками на большой карте!</p>
-                <p><strong id="game1-features-title">Особенности:</strong> <span id="game1-features">Выбор класса, большая карта, PvP сражения</span></p>
-                
-                <button class="download-btn">
-                    ⏳ <span id="game1-button">Скоро будет доступно</span>
-                </button>
-                <button id="notify-game1" style="
-                    background: var(--accent-color);
-                    color: white;
-                    border: none;
-                    padding: 8px 15px;
-                    border-radius: 20px;
-                    font-size: 12px;
-                    cursor: pointer;
-                    margin-top: 10px;
-                    width: 100%;
-                ">
-                    🔔 Уведомить о выходе
-                </button>
+        </section>
+
+        <!-- ================= ДЕВЛОГ ================= -->
+        <section class="section section--alt" id="devlog" aria-labelledby="devlog-title">
+            <div class="container">
+                <header class="section__head reveal">
+                    <p class="eyebrow" data-i18n="devlog.eyebrow">📝 Дневник разработки</p>
+                    <h2 class="section__title" id="devlog-title" data-i18n="devlog.title">Девлог</h2>
+                    <p class="section__lead" data-i18n="devlog.lead">Что нового у команды — коротко и по делу.</p>
+                </header>
+
+                <div class="devlog">
+                    <article class="card post reveal">
+                        <div class="post__meta">
+                            <time datetime="2026-11-25" data-i18n="devlog.d1date">25 ноября 2026</time>
+                            <span class="pill pill--soft" data-i18n="devlog.d1tag">Сайт</span>
+                        </div>
+                        <h3 data-i18n="devlog.d1title">Версия 2.0: новый сайт</h3>
+                        <p data-i18n="devlog.d1text">
+                            Полностью переделали сайт: тёмная и светлая темы, английская версия, проекты с фильтрами,
+                            дорожная карта, девлог и FAQ. Добавили офлайн-режим и установку как приложение.
+                        </p>
+                    </article>
+
+                    <article class="card post reveal">
+                        <div class="post__meta">
+                            <time datetime="2026-01-04" data-i18n="devlog.d2date">4 января 2026</time>
+                            <span class="pill pill--soft" data-i18n="devlog.d2tag">Сайт</span>
+                        </div>
+                        <h3 data-i18n="devlog.d2title">Тёмная тема и английский язык</h3>
+                        <p data-i18n="devlog.d2text">
+                            На сайте появились переключатель темы и перевод на английский, а структура страницы
+                            стала заметно аккуратнее.
+                        </p>
+                    </article>
+
+                    <article class="card post reveal">
+                        <div class="post__meta">
+                            <time datetime="2025-09-01" data-i18n="devlog.d3date">Сентябрь 2025</time>
+                            <span class="pill pill--soft" data-i18n="devlog.d3tag">Запуск</span>
+                        </div>
+                        <h3 data-i18n="devlog.d3title">Запуск сайта</h3>
+                        <p data-i18n="devlog.d3text">
+                            Собрали первую версию сайта команды: рассказ о нас, список проектов и форма подписки
+                            на новости.
+                        </p>
+                    </article>
+                </div>
             </div>
-            
-            <!-- ИГРА 2 -->
-            <div class="game-card">
-                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=180&fit=crop" 
-                     alt="Спаси Алису">
-                <h2>👧 <span id="game2-title">Спаси Алису</span></h2>
-                <div class="game-status status-in-progress" id="game2-status">В разработке</div>
-                <p id="game2-description">Захватывающая приключенческая игра-платформер. Помогите герою спасти Алису от злодеев, пройдя через опасные уровни, головоломки и боссов.</p>
-                <p><strong id="game2-features-title">Особенности:</strong> <span id="game2-features">Платформер, головоломки, боссы, сбор предметов</span></p>
-                
-                <button class="download-btn">
-                    ⏳ <span id="game2-button">Скоро будет доступно</span>
-                </button>
-                <button id="notify-game2" style="
-                    background: var(--accent-color);
-                    color: white;
-                    border: none;
-                    padding: 8px 15px;
-                    border-radius: 20px;
-                    font-size: 12px;
-                    cursor: pointer;
-                    margin-top: 10px;
-                    width: 100%;
-                ">
-                    🔔 Уведомить о выходе
-                </button>
+        </section>
+
+        <!-- ================= FAQ ================= -->
+        <section class="section" id="faq" aria-labelledby="faq-title">
+            <div class="container container--narrow">
+                <header class="section__head reveal">
+                    <p class="eyebrow" data-i18n="faq.eyebrow">💬 Вопросы</p>
+                    <h2 class="section__title" id="faq-title" data-i18n="faq.title">Частые вопросы</h2>
+                </header>
+
+                <div class="faq reveal">
+                    <details name="faq">
+                        <summary data-i18n="faq.q1">Когда выйдут игры?</summary>
+                        <p data-i18n="faq.a1">Точных дат пока нет: мы не хотим обещать раньше времени. Все вехи и первые сборки появятся в девлоге, а подписчикам придёт письмо.</p>
+                    </details>
+                    <details name="faq">
+                        <summary data-i18n="faq.q2">Где скачать игры?</summary>
+                        <p data-i18n="faq.a2">Игры ещё не вышли — кнопки скачивания появятся на карточках проектов. Подпишитесь на новости, чтобы не пропустить релиз.</p>
+                    </details>
+                    <details name="faq">
+                        <summary data-i18n="faq.q3">На каких платформах будут игры?</summary>
+                        <p data-i18n="faq.a3">Ориентируемся на Windows и Web, часть проектов планируется для Roblox и мобильных устройств.</p>
+                    </details>
+                    <details name="faq">
+                        <summary data-i18n="faq.q4">Можно ли помочь или предложить идею?</summary>
+                        <p data-i18n="faq.a4">Конечно! Напишите на почту: мы читаем всё и отвечаем в течение 1–2 рабочих дней.</p>
+                    </details>
+                    <details name="faq">
+                        <summary data-i18n="faq.q5">Что будет с моим email после подписки?</summary>
+                        <p data-i18n="faq.a5">Мы используем его только для новостей о проектах. Рассылка идёт через Formspree, отписаться можно в один клик в любом письме.</p>
+                    </details>
+                    <details name="faq">
+                        <summary data-i18n="faq.q6">Почему «Великий гусь»?</summary>
+                        <p data-i18n="faq.a6">Потому что гусь — птица серьёзная, упорная и с характером. Как наши игры. Га!</p>
+                    </details>
+                </div>
             </div>
-            
-            <!-- ИГРА 3 -->
-            <div class="game-card">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=180&fit=crop" 
-                     alt="Новая игра">
-                <h2>🎮 <span id="game3-title">Секретный проект</span></h2>
-                <div class="game-status status-in-progress" id="game3-status">В разработке</div>
-                <p id="game3-description">Новый увлекательный проект в разработке. Скоро будет больше информации!</p>
-                <p><strong id="game3-features-title">Особенности:</strong> <span id="game3-features">Секретно, инновации, экшен</span></p>
-                
-                <button class="download-btn">
-                    🔒 <span id="game3-button">Скоро будет доступно</span>
-                </button>
-                <button id="notify-game3" style="
-                    background: var(--accent-color);
-                    color: white;
-                    border: none;
-                    padding: 8px 15px;
-                    border-radius: 20px;
-                    font-size: 12px;
-                    cursor: pointer;
-                    margin-top: 10px;
-                    width: 100%;
-                ">
-                    🔔 Уведомить о выходе
-                </button>
+        </section>
+
+        <!-- ================= ПОДПИСКА ================= -->
+        <section class="section section--accent" id="subscribe" aria-labelledby="subscribe-title">
+            <div class="container container--narrow">
+                <header class="section__head reveal">
+                    <p class="eyebrow" data-i18n="subscribe.eyebrow">🔔 Новости</p>
+                    <h2 class="section__title" id="subscribe-title" data-i18n="subscribe.title">Подписаться на новости</h2>
+                    <p class="section__lead" data-i18n="subscribe.lead">
+                        Напишем, когда появится первая сборка, и расскажем о важных обновлениях. Без спама.
+                    </p>
+                </header>
+
+                <div class="card subscribe reveal">
+                    <ul class="perks">
+                        <li data-i18n="subscribe.perk1">Уведомим о выходе новых игр</li>
+                        <li data-i18n="subscribe.perk2">Пришлём анонсы обновлений</li>
+                        <li data-i18n="subscribe.perk3">Иногда — эксклюзивные новости команды</li>
+                    </ul>
+
+                    <form class="form" id="subscribe-form" action="https://formspree.io/f/mqavwwbz" method="POST" novalidate>
+                        <div class="form__row">
+                            <div class="field">
+                                <label for="subscribe-email" data-i18n="subscribe.emailLabel">📧 Ваш email</label>
+                                <input id="subscribe-email" name="email" type="email" required autocomplete="email"
+                                       placeholder="you@example.com" data-i18n-placeholder="subscribe.emailPlaceholder"
+                                       aria-describedby="email-error">
+                                <p class="field__error" id="email-error" role="alert"></p>
+                            </div>
+                            <div class="field">
+                                <label for="subscribe-name" data-i18n="subscribe.nameLabel">👤 Имя (необязательно)</label>
+                                <input id="subscribe-name" name="name" type="text" autocomplete="name"
+                                       placeholder="Как к вам обращаться?" data-i18n-placeholder="subscribe.namePlaceholder">
+                            </div>
+                        </div>
+
+                        <fieldset class="field">
+                            <legend data-i18n="subscribe.gamesLabel">🎮 О каких играх писать?</legend>
+                            <div class="checks">
+                                <label class="check">
+                                    <input type="checkbox" name="games" value="civil-war" checked>
+                                    <span data-i18n="projects.p1title">Гражданская война в России 2D</span>
+                                </label>
+                                <label class="check">
+                                    <input type="checkbox" name="games" value="save-alice" checked>
+                                    <span data-i18n="projects.p2title">Спаси Алису</span>
+                                </label>
+                                <label class="check">
+                                    <input type="checkbox" name="games" value="secret" checked>
+                                    <span data-i18n="projects.p3title">Секретный проект</span>
+                                </label>
+                                <label class="check">
+                                    <input type="checkbox" name="games" value="all-future">
+                                    <span data-i18n="subscribe.allFuture">Все будущие игры</span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <input type="hidden" name="_subject" value="Новая подписка с сайта «Великий гусь»">
+                        <input type="hidden" name="_language" value="ru">
+
+                        <div class="check check--consent">
+                            <input id="consent" type="checkbox" name="privacy" required>
+                            <label for="consent" data-i18n="subscribe.consent">Я согласен получать письма о проектах и на обработку персональных данных</label>
+                        </div>
+
+                        <div class="form__actions">
+                            <button class="btn btn--primary" type="submit" data-i18n="subscribe.button">Подписаться</button>
+                            <p class="form__note" data-i18n="subscribe.note">Отписаться можно в один клик. Почту не передаём третьим лицам.</p>
+                        </div>
+                        <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
             </div>
-        </div>
-        
-        <!-- СЕКЦИЯ ПОДПИСКИ НА УВЕДОМЛЕНИЯ -->
-        <div id="notification-section" class="notification-section">
-            <h2 id="notification-title" class="notification-title">🔔 Подписаться на уведомления</h2>
-            
-            <div class="form-notice">
-                <p><strong>Что вы получите, подписавшись:</strong></p>
+        </section>
+
+        <!-- ================= КОНТАКТЫ ================= -->
+        <section class="section" id="contact" aria-labelledby="contact-title">
+            <div class="container">
+                <header class="section__head reveal">
+                    <p class="eyebrow" data-i18n="contact.eyebrow">📧 На связи</p>
+                    <h2 class="section__title" id="contact-title" data-i18n="contact.title">Напишите нам</h2>
+                    <p class="section__lead" data-i18n="contact.lead">Есть вопросы, идеи или предложение о сотрудничестве? Будем рады письму.</p>
+                </header>
+
+                <div class="contact-grid">
+                    <div class="card contact-card reveal">
+                        <span class="contact-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2.5" y="5" width="19" height="14" rx="3"/>
+                            <path d="m3.5 6.5 8.5 6 8.5-6"/>
+                        </svg>
+                    </span>
+                        <h3 data-i18n="contact.emailLabel">Почта команды</h3>
+                        <a class="email-link" id="email-address" href="mailto:velikiygusofficial@gmail.com">velikiygusofficial@gmail.com</a>
+                        <div class="contact-card__actions">
+                            <button class="btn btn--soft btn--sm" type="button" id="copy-email" data-i18n="contact.copy">Скопировать</button>
+                            <a class="btn btn--primary btn--sm" href="mailto:velikiygusofficial@gmail.com" data-i18n="contact.write">Написать</a>
+                        </div>
+                    </div>
+
+                    <div class="card contact-card reveal">
+                        <span class="contact-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M12 7v5l3.5 2"/>
+                        </svg>
+                    </span>
+                        <h3 data-i18n="contact.responseTitle">Скорость ответа</h3>
+                        <p data-i18n="contact.responseText">Обычно отвечаем в течение 1–2 рабочих дней.</p>
+                        <p class="muted" data-i18n="contact.responseNote">Если письмо не дошло — попробуйте форму подписки или напишите повторно.</p>
+                    </div>
+
+                    <div class="card contact-card reveal">
+                        <span class="contact-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m8 6-5 6 5 6M16 6l5 6-5 6"/>
+                        </svg>
+                    </span>
+                        <h3 data-i18n="contact.codeTitle">Код и история</h3>
+                        <p data-i18n="contact.codeText">Сайт открыт: смотрите исходники и историю изменений в репозитории.</p>
+                        <a class="btn btn--soft btn--sm" href="https://github.com/SkarbovOleg/-" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= ПОДВАЛ ================= -->
+    <footer class="site-footer">
+        <div class="container footer__grid">
+            <div class="footer__brand">
+                <a class="brand" href="#home">
+                    <span class="brand__mark brand__mark--sm" aria-hidden="true">🦆</span>
+                    <span class="brand__text"><strong data-i18n="brand.name">Великий гусь</strong><small data-i18n="footer.tagline">игры с характером</small></span>
+                </a>
+                <p class="muted" data-i18n="footer.about">Творческая студия двух разработчиков. Делаем игры, в которые сами бы играли.</p>
+                <button class="btn btn--ghost btn--sm" type="button" id="share-btn" data-i18n="footer.share">Поделиться сайтом</button>
+            </div>
+
+            <nav class="footer__col" aria-label="Разделы сайта">
+                <h4 data-i18n="footer.sections">Разделы</h4>
                 <ul>
-                    <li>Уведомление о выходе новых игр</li>
-                    <li>Анонсы обновлений и доработок</li>
-                    <li>Эксклюзивные новости от разработчика</li>
-                    <li>Специальные предложения для подписчиков</li>
+                    <li><a href="#projects" data-i18n="nav.projects">Проекты</a></li>
+                    <li><a href="#team" data-i18n="nav.team">Команда</a></li>
+                    <li><a href="#roadmap" data-i18n="nav.roadmap">Планы</a></li>
+                    <li><a href="#devlog" data-i18n="nav.devlog">Девлог</a></li>
+                    <li><a href="#faq" data-i18n="nav.faq">Вопросы</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer__col">
+                <h4 data-i18n="footer.projects">Проекты</h4>
+                <ul>
+                    <li><a href="#projects" data-i18n="projects.p1title">Гражданская война в России 2D</a></li>
+                    <li><a href="#projects" data-i18n="projects.p2title">Спаси Алису</a></li>
+                    <li><a href="#projects" data-i18n="projects.p3title">Секретный проект</a></li>
                 </ul>
             </div>
-            
-            <div id="notification-message" class="form-message"></div>
-            
-            <form id="notification-form" class="notification-form" action="https://formspree.io/f/mqavwwbz" method="POST">
-                <div class="form-group">
-                    <label for="notification-email" id="email-label">📧 Ваш email:</label>
-                    <input type="email" id="notification-email" name="email" class="form-control" 
-                           placeholder="ваш-email@example.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="notification-name" id="name-label">👤 Ваше имя (необязательно):</label>
-                    <input type="text" id="notification-name" name="name" class="form-control" 
-                           placeholder="Как к вам обращаться?">
-                </div>
-                
-                <div class="form-group">
-                    <label id="games-label">🎮 На какие игры хотите получать уведомления?</label>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="game-civil-war" name="games" value="civil-war" checked>
-                        <label for="game-civil-war" id="game1-checkbox-label">Гражданская война в России 2D</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="game-save-alice" name="games" value="save-alice" checked>
-                        <label for="game-save-alice" id="game2-checkbox-label">Спаси Алису</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="game-secret-project" name="games" value="secret-project" checked>
-                        <label for="game-secret-project" id="game3-checkbox-label">Секретный проект</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="game-all-future" name="games" value="all-future">
-                        <label for="game-all-future" id="all-games-checkbox-label">Все будущие игры</label>
-                    </div>
-                </div>
-                
-                <input type="hidden" name="_subject" value="Новая подписка с сайта VelikiyGus">
-                <input type="hidden" name="_replyto" id="reply-email">
-                <input type="hidden" name="_language" value="ru">
-                
-                <div class="checkbox-group">
-                    <input type="checkbox" id="privacy-policy" name="privacy" required>
-                    <label for="privacy-policy" id="privacy-label">✅ Я согласен с политикой конфиденциальности и даю согласие на обработку персональных данных</label>
-                </div>
-                
-                <button type="submit" class="submit-btn" id="subscribe-button">
-                    📨 Подписаться на уведомления
-                </button>
-            </form>
-            
-            <div class="subscription-list">
-                <h4 id="subscribers-title">📊 Статистика подписчиков:</h4>
+
+            <div class="footer__col">
+                <h4 data-i18n="footer.contacts">Контакты</h4>
                 <ul>
-                    <li><span id="subscribers-count">0</span> <span id="subscribers-text">человек уже подписались</span></li>
-                    <li id="subscribers-info1">Первыми узнают о выходе игр</li>
-                    <li id="subscribers-info2">Получают уведомления за 1 день до релиза</li>
+                    <li><a href="mailto:velikiygusofficial@gmail.com">velikiygusofficial@gmail.com</a></li>
+                    <li><a href="https://github.com/SkarbovOleg/-" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+                    <li><a href="#subscribe" data-i18n="cta.subscribe">Подписаться</a></li>
                 </ul>
+                <p class="muted footer__quacks"><span data-i18n="footer.quacks">Гусей поглажено:</span> <strong id="quack-count">0</strong></p>
             </div>
         </div>
-        
-        <!-- СЕКЦИЯ КОНТАКТНОЙ ФОРМЫ С ПОЧТОЙ -->
-        <div id="contact-section" class="contact-section">
-            <h2 id="contact-title" class="contact-title">📧 Моя почта</h2>
-            
-            <div class="highlight">
-                <p><strong>Есть вопросы или предложения?</strong><br>
-                Напишите мне на почту!</p>
-            </div>
-            
-            <!-- ОТОБРАЖЕНИЕ ПОЧТЫ С КОПИРОВАНИЕМ -->
-            <div class="email-display">
-                <div id="email-address" class="email-address" onclick="copyEmail()">
-                    velikiygusofficial@gmail.com
-                </div>
-                
-                <button id="copy-email-btn" class="copy-button" onclick="copyEmail()">
-                    📋 Скопировать почту
-                </button>
-            </div>
-            
-            <div class="email-alternative">
-                <h3>📋 Как связаться:</h3>
-                <ul>
-                    <li>Нажмите на почту выше или кнопку "Скопировать"</li>
-                    <li>Откройте вашу почтовую программу (Gmail, Outlook, Яндекс.Почта и др.)</li>
-                    <li>Вставьте почту в поле "Кому"</li>
-                    <li>Напишите ваше сообщение и отправьте</li>
-                </ul>
-            </div>
-            
-            <div class="response-time">
-                <p id="response-time-text">⚠️ Обычно отвечаю в течение 1-2 рабочих дней</p>
-                <p><small id="response-note">Если письмо не дошло, попробуйте подписаться на уведомления через соответствующую форму</small></p>
-            </div>
+
+        <div class="container footer__bottom">
+            <p>© <span id="year">2026</span> Великий гусь · <span data-i18n="footer.rights">Все права защищены</span></p>
+            <p class="muted" data-i18n="footer.made">Сделано небольшой командой с большим гусём 🦆</p>
         </div>
-    </section>
-    
-    <footer>
-        <p>© 2025 VelikiyGus проекты | <span id="rights-text">Все права защищены</span></p>
-        <p><small id="footer-note">Подпишитесь на уведомления, чтобы первыми узнать о выходе игр!</small></p>
     </footer>
-    
-    <script>
-        // ===== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====
-        let aboutVisible = false;
-        let projectsVisible = false;
-        let notificationsVisible = false;
-        let contactVisible = false;
-        let currentTheme = 'light';
-        let currentLanguage = 'ru';
-        
-        // Глобальные экземпляры менеджеров
-        let themeManager;
-        let localization;
-        let emailNotifications;
 
-        // ===== УПРАВЛЕНИЕ ТЁМНОЙ ТЕМОЙ =====
-        class ThemeManager {
-            constructor() {
-                this.themeToggle = document.getElementById('theme-toggle');
-                this.init();
-            }
-            
-            init() {
-                this.setInitialTheme();
-                this.bindEvents();
-            }
-            
-            setInitialTheme() {
-                const savedTheme = localStorage.getItem('velikiygus_theme');
-                
-                if (savedTheme === 'dark' || savedTheme === 'light') {
-                    this.applyTheme(savedTheme);
-                } else {
-                    this.applyTheme('light');
-                }
-            }
-            
-            applyTheme(theme) {
-                currentTheme = theme;
-                document.documentElement.setAttribute('data-theme', theme);
-                localStorage.setItem('velikiygus_theme', theme);
-                
-                if (this.themeToggle) {
-                    if (theme === 'dark') {
-                        this.themeToggle.innerHTML = '☀️';
-                        this.themeToggle.setAttribute('data-tooltip', 
-                            currentLanguage === 'ru' ? 'Сменить тему (Светлая)' : 'Change theme (Light)');
-                    } else {
-                        this.themeToggle.innerHTML = '🌙';
-                        this.themeToggle.setAttribute('data-tooltip', 
-                            currentLanguage === 'ru' ? 'Сменить тему (Тёмная)' : 'Change theme (Dark)');
-                    }
-                }
-            }
-            
-            bindEvents() {
-                if (this.themeToggle) {
-                    this.themeToggle.addEventListener('click', () => {
-                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                        this.applyTheme(newTheme);
-                    });
-                }
-            }
-        }
+    <button class="to-top" id="to-top" type="button" aria-label="Наверх" title="Наверх">↑</button>
 
-        // ===== ЛОКАЛИЗАЦИЯ =====
-        class Localization {
-            constructor() {
-                this.translations = {
-                    ru: {
-                        themeTooltip: 'Сменить тему',
-                        languageTooltip: 'Сменить язык',
-                        
-                        pageTitle: 'VelikiyGus',
-                        
-                        aboutButton: '👤 О разработчике',
-                        aboutButtonHide: '👤 Скрыть информацию',
-                        projectsButton: '🚀 Мои проекты',
-                        projectsButtonHide: '🚀 Скрыть проекты',
-                        notificationsButton: '🔔 Подписаться на новости',
-                        notificationsButtonHide: '🔔 Скрыть форму подписки',
-                        contactButton: '📧 Связаться',
-                        contactButtonHide: '📧 Скрыть форму',
-                        
-                        intro: '🎮 Хочешь увидеть крутые игры?',
-                        description: 'VelikiyGus — это творческая студия двух разработчиков.<br>Мы делаем то, во что сами бы с удовольствием играли: захватывающие приключения, стратегии с интересными механиками и проекты с душой.',
-                        socialMention: 'Загляни в "Мои проекты" и оцени наши работы!<br>Скоро игры появятся для скачивания!',
-                        downloadNotice: '⚡ <strong>Скоро!</strong><br>Игры появятся для скачивания в ближайшее время<br><small>Следите за обновлениями!</small>',
-                        
-                        aboutTitle: '👨‍💻 О разработчике',
-                        aboutDescription: 'Создаю увлекательные игры и интересные проекты.',
-                        specializationTitle: 'Специализация',
-                        specializationText: 'Разработка 2D игр, веб-приложений и игровых механик.',
-                        goalsTitle: 'Цели',
-                        goalsText: 'Создавать качественные игры, которые будут нравиться игрокам.',
-                        platformsTitle: 'Платформы',
-                        platformsText: 'Windows, Web, Roblox, Мобильные устройства',
-                        contactsTitle: 'Контакты',
-                        contactsText: 'Напишите мне на почту или подпишитесь на новости',
-                        skillsTitle: '🛠️ Технические навыки:',
-                        
-                        notificationTitle: '🔔 Подписаться на уведомления',
-                        
-                        contactTitle: '📧 Моя почта',
-                        
-                        game1Title: 'Гражданская война в России 2D',
-                        game1Status: 'В разработке',
-                        game1Description: 'Историческая игра о Гражданской войне в России, выбирай класс и сражайся с противниками на большой карте!',
-                        game1FeaturesTitle: 'Особенности:',
-                        game1Features: 'Выбор класса, большая карта, PvP сражения',
-                        game1Button: 'Скоро будет доступно',
-                        
-                        game2Title: 'Спаси Алису',
-                        game2Status: 'В разработке',
-                        game2Description: 'Захватывающая приключенческая игра-платформер. Помогите герою спасти Алису от злодеев, пройдя через опасные уровни, головоломки и боссов.',
-                        game2FeaturesTitle: 'Особенности:',
-                        game2Features: 'Платформер, головоломки, боссы, сбор предметов',
-                        game2Button: 'Скоро будет доступно',
-                        
-                        game3Title: 'Секретный проект',
-                        game3Status: 'В разработке',
-                        game3Description: 'Новый увлекательный проект в разработке. Скоро будет больше информации!',
-                        game3FeaturesTitle: 'Особенности:',
-                        game3Features: 'Секретно, инновации, экшен',
-                        game3Button: 'Скоро будет доступно',
-                        
-                        gameDevSkill: 'Разработка игр',
-                        graphics2dSkill: '2D Графика',
-                        webDevSkill: 'Веб-разработка',
-                        
-                        rightsText: 'Все права защищены',
-                        footerNote: 'Подпишитесь на уведомления, чтобы первыми узнать о выходе игр!',
-                        
-                        comingSoon: '🎮 Игра "{game}" находится в разработке!\n\nОна появится для скачивания в ближайшее время.\n\nСледите за обновлениями!',
-                        
-                        copyButtonText: '📋 Скопировать почту',
-                        copySuccessMessage: '✅ Почта скопирована в буфер обмена!',
-                        copyErrorMessage: '❌ Не удалось скопировать почту. Скопируйте вручную: ',
-                        
-                        notifyButton: '🔔 Уведомить о выходе',
-                        
-                        emailLabel: '📧 Ваш email:',
-                        emailPlaceholder: 'ваш-email@example.com',
-                        nameLabel: '👤 Ваше имя (необязательно):',
-                        namePlaceholder: 'Как к вам обращаться?',
-                        gamesLabel: '🎮 На какие игры хотите получать уведомления?',
-                        game1Checkbox: 'Гражданская война в России 2D',
-                        game2Checkbox: 'Спаси Алису',
-                        game3Checkbox: 'Секретный проект',
-                        allGamesCheckbox: 'Все будущие игры',
-                        privacyText: '✅ Я согласен с политикой конфиденциальности и даю согласие на обработку персональных данных',
-                        subscribeButton: '📨 Подписаться на уведомления',
-                        subscribersTitle: '📊 Статистика подписчиков:',
-                        subscribersText: 'человек уже подписались',
-                        subscribersInfo1: 'Первыми узнают о выходе игр',
-                        subscribersInfo2: 'Получают уведомления за 1 день до релиза',
-                        
-                        responseTimeText: '⚠️ Обычно отвечаю в течение 1-2 рабочих дней',
-                        responseNote: 'Если письмо не дошло, попробуйте подписаться на уведомления через соответствующую форму'
-                    },
-                    
-                    en: {
-                        themeTooltip: 'Change theme',
-                        languageTooltip: 'Change language',
-                        
-                        pageTitle: 'VelikiyGus',
-                        
-                        aboutButton: '👤 About Developer',
-                        aboutButtonHide: '👤 Hide Info',
-                        projectsButton: '🚀 My Projects',
-                        projectsButtonHide: '🚀 Hide Projects',
-                        notificationsButton: '🔔 Subscribe to News',
-                        notificationsButtonHide: '🔔 Hide Subscription Form',
-                        contactButton: '📧 Contact',
-                        contactButtonHide: '📧 Hide Form',
-                        
-                        intro: '🎮 Want to see cool games?',
-                        description: 'VelikiyGus is a creative studio of two developers.<br>We create what we would love to play ourselves: exciting adventures, strategies with interesting mechanics, and soulful projects.',
-                        socialMention: 'Check out "My Projects" and see our work!<br>Games will be available for download soon!',
-                        downloadNotice: '⚡ <strong>Coming Soon!</strong><br>Games will be available for download soon!<br><small>Stay tuned for updates!</small>',
-                        
-                        aboutTitle: '👨‍💻 About Developer',
-                        aboutDescription: 'Creating exciting games and interesting projects.',
-                        specializationTitle: 'Specialization',
-                        specializationText: 'Development of 2D games, web applications, and game mechanics.',
-                        goalsTitle: 'Goals',
-                        goalsText: 'Create high-quality games that players will enjoy.',
-                        platformsTitle: 'Platforms',
-                        platformsText: 'Windows, Web, Roblox, Mobile devices',
-                        contactsTitle: 'Contacts',
-                        contactsText: 'Write me an email or subscribe to news',
-                        skillsTitle: '🛠️ Technical skills:',
-                        
-                        notificationTitle: '🔔 Subscribe to Notifications',
-                        
-                        contactTitle: '📧 My Email',
-                        
-                        game1Title: 'Civil War in Russia 2D',
-                        game1Status: 'In Development',
-                        game1Description: 'Historical game about the Civil War in Russia, choose your class and fight opponents on a large map!',
-                        game1FeaturesTitle: 'Features:',
-                        game1Features: 'Class selection, large map, PvP battles',
-                        game1Button: 'Coming Soon',
-                        
-                        game2Title: 'Save Alice',
-                        game2Status: 'In Development',
-                        game2Description: 'An exciting adventure platformer game. Help the hero save Alice from villains by going through dangerous levels, puzzles, and bosses.',
-                        game2FeaturesTitle: 'Features:',
-                        game2Features: 'Platformer, puzzles, bosses, item collection',
-                        game2Button: 'Coming Soon',
-                        
-                        game3Title: 'Secret Project',
-                        game3Status: 'In Development',
-                        game3Description: 'A new exciting project in development. More information coming soon!',
-                        game3FeaturesTitle: 'Features:',
-                        game3Features: 'Secret, innovative, action',
-                        game3Button: 'Coming Soon',
-                        
-                        gameDevSkill: 'Game Development',
-                        graphics2dSkill: '2D Graphics',
-                        webDevSkill: 'Web Development',
-                        
-                        rightsText: 'All rights reserved',
-                        footerNote: 'Subscribe to notifications to be the first to know about game releases!',
-                        
-                        comingSoon: '🎮 Game "{game}" is in development!\n\nIt will be available for download soon.\n\nStay tuned for updates!',
-                        
-                        copyButtonText: '📋 Copy Email',
-                        copySuccessMessage: '✅ Email copied to clipboard!',
-                        copyErrorMessage: '❌ Failed to copy email. Copy manually: ',
-                        
-                        notifyButton: '🔔 Notify on release',
-                        
-                        emailLabel: '📧 Your email:',
-                        emailPlaceholder: 'your-email@example.com',
-                        nameLabel: '👤 Your name (optional):',
-                        namePlaceholder: 'What should we call you?',
-                        gamesLabel: '🎮 Which games do you want notifications for?',
-                        game1Checkbox: 'Civil War in Russia 2D',
-                        game2Checkbox: 'Save Alice',
-                        game3Checkbox: 'Secret Project',
-                        allGamesCheckbox: 'All future games',
-                        privacyText: '✅ I agree with the privacy policy and give consent to the processing of personal data',
-                        subscribeButton: '📨 Subscribe to notifications',
-                        subscribersTitle: '📊 Subscribers statistics:',
-                        subscribersText: 'people already subscribed',
-                        subscribersInfo1: 'First to know about game releases',
-                        subscribersInfo2: 'Get notifications 1 day before release',
-                        
-                        responseTimeText: '⚠️ Usually respond within 1-2 business days',
-                        responseNote: 'If the email didn\'t arrive, try subscribing to notifications through the appropriate form'
-                    }
-                };
-                
-                this.init();
-            }
-            
-            init() {
-                this.loadSavedLanguage();
-                this.bindEvents();
-                this.updateAllTexts();
-            }
-            
-            loadSavedLanguage() {
-                const savedLanguage = localStorage.getItem('velikiygus_language');
-                if (savedLanguage && this.translations[savedLanguage]) {
-                    currentLanguage = savedLanguage;
-                }
-            }
-            
-            bindEvents() {
-                const languageToggle = document.getElementById('language-toggle');
-                if (languageToggle) {
-                    languageToggle.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const selector = document.getElementById('language-selector');
-                        if (selector) {
-                            selector.classList.toggle('show');
-                        }
-                    });
-                }
-                
-                document.addEventListener('click', (e) => {
-                    const selector = document.getElementById('language-selector');
-                    const toggle = document.getElementById('language-toggle');
-                    
-                    if (selector && toggle && !selector.contains(e.target) && !toggle.contains(e.target)) {
-                        selector.classList.remove('show');
-                    }
-                });
-            }
-            
-            setLanguage(lang) {
-                if (this.translations[lang]) {
-                    currentLanguage = lang;
-                    localStorage.setItem('velikiygus_language', lang);
-                    this.updateAllTexts();
-                    
-                    const selector = document.getElementById('language-selector');
-                    if (selector) selector.classList.remove('show');
-                    
-                    if (themeManager) {
-                        themeManager.applyTheme(currentTheme);
-                    }
-                    
-                    updateAllButtonTexts();
-                }
-            }
-            
-            updateAllTexts() {
-                const lang = this.translations[currentLanguage];
-                if (!lang) return;
-                
-                // Обновляем язык в документе
-                document.title = lang.pageTitle;
-                if (document.getElementById('page-title')) {
-                    document.getElementById('page-title').textContent = lang.pageTitle;
-                }
-                
-                // Панель управления
-                const themeToggle = document.getElementById('theme-toggle');
-                if (themeToggle) {
-                    themeToggle.setAttribute('data-tooltip', lang.themeTooltip);
-                }
-                
-                const languageToggle = document.getElementById('language-toggle');
-                if (languageToggle) {
-                    languageToggle.setAttribute('data-tooltip', lang.languageTooltip);
-                    languageToggle.innerHTML = currentLanguage === 'ru' ? '🇷🇺' : '🇺🇸';
-                }
-                
-                // Основной контент
-                if (document.getElementById('intro-text')) {
-                    document.getElementById('intro-text').innerHTML = lang.intro;
-                }
-                if (document.getElementById('description-text')) {
-                    document.getElementById('description-text').innerHTML = lang.description;
-                }
-                if (document.getElementById('social-text')) {
-                    document.getElementById('social-text').innerHTML = lang.socialMention;
-                }
-                if (document.getElementById('download-notice-text')) {
-                    document.getElementById('download-notice-text').innerHTML = lang.downloadNotice;
-                }
-                
-                // О разработчике
-                if (document.getElementById('about-title')) {
-                    document.getElementById('about-title').innerHTML = lang.aboutTitle;
-                }
-                if (document.getElementById('about-description')) {
-                    document.getElementById('about-description').textContent = lang.aboutDescription;
-                }
-                if (document.getElementById('specialization-title')) {
-                    document.getElementById('specialization-title').textContent = lang.specializationTitle;
-                }
-                if (document.getElementById('specialization-text')) {
-                    document.getElementById('specialization-text').textContent = lang.specializationText;
-                }
-                if (document.getElementById('goals-title')) {
-                    document.getElementById('goals-title').textContent = lang.goalsTitle;
-                }
-                if (document.getElementById('goals-text')) {
-                    document.getElementById('goals-text').textContent = lang.goalsText;
-                }
-                if (document.getElementById('platforms-title')) {
-                    document.getElementById('platforms-title').textContent = lang.platformsTitle;
-                }
-                if (document.getElementById('platforms-text')) {
-                    document.getElementById('platforms-text').textContent = lang.platformsText;
-                }
-                if (document.getElementById('contacts-title')) {
-                    document.getElementById('contacts-title').textContent = lang.contactsTitle;
-                }
-                if (document.getElementById('contacts-text')) {
-                    document.getElementById('contacts-text').textContent = lang.contactsText;
-                }
-                if (document.getElementById('skills-title')) {
-                    document.getElementById('skills-title').innerHTML = lang.skillsTitle;
-                }
-                
-                // Уведомления
-                if (document.getElementById('notification-title')) {
-                    document.getElementById('notification-title').innerHTML = lang.notificationTitle;
-                }
-                
-                // Форма уведомлений
-                if (document.getElementById('email-label')) {
-                    document.getElementById('email-label').textContent = lang.emailLabel;
-                }
-                if (document.getElementById('notification-email')) {
-                    document.getElementById('notification-email').placeholder = lang.emailPlaceholder;
-                }
-                if (document.getElementById('name-label')) {
-                    document.getElementById('name-label').textContent = lang.nameLabel;
-                }
-                if (document.getElementById('notification-name')) {
-                    document.getElementById('notification-name').placeholder = lang.namePlaceholder;
-                }
-                if (document.getElementById('games-label')) {
-                    document.getElementById('games-label').textContent = lang.gamesLabel;
-                }
-                if (document.getElementById('game1-checkbox-label')) {
-                    document.getElementById('game1-checkbox-label').textContent = lang.game1Checkbox;
-                }
-                if (document.getElementById('game2-checkbox-label')) {
-                    document.getElementById('game2-checkbox-label').textContent = lang.game2Checkbox;
-                }
-                if (document.getElementById('game3-checkbox-label')) {
-                    document.getElementById('game3-checkbox-label').textContent = lang.game3Checkbox;
-                }
-                if (document.getElementById('all-games-checkbox-label')) {
-                    document.getElementById('all-games-checkbox-label').textContent = lang.allGamesCheckbox;
-                }
-                if (document.getElementById('privacy-label')) {
-                    document.getElementById('privacy-label').textContent = lang.privacyText;
-                }
-                if (document.getElementById('subscribe-button')) {
-                    document.getElementById('subscribe-button').textContent = lang.subscribeButton;
-                }
-                
-                // Статистика подписчиков
-                if (document.getElementById('subscribers-title')) {
-                    document.getElementById('subscribers-title').textContent = lang.subscribersTitle;
-                }
-                if (document.getElementById('subscribers-text')) {
-                    document.getElementById('subscribers-text').textContent = lang.subscribersText;
-                }
-                if (document.getElementById('subscribers-info1')) {
-                    document.getElementById('subscribers-info1').textContent = lang.subscribersInfo1;
-                }
-                if (document.getElementById('subscribers-info2')) {
-                    document.getElementById('subscribers-info2').textContent = lang.subscribersInfo2;
-                }
-                
-                // Контактная форма
-                if (document.getElementById('contact-title')) {
-                    document.getElementById('contact-title').innerHTML = lang.contactTitle;
-                }
-                
-                // Кнопка копирования
-                if (document.getElementById('copy-email-btn')) {
-                    document.getElementById('copy-email-btn').innerHTML = lang.copyButtonText;
-                }
-                
-                // Ответное время
-                if (document.getElementById('response-time-text')) {
-                    document.getElementById('response-time-text').textContent = lang.responseTimeText;
-                }
-                if (document.getElementById('response-note')) {
-                    document.getElementById('response-note').textContent = lang.responseNote;
-                }
-                
-                // Навыки
-                if (document.getElementById('game-dev-skill')) {
-                    document.getElementById('game-dev-skill').textContent = lang.gameDevSkill;
-                }
-                if (document.getElementById('2d-graphics-skill')) {
-                    document.getElementById('2d-graphics-skill').textContent = lang.graphics2dSkill;
-                }
-                if (document.getElementById('web-dev-skill')) {
-                    document.getElementById('web-dev-skill').textContent = lang.webDevSkill;
-                }
-                
-                // Игры
-                if (document.getElementById('game1-title')) {
-                    document.getElementById('game1-title').textContent = lang.game1Title;
-                }
-                if (document.getElementById('game1-status')) {
-                    document.getElementById('game1-status').textContent = lang.game1Status;
-                }
-                if (document.getElementById('game1-description')) {
-                    document.getElementById('game1-description').textContent = lang.game1Description;
-                }
-                if (document.getElementById('game1-features-title')) {
-                    document.getElementById('game1-features-title').textContent = lang.game1FeaturesTitle;
-                }
-                if (document.getElementById('game1-features')) {
-                    document.getElementById('game1-features').textContent = lang.game1Features;
-                }
-                if (document.getElementById('game1-button')) {
-                    document.getElementById('game1-button').textContent = lang.game1Button;
-                }
-                
-                if (document.getElementById('game2-title')) {
-                    document.getElementById('game2-title').textContent = lang.game2Title;
-                }
-                if (document.getElementById('game2-status')) {
-                    document.getElementById('game2-status').textContent = lang.game2Status;
-                }
-                if (document.getElementById('game2-description')) {
-                    document.getElementById('game2-description').textContent = lang.game2Description;
-                }
-                if (document.getElementById('game2-features-title')) {
-                    document.getElementById('game2-features-title').textContent = lang.game2FeaturesTitle;
-                }
-                if (document.getElementById('game2-features')) {
-                    document.getElementById('game2-features').textContent = lang.game2Features;
-                }
-                if (document.getElementById('game2-button')) {
-                    document.getElementById('game2-button').textContent = lang.game2Button;
-                }
-                
-                if (document.getElementById('game3-title')) {
-                    document.getElementById('game3-title').textContent = lang.game3Title;
-                }
-                if (document.getElementById('game3-status')) {
-                    document.getElementById('game3-status').textContent = lang.game3Status;
-                }
-                if (document.getElementById('game3-description')) {
-                    document.getElementById('game3-description').textContent = lang.game3Description;
-                }
-                if (document.getElementById('game3-features-title')) {
-                    document.getElementById('game3-features-title').textContent = lang.game3FeaturesTitle;
-                }
-                if (document.getElementById('game3-features')) {
-                    document.getElementById('game3-features').textContent = lang.game3Features;
-                }
-                if (document.getElementById('game3-button')) {
-                    document.getElementById('game3-button').textContent = lang.game3Button;
-                }
-                
-                // Кнопки уведомлений для игр
-                document.querySelectorAll('[id^="notify-game"]').forEach(btn => {
-                    btn.textContent = lang.notifyButton;
-                });
-                
-                // Футер
-                if (document.getElementById('rights-text')) {
-                    document.getElementById('rights-text').textContent = lang.rightsText;
-                }
-                if (document.getElementById('footer-note')) {
-                    document.getElementById('footer-note').textContent = lang.footerNote;
-                }
-                
-                // Языковые опции
-                document.querySelectorAll('.language-option').forEach(option => {
-                    option.classList.remove('active');
-                    if ((currentLanguage === 'ru' && option.textContent.includes('Русский')) ||
-                        (currentLanguage === 'en' && option.textContent.includes('English'))) {
-                        option.classList.add('active');
-                    }
-                });
-            }
-            
-            getText(key, params = {}) {
-                let text = this.translations[currentLanguage][key];
-                if (!text) return key;
-                
-                for (const param in params) {
-                    text = text.replace(`{${param}}`, params[param]);
-                }
-                
-                return text;
-            }
-        }
+    <!-- ================= МОДАЛКА ПРОЕКТА ================= -->
+    <dialog class="modal" id="project-modal" aria-labelledby="modal-title">
+        <div class="modal__inner">
+            <button class="modal__close" type="button" id="modal-close" aria-label="Закрыть">✕</button>
+            <div class="modal__cover" id="modal-cover" aria-hidden="true"><span id="modal-emoji"></span></div>
+            <div class="modal__body">
+                <div class="modal__meta">
+                    <span class="pill" id="modal-status"></span>
+                    <span class="project__genre" id="modal-genre"></span>
+                </div>
+                <h2 class="modal__title" id="modal-title"></h2>
+                <p id="modal-desc"></p>
+                <h3 class="h4" data-i18n="modal.features">Особенности</h3>
+                <ul class="tags" id="modal-features"></ul>
+                <h3 class="h4" data-i18n="modal.platforms">Платформы</h3>
+                <p id="modal-platforms"></p>
+                <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="modal-progress" aria-label="Готовность">
+                    <span class="progress__fill" id="modal-progress-fill"></span>
+                </div>
+                <div class="modal__actions">
+                    <button class="btn btn--primary" type="button" id="modal-notify" data-i18n="projects.notify">Уведомить</button>
+                    <button class="btn btn--ghost" type="button" id="modal-dismiss" data-i18n="modal.close">Закрыть</button>
+                </div>
+                <p class="muted modal__note" data-i18n="modal.note">Игра ещё в разработке — дата релиза появится в девлоге.</p>
+            </div>
+        </div>
+    </dialog>
 
-        // ===== EMAIL УВЕДОМЛЕНИЯ =====
-        class EmailNotifications {
-            constructor() {
-                this.subscribers = [];
-                this.totalSubscribers = 0;
-                this.init();
-            }
-            
-            init() {
-                this.loadSubscribers();
-                this.setupForms();
-                this.updateSubscriberCount();
-                this.bindGameButtons();
-            }
-            
-            loadSubscribers() {
-                const saved = localStorage.getItem('velikiygus_subscribers');
-                if (saved) {
-                    this.subscribers = JSON.parse(saved);
-                    this.totalSubscribers = this.subscribers.length;
-                }
-            }
-            
-            saveSubscribers() {
-                localStorage.setItem('velikiygus_subscribers', JSON.stringify(this.subscribers));
-                localStorage.setItem('velikiygus_subscribers_count', this.totalSubscribers.toString());
-            }
-            
-            setupForms() {
-                const notificationForm = document.getElementById('notification-form');
-                if (notificationForm) {
-                    notificationForm.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        this.handleNotificationSubmit(e.target);
-                    });
-                }
-            }
-            
-            bindGameButtons() {
-                const notifyGame1 = document.getElementById('notify-game1');
-                const notifyGame2 = document.getElementById('notify-game2');
-                const notifyGame3 = document.getElementById('notify-game3');
-                
-                if (notifyGame1) {
-                    notifyGame1.addEventListener('click', () => {
-                        this.subscribeToGame('civil-war');
-                    });
-                }
-                if (notifyGame2) {
-                    notifyGame2.addEventListener('click', () => {
-                        this.subscribeToGame('save-alice');
-                    });
-                }
-                if (notifyGame3) {
-                    notifyGame3.addEventListener('click', () => {
-                        this.subscribeToGame('secret-project');
-                    });
-                }
-            }
-            
-            handleNotificationSubmit(form) {
-                const email = form.querySelector('#notification-email').value;
-                const name = form.querySelector('#notification-name').value || 
-                    (currentLanguage === 'ru' ? 'Подписчик' : 'Subscriber');
-                
-                if (!this.validateEmail(email)) {
-                    this.showMessage('notification-message', 'error', 
-                        currentLanguage === 'ru' ? 'Пожалуйста, введите корректный email адрес' : 'Please enter a valid email address');
-                    return;
-                }
-                
-                const existingSubscriber = this.subscribers.find(sub => sub.email === email);
-                
-                if (existingSubscriber) {
-                    this.showMessage('notification-message', 'warning', 
-                        currentLanguage === 'ru' ? 'Вы уже подписаны на уведомления!' : 'You are already subscribed!');
-                    return;
-                }
-                
-                const subscriber = {
-                    email,
-                    name,
-                    date: new Date().toISOString(),
-                    language: currentLanguage
-                };
-                
-                this.subscribers.push(subscriber);
-                this.totalSubscribers++;
-                this.saveSubscribers();
-                this.updateSubscriberCount();
-                
-                const formData = new FormData(form);
-                
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        this.showMessage('notification-message', 'success', 
-                            currentLanguage === 'ru' ? '🎉 Вы успешно подписались! Проверьте вашу почту для подтверждения.' : 
-                            '🎉 Successfully subscribed! Check your email for confirmation.');
-                        form.reset();
-                    } else {
-                        throw new Error('Ошибка отправки');
-                    }
-                })
-                .catch(error => {
-                    this.showMessage('notification-message', 'error', 
-                        currentLanguage === 'ru' ? 'Произошла ошибка. Пожалуйста, попробуйте еще раз или напишите на почту напрямую.' :
-                        'An error occurred. Please try again or email directly.');
-                });
-            }
-            
-            showMessage(elementId, type, text) {
-                const messageEl = document.getElementById(elementId);
-                if (messageEl) {
-                    messageEl.className = `form-message ${type}`;
-                    messageEl.textContent = text;
-                    messageEl.style.display = 'block';
-                    
-                    setTimeout(() => {
-                        messageEl.style.display = 'none';
-                    }, 5000);
-                }
-            }
-            
-            updateSubscriberCount() {
-                const countEl = document.getElementById('subscribers-count');
-                if (countEl) {
-                    countEl.textContent = this.totalSubscribers;
-                }
-            }
-            
-            subscribeToGame(gameId) {
-                const gameNames = {
-                    'civil-war': currentLanguage === 'ru' ? 'Гражданская война в России 2D' : 'Civil War in Russia 2D',
-                    'save-alice': currentLanguage === 'ru' ? 'Спаси Алису' : 'Save Alice',
-                    'secret-project': currentLanguage === 'ru' ? 'Секретный проект' : 'Secret Project'
-                };
-                
-                const gameName = gameNames[gameId];
-                const email = prompt((currentLanguage === 'ru' ? 
-                    `Введите ваш email, чтобы получить уведомление о выходе игры "${gameName}":` :
-                    `Enter your email to get notified about "${gameName}" release:`));
-                
-                if (email && this.validateEmail(email)) {
-                    showNotifications();
-                    const emailInput = document.getElementById('notification-email');
-                    if (emailInput) {
-                        emailInput.value = email;
-                    }
-                    
-                    this.showMessage('notification-message', 'success', 
-                        currentLanguage === 'ru' ? 
-                        `✅ Спасибо! Теперь заполните форму подписки для игры "${gameName}".` :
-                        `✅ Thank you! Now fill out the subscription form for "${gameName}".`);
-                } else if (email) {
-                    alert(currentLanguage === 'ru' ? 
-                        '❌ Пожалуйста, введите корректный email адрес.' :
-                        '❌ Please enter a valid email address.');
-                }
-            }
-            
-            validateEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
-        }
+    <div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
 
-        // ===== КОПИРОВАНИЕ ПОЧТЫ =====
-        function copyEmail() {
-            const email = 'velikiygusofficial@gmail.com';
-            const emailElement = document.getElementById('email-address');
-            const copyButton = document.getElementById('copy-email-btn');
-            
-            if (!emailElement || !copyButton || !localization) return;
-            
-            // Пробуем использовать современный API
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(email).then(() => {
-                    showCopySuccess(emailElement, copyButton);
-                }).catch(() => {
-                    fallbackCopy(email, emailElement, copyButton);
-                });
-            } else {
-                fallbackCopy(email, emailElement, copyButton);
-            }
-        }
-        
-        function showCopySuccess(emailElement, copyButton) {
-            // Сохраняем оригинальный текст кнопки
-            const originalButtonText = copyButton.innerHTML;
-            const originalEmailClass = emailElement.className;
-            
-            // Меняем стиль почты и кнопки
-            emailElement.classList.add('copied');
-            copyButton.innerHTML = '✅ ' + (currentLanguage === 'ru' ? 'Скопировано!' : 'Copied!');
-            copyButton.style.backgroundColor = 'var(--success-color)';
-            
-            // Показываем уведомление
-            alert(localization.getText('copySuccessMessage'));
-            
-            // Возвращаем оригинальный вид через 2 секунды
-            setTimeout(() => {
-                emailElement.className = originalEmailClass;
-                copyButton.innerHTML = originalButtonText;
-                copyButton.style.backgroundColor = '';
-            }, 2000);
-        }
-        
-        function fallbackCopy(email, emailElement, copyButton) {
-            // Старый способ через textarea
-            const textArea = document.createElement('textarea');
-            textArea.value = email;
-            textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showCopySuccess(emailElement, copyButton);
-                } else {
-                    alert(localization.getText('copyErrorMessage') + email);
-                }
-            } catch (err) {
-                alert(localization.getText('copyErrorMessage') + email);
-            }
-            
-            document.body.removeChild(textArea);
-        }
+    <noscript>
+        <div class="noscript">Для фильтров, переключения темы и формы подписки нужен JavaScript. Связаться можно по почте: velikiygusofficial@gmail.com</div>
+    </noscript>
 
-        // ===== ОСНОВНЫЕ ФУНКЦИИ =====
-        function showAbout() {
-            const aboutSection = document.getElementById('about-section');
-            
-            if (!aboutVisible) {
-                if (aboutSection) {
-                    aboutSection.classList.add('show');
-                }
-                aboutVisible = true;
-                
-                hideOtherSections('about');
-                if (aboutSection) {
-                    aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-                
-                updateButtonText('about-btn', aboutVisible);
-            } else {
-                if (aboutSection) {
-                    aboutSection.classList.remove('show');
-                }
-                aboutVisible = false;
-                updateButtonText('about-btn', aboutVisible);
-            }
-        }
-        
-        function showProjects() {
-            const gameList = document.getElementById('game-list');
-            
-            if (!projectsVisible) {
-                if (gameList) {
-                    gameList.classList.add('show');
-                }
-                projectsVisible = true;
-                
-                hideOtherSections('projects');
-                if (gameList) {
-                    gameList.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-                
-                updateButtonText('projects-btn', projectsVisible);
-                
-                setTimeout(() => {
-                    const cards = document.querySelectorAll('.game-card');
-                    cards.forEach((card, index) => {
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px)';
-                        
-                        setTimeout(() => {
-                            card.style.transition = 'all 0.5s ease';
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0)';
-                        }, index * 200);
-                    });
-                }, 300);
-            } else {
-                if (gameList) {
-                    gameList.classList.remove('show');
-                }
-                projectsVisible = false;
-                updateButtonText('projects-btn', projectsVisible);
-            }
-        }
-        
-        function showNotifications() {
-            const notificationSection = document.getElementById('notification-section');
-            
-            if (!notificationsVisible) {
-                if (notificationSection) {
-                    notificationSection.classList.add('show');
-                }
-                notificationsVisible = true;
-                
-                hideOtherSections('notifications');
-                if (notificationSection) {
-                    notificationSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-                
-                updateButtonText('notifications-btn', notificationsVisible);
-            } else {
-                if (notificationSection) {
-                    notificationSection.classList.remove('show');
-                }
-                notificationsVisible = false;
-                updateButtonText('notifications-btn', notificationsVisible);
-            }
-        }
-        
-        function showContact() {
-            const contactSection = document.getElementById('contact-section');
-            
-            if (!contactVisible) {
-                if (contactSection) {
-                    contactSection.classList.add('show');
-                }
-                contactVisible = true;
-                
-                hideOtherSections('contact');
-                if (contactSection) {
-                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-                
-                updateButtonText('contact-btn', contactVisible);
-            } else {
-                if (contactSection) {
-                    contactSection.classList.remove('show');
-                }
-                contactVisible = false;
-                updateButtonText('contact-btn', contactVisible);
-            }
-        }
-        
-        function hideOtherSections(currentSection) {
-            const sections = {
-                about: ['projects', 'notifications', 'contact'],
-                projects: ['about', 'notifications', 'contact'],
-                notifications: ['about', 'projects', 'contact'],
-                contact: ['about', 'projects', 'notifications']
-            };
-            
-            sections[currentSection].forEach(section => {
-                if (section === 'about' && aboutVisible) {
-                    const aboutSection = document.getElementById('about-section');
-                    if (aboutSection) {
-                        aboutSection.classList.remove('show');
-                    }
-                    aboutVisible = false;
-                    updateButtonText('about-btn', false);
-                }
-                if (section === 'projects' && projectsVisible) {
-                    const gameList = document.getElementById('game-list');
-                    if (gameList) {
-                        gameList.classList.remove('show');
-                    }
-                    projectsVisible = false;
-                    updateButtonText('projects-btn', false);
-                }
-                if (section === 'notifications' && notificationsVisible) {
-                    const notificationSection = document.getElementById('notification-section');
-                    if (notificationSection) {
-                        notificationSection.classList.remove('show');
-                    }
-                    notificationsVisible = false;
-                    updateButtonText('notifications-btn', false);
-                }
-                if (section === 'contact' && contactVisible) {
-                    const contactSection = document.getElementById('contact-section');
-                    if (contactSection) {
-                        contactSection.classList.remove('show');
-                    }
-                    contactVisible = false;
-                    updateButtonText('contact-btn', false);
-                }
-            });
-        }
-        
-        function updateAllButtonTexts() {
-            updateButtonText('about-btn', aboutVisible);
-            updateButtonText('projects-btn', projectsVisible);
-            updateButtonText('notifications-btn', notificationsVisible);
-            updateButtonText('contact-btn', contactVisible);
-        }
-        
-        function updateButtonText(buttonId, isActive) {
-            const button = document.getElementById(buttonId);
-            
-            if (!button || !localization) return;
-            
-            if (buttonId === 'about-btn') {
-                button.textContent = isActive ? 
-                    localization.getText('aboutButtonHide') : 
-                    localization.getText('aboutButton');
-            }
-            else if (buttonId === 'projects-btn') {
-                button.textContent = isActive ? 
-                    localization.getText('projectsButtonHide') : 
-                    localization.getText('projectsButton');
-            }
-            else if (buttonId === 'notifications-btn') {
-                button.textContent = isActive ? 
-                    localization.getText('notificationsButtonHide') : 
-                    localization.getText('notificationsButton');
-            }
-            else if (buttonId === 'contact-btn') {
-                button.textContent = isActive ? 
-                    localization.getText('contactButtonHide') : 
-                    localization.getText('contactButton');
-            }
-        }
-        
-        function showComingSoon(gameName) {
-            if (!localization) return;
-            alert(localization.getText('comingSoon', { game: gameName }));
-        }
-        
-        function closeProtectionMessage() {
-            const message = document.getElementById('source-protection-message');
-            if (message) {
-                message.style.display = 'none';
-                document.body.style.overflow = '';
-            }
-        }
-        
-        function setLanguage(lang) {
-            if (localization) {
-                localization.setLanguage(lang);
-            }
-        }
-
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Инициализация систем
-            themeManager = new ThemeManager();
-            localization = new Localization();
-            emailNotifications = new EmailNotifications();
-            
-            // Привязка событий к кнопкам навигации
-            const aboutBtn = document.getElementById('about-btn');
-            const projectsBtn = document.getElementById('projects-btn');
-            const notificationsBtn = document.getElementById('notifications-btn');
-            const contactBtn = document.getElementById('contact-btn');
-            
-            if (aboutBtn) aboutBtn.addEventListener('click', showAbout);
-            if (projectsBtn) projectsBtn.addEventListener('click', showProjects);
-            if (notificationsBtn) notificationsBtn.addEventListener('click', showNotifications);
-            if (contactBtn) contactBtn.addEventListener('click', showContact);
-            
-            // Привязка событий к кнопкам скачивания
-            document.querySelectorAll('.download-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    showComingSoon('Игра');
-                });
-            });
-            
-            // Анимация при загрузке
-            setTimeout(() => {
-                const header = document.querySelector('.header-with-avatar');
-                const description = document.querySelector('.site-description');
-                
-                if (header) {
-                    header.style.opacity = '0';
-                    header.style.transform = 'translateY(-20px)';
-                }
-                if (description) {
-                    description.style.opacity = '0';
-                }
-                
-                setTimeout(() => {
-                    if (header) {
-                        header.style.transition = 'all 0.8s ease';
-                        header.style.opacity = '1';
-                        header.style.transform = 'translateY(0)';
-                    }
-                    
-                    if (description) {
-                        description.style.transition = 'all 0.8s ease 0.3s';
-                        description.style.opacity = '1';
-                    }
-                }, 100);
-            }, 300);
-        });
-    </script>
+    <script src="assets/js/app.js" defer></script>
 </body>
 </html>

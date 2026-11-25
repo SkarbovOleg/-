@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>OG cover</title>
+<style>
+    * { box-sizing: border-box; margin: 0; }
+    html, body { width: 1200px; height: 630px; overflow: hidden; }
+    body {
+        font-family: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+        background: #080e18;
+        color: #eaf0fa;
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        align-items: center;
+        padding: 0 72px;
+        position: relative;
+    }
+    .glow {
+        position: absolute; width: 900px; height: 900px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,145,60,.34), transparent 62%);
+        top: -380px; right: -260px;
+    }
+    .glow2 {
+        position: absolute; width: 700px; height: 700px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(90,130,255,.24), transparent 62%);
+        bottom: -420px; left: -200px;
+    }
+    .copy { position: relative; z-index: 2; }
+    .eyebrow {
+        font-size: 19px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+        color: #ffbe6b; margin-bottom: 22px;
+    }
+    h1 { font-size: 86px; line-height: 1.02; letter-spacing: -3px; font-weight: 800; margin-bottom: 24px; }
+    h1 .gold {
+        background: linear-gradient(120deg, #ffbe6b, #ff8a3d);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    p { font-size: 27px; line-height: 1.4; color: #b9c8dd; max-width: 620px; }
+    .chips { display: flex; gap: 12px; margin-top: 34px; }
+    .chip {
+        font-size: 19px; font-weight: 700; padding: 9px 18px; border-radius: 999px;
+        border: 1px solid rgba(255,255,255,.2); color: #d6e1f0; background: rgba(255,255,255,.05);
+    }
+    .art { position: relative; z-index: 2; display: grid; place-items: center; }
+    .card {
+        width: 400px; height: 400px; border-radius: 44px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: radial-gradient(120% 100% at 30% 10%, rgba(255,255,255,.12), rgba(255,255,255,.04));
+        display: grid; place-items: center;
+        box-shadow: 0 50px 90px -40px rgba(0,0,0,.95);
+    }
+    .card svg { width: 330px; height: 330px; }
+</style>
+</head>
+<body>
+    <div class="glow"></div>
+    <div class="glow2"></div>
+
+    <div class="copy">
+        <div class="eyebrow">команда разработчиков</div>
+        <h1>Великий<br><span class="gold">гусь</span></h1>
+        <p>Делаем игры, в которые играли бы сами: стратегии, платформеры и проекты с душой.</p>
+        <div class="chips">
+            <span class="chip">2D</span>
+            <span class="chip">Web</span>
+            <span class="chip">Roblox</span>
+            <span class="chip">Mobile</span>
+        </div>
+    </div>
+
+    <div class="art">
+        <div class="card">
+            <svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="body" x1="0.2" y1="0" x2="0.8" y2="1">
+                        <stop offset="0" stop-color="#ffffff"/>
+                        <stop offset="1" stop-color="#dfe9f6"/>
+                    </linearGradient>
+                    <linearGradient id="beak" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stop-color="#ffc25c"/>
+                        <stop offset="1" stop-color="#ff8a3d"/>
+                    </linearGradient>
+                </defs>
+                <ellipse cx="220" cy="374" rx="122" ry="16" fill="#000" opacity="0.35"/>
+                <path d="M322 286c30-10 48 2 44 22-16 8-36-2-44-22z" fill="url(#body)"/>
+                <ellipse cx="228" cy="300" rx="107" ry="64" transform="rotate(-7 228 300)" fill="url(#body)"/>
+                <path d="M196 258c-16-46-34-70-44-110" stroke="url(#body)" stroke-width="54" stroke-linecap="round" fill="none"/>
+                <circle cx="148" cy="112" r="43" fill="url(#body)"/>
+                <path d="M110 98c-26-4-46 8-44 22 2 14 26 18 46 8z" fill="url(#beak)"/>
+                <path d="M70 120c12 6 26 6 38 2" stroke="#d96b1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <circle cx="137" cy="99" r="7" fill="#16202e"/>
+                <circle cx="134.6" cy="96.6" r="2.2" fill="#fff"/>
+                <path d="M205 268c36-20 86-8 97 26 2 22-32 36-64 30-30-6-41-30-33-56z" fill="#eef4fc" stroke="#d3dfef" stroke-width="2"/>
+                <path d="M222 288c14 10 34 14 54 10M228 306c12 8 28 10 42 8" stroke="#cfdcec" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M186 358l-8 18h30l-2-18z" fill="url(#beak)"/>
+                <path d="M246 358l-6 18h30l-4-18z" fill="url(#beak)"/>
+            </svg>
+        </div>
+    </div>
+</body>
+</html>

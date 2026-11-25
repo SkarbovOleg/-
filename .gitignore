@@ -1,0 +1,7 @@
+# рабочие артефакты скриншотов и профиль Chrome
+tools/shots/
+tools/.chrome-profile/
+
+# системный мусор
+.DS_Store
+Thumbs.db
